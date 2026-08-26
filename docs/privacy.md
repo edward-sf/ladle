@@ -81,6 +81,8 @@ theirs to read.
 | Display name, avatar, about-me, pronouns | Identifying a person to their household and on published recipes | Any signed-in user | Deleted; attribution degrades to a placeholder |
 | Account timestamps and active flag | Operating the account | The user alone | Deleted |
 | Preferences — theme, units, language, timezone | Rendering the app as the user asked | The user alone | Deleted |
+| Push notification tokens, one per device | Delivering notifications | The user alone | Deleted; also deleted on sign-out |
+| Notification silences and delivery history | Honouring what a user switched off, and not repeating a warning | The user alone | Deleted |
 
 Display identity is readable by any signed-in user rather than only by a
 household, because a published recipe carries its author's name and picture.
@@ -154,7 +156,7 @@ name.
 | --- | --- | --- |
 | Supabase | Everything — database, authentication, storage, functions | The whole data tier, per [`data.md`](./data.md) |
 | Expo / EAS | Build and update infrastructure | No user data at rest |
-| Apple and Google | Store distribution; push transport if notifications use it | Also the recipients of the disclosure forms |
+| Apple and Google | Store distribution and push notification transport | Also the recipients of the disclosure forms |
 | Breached-password lookup | Nothing | See below |
 
 `FR-ACCT-06` refuses passwords known to have appeared in a public breach corpus.
@@ -208,12 +210,6 @@ nowhere for someone to type a diagnosis.
   of their data. Under several of the candidate jurisdictions that is a right
   rather than a feature, which would make it a requirement rather than a
   roadmap item.
-- **Device tokens for notifications.** Four `FR-NOTIF` requirements commit to
-  notifications, and `FR-NOTIF-04` — a household event notifying the members it
-  concerns — is triggered by someone else's action and therefore needs a server
-  push, which needs a stored device token per device. No table holds one. Until
-  that is resolved this inventory is incomplete, and the reminders that derive
-  from the user's own data may be schedulable locally without any token at all.
 - **Crash and error reporting**, carried over from
   [`engineering.md`](./engineering.md). Nothing requires it, and a reporting
   tool's default payload is a privacy question in an app holding health data

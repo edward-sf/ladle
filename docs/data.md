@@ -873,6 +873,93 @@ recipe, for `source = 'author'` only.
 evaluation curve (`NFR-OPS-05`). `tag_incompatibilities` holds unordered tag
 pairs that make an odd meal — advisory only, never enforced (`FR-TAG-24`).
 
+### Notifications
+
+```mermaid
+erDiagram
+  auth_users ||--o{ device_tokens : registers
+  auth_users ||--o{ notification_preferences : silences
+  auth_users ||--o{ notification_deliveries : received
+  meals ||--o{ notification_deliveries : "reminded about"
+  pantry_items ||--o{ notification_deliveries : "warned about"
+  grocery_requests ||--o{ notification_deliveries : "resolved in"
+  meal_suggestions ||--o{ notification_deliveries : "resolved in"
+```
+
+Notifications are scheduled server-side and delivered by push, rather than
+scheduled locally on the device. The deciding case is a shared household: most
+meals are planned by somebody else, and a locally scheduled reminder only exists
+if that device has synced the meal and scheduled it. A member who has not opened
+the app since Thursday's dinner was planned would get no reminder, which is the
+core scenario rather than an edge of it. The same sweep mechanism already used
+for moderation escalation evaluates what is due.
+
+#### `device_tokens`
+
+One row per device a user has signed in on. The rows that make delivery
+possible, and the only personal data notifications add.
+
+| Column | Notes |
+| --- | --- |
+| `user_id` | FK → `auth.users` |
+| `token` | the push token issued by the platform |
+| `platform` | enum (`ios`, `android`) |
+| `created_at` | timestamptz |
+| `last_seen_at` | timestamptz; refreshed each time the app confirms the token |
+
+Unique on `token`, because a device that changes hands must not deliver a former
+user's notifications to a new one. Signing out deletes the row (`NFR-SEC-10`) —
+a stale token would push a household's activity to a device its owner has left.
+
+**RLS** — all operations: `auth.uid() = user_id`.
+
+#### `notification_preferences`
+
+Holds silences rather than settings. A row exists only for a category a user has
+switched off, so the absence of a row is the default and a category added later
+arrives switched on without a backfill.
+
+| Column | Notes |
+| --- | --- |
+| `user_id` | FK → `auth.users` |
+| `category` | enum (`start_cooking`, `expiry`, `household_event`) |
+
+Unique on `(user_id, category)`. Every category is independently switchable
+(`FR-NOTIF-01`), which is what the per-row shape buys over a column per category
+on `user_preferences`.
+
+**RLS** — all operations: `auth.uid() = user_id`.
+
+#### `notification_deliveries`
+
+What has already been sent, so that it is not sent again. Without this the
+expiry sweep would warn about the same spinach every time it ran, which is the
+behaviour the feature exists to avoid.
+
+| Column | Notes |
+| --- | --- |
+| `user_id` | FK → `auth.users` |
+| `category` | enum, as above |
+| `meal_id` | nullable FK → `meals` |
+| `pantry_item_id` | nullable FK → `pantry_items` |
+| `grocery_request_id` | nullable FK → `grocery_requests` |
+| `meal_suggestion_id` | nullable FK → `meal_suggestions` |
+| `sent_at` | timestamptz |
+
+A `check` requires exactly one subject column to be non-null, the same shape
+`grocery_item_sources` uses for its two. Real foreign keys rather than a
+`subject_type` and a loose uuid, so that deleting the subject withdraws its
+delivery record on cascade — a meal that is deleted should not leave a row
+asserting it was reminded about.
+
+An expiry warning is delivered at most once per pantry item per user
+(`FR-NOTIF-05`), enforced by a partial unique index on
+`(user_id, pantry_item_id) where category = 'expiry'`.
+
+**RLS** — select: `auth.uid() = user_id`. No user writes; rows are created by
+the dispatcher through a `security definer` function.
+
+
 ### Moderation
 
 ```mermaid

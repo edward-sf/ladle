@@ -249,6 +249,7 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-NOTIF-02** `test` A start-cooking reminder fires at the beginning of a `Meal`'s preparation window.
 - **FR-NOTIF-03** `test` Expiry warnings derive from `Pantry` stock and are not user-scheduled.
 - **FR-NOTIF-04** `test` A `Household` event notifies only the members it concerns.
+- **FR-NOTIF-05** `test` An expiry warning for a given `Pantry` item is delivered to a given `User` at most once.
 
 ### Reporting and Moderation
 
@@ -329,6 +330,7 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-SEC-07** `test` Demographic health data is never returned to any principal other than the `User` it belongs to.
 - **NFR-SEC-08** `test` Private Storage objects are served only through short-lived signed URLs.
 - **NFR-SEC-09** `manual` An Edge Function acts as its caller by default; escalation to `service_role` is explicit and commented at each call site.
+- **NFR-SEC-10** `test` Signing out removes that device's push notification token.
 
 ### Accessibility
 

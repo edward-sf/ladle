@@ -222,7 +222,8 @@ moves the day boundary, every notification category switches off independently,
 and every `manual` accessibility requirement has been walked through.
 
 Delivers `FR-PROF-01`–`FR-PROF-03`, `FR-PREF-01`–`FR-PREF-06`,
-`FR-NOTIF-01`–`FR-NOTIF-04`, `NFR-A11Y-03`, `NFR-A11Y-04`, `NFR-A11Y-06`–`NFR-A11Y-08`.
+`FR-NOTIF-01`–`FR-NOTIF-05`, `NFR-SEC-10`, `NFR-A11Y-03`, `NFR-A11Y-04`,
+`NFR-A11Y-06`–`NFR-A11Y-08`.
 
 ### P10 · Release 1 hardening and submission
 **50h · 26 Feb – 15 Mar 2027**
