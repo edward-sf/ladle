@@ -122,12 +122,15 @@ check("citations", problems, f"{len(cited & defined)} distinct IDs cited externa
 
 # --- 5. every requirement in exactly one roadmap phase ------------------------
 road = read("docs/roadmap.md")
-phase_bodies = re.split(r'^### ', road, flags=re.M)[1:]
+# Only `### P<n>` headings are phases, and a phase body ends at the next heading
+# of either level - so identifiers cited in the prose sections that follow the
+# last phase (What could move this, Beyond Release 2) are not attributed to it.
+phase_bodies = re.findall(r'^### (P\d+[^\n]*)\n(.*?)(?=^### |^## |\Z)',
+                          road, flags=re.M | re.S)
 placed = collections.Counter()
 where = collections.defaultdict(list)
-for body in phase_bodies:
-    phase = body.splitlines()[0].strip()
-    text = body
+for phase, text in phase_bodies:
+    phase = phase.strip()
     ids_here = set()
     for a, b in re.findall(
             r'`((?:FR|NFR)-[A-Z0-9]+-\d+)`\s*[–—-]\s*`((?:FR|NFR)-[A-Z0-9]+-\d+)`', text):
