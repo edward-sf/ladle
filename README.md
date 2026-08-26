@@ -13,8 +13,8 @@ The plan is two releases: a private cookbook first, then the public showcase.
 
 | | Scope | Earliest |
 | --- | --- | --- |
-| **Release 1** | Everything a household does for itself — cookbook, calendar, pantry, grocery, nutrition | 15 Mar 2027 |
-| **Release 2** | Publishing, copying, the tag classifier, and moderation | 6 Jun 2027 |
+| **Release 1** | Everything a household does for itself — cookbook, calendar, pantry, grocery, nutrition | 21 Mar 2027 |
+| **Release 2** | Publishing, copying, the tag classifier, and moderation | 12 Jun 2027 |
 
 Those dates are derived rather than chosen: they fall out of a start date, a
 sustained 20h/week, and a planned holiday break applied to per-phase hour
