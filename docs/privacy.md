@@ -54,6 +54,16 @@ therefore treats both as in scope rather than waiting for the answer, since the
 design cost of doing so is a consent screen and the cost of being wrong the
 other way is a private action.
 
+MHMDA also grants a right to confirm whether consumer health data is being
+collected and to access it, alongside the rights to withdraw consent and to
+delete. `FR-ACCT-09` satisfies that as a subset of something larger: the export
+covers everything a user can read rather than their health data alone, because
+the narrow version would answer a question nobody asked while omitting the
+cookbook, which is the thing people are actually afraid of losing. The right to
+know which third parties data is shared with is answered by the processor table
+below, which is short because Ladle shares with none of them for any purpose
+beyond running the service.
+
 **HIPAA does not apply.** It reaches healthcare providers, health plans, and
 clearinghouses, and Ladle is none of them. This is recorded because the instinct
 on seeing health data is to reach for HIPAA, and doing so would produce a policy
@@ -125,6 +135,7 @@ words, creates a second version that can drift from the first.
 | Health data is stored only after a separate, explicit opt-in | `NFR-SEC-11` |
 | The consumer health data policy is a distinct, separately linked document | `NFR-SEC-12` |
 | A breach response procedure exists before production holds user data | `NFR-OPS-07` |
+| A user may export every record they can read, from within the app | `FR-ACCT-09`, `FR-ACCT-10` |
 
 ## The inventory
 
@@ -280,10 +291,6 @@ nowhere for someone to type a diagnosis.
 
 ## Open questions
 
-- **Data export.** Nothing in `requirements.md` commits to giving a user a copy
-  of their data. Under several of the candidate jurisdictions that is a right
-  rather than a feature, which would make it a requirement rather than a
-  roadmap item.
 - **Crash and error reporting**, carried over from
   [`engineering.md`](./engineering.md). Nothing requires it, and a reporting
   tool's default payload is a privacy question in an app holding health data

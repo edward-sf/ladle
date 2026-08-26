@@ -226,7 +226,8 @@ phase from 45 hours to 60.
 moves the day boundary, every notification category switches off independently,
 and every `manual` accessibility requirement has been walked through.
 
-Delivers `FR-PROF-01`–`FR-PROF-03`, `FR-PREF-01`–`FR-PREF-06`,
+Delivers `FR-PROF-01`–`FR-PROF-03`, `FR-PREF-01`–`FR-PREF-06`, `FR-ACCT-09`,
+`FR-ACCT-10`,
 `FR-NOTIF-01`–`FR-NOTIF-05`, `NFR-SEC-10`, `NFR-A11Y-03`, `NFR-A11Y-04`,
 `NFR-A11Y-06`–`NFR-A11Y-08`.
 

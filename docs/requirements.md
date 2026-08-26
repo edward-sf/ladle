@@ -287,6 +287,9 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-ACCT-06** `test` A password known to have appeared in a public breach corpus is refused at signup and at password change, with the reason stated.
 - **FR-ACCT-07** `test` Authentication attempts are rate limited, per account and per source address.
 - **FR-ACCT-08** `test` Creating an account requires a stated date of birth, and no account is created for anyone under 13.
+- **FR-ACCT-09** `test` A `User` may export every record they can read — profile, preferences, health data, and the contents of every `Household` they belong to — in a machine-readable format.
+  - *Given* a `User` in two `Household`s, *when* they request an export, *then* it contains both cookbooks, both calendars, both pantries, and their own demographic inputs.
+- **FR-ACCT-10** `test` The export is produced and delivered within the app, without a request to the developer and without passing through a third-party service.
 
 ### User Experience Paths
 
