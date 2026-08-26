@@ -31,8 +31,15 @@ Where a commercial product would resist a cap on its public surface, Ladle loses
 almost nothing by having one. This is the single most useful consequence of the
 answer, and most of the decisions below fall out of it.
 
-**Done is a real state.** Release 2 completes the thing that was designed. There
-is no obligation to keep adding, and no metric that punishes stopping.
+**Release 1 is the artifact.** It is what gets demonstrated, and it is published
+to both stores rather than shown from a build — shipping is part of what is being
+demonstrated, and a listed app is a credential a TestFlight link is not. Release 2
+adds the classifier and is unconditional. Everything beyond it is *listed as
+planned rather than promised*, which is a normal and honest thing for a portfolio
+piece to say.
+
+**Done is a real state.** There is no obligation to keep adding and no metric that
+punishes stopping.
 
 **The documentation is part of the artifact**, which is why a coverage audit and
 a schedule that re-derives itself are worth the hours they cost rather than being
@@ -40,7 +47,7 @@ overhead on the real work.
 
 ## Money
 
-**Free at Release 1 and Release 2, with monetisation possible later.** Nothing is
+**Free at every release, with monetisation possible later.** Nothing is
 built for it now: no payment processor, no purchase flow, no paywall, no billing
 data. [`privacy.md`](./privacy.md) is accurate as written precisely because none
 of that exists.
@@ -81,17 +88,18 @@ this section is about. Confirm the numbers when P0 provisions anything.
 | Driver | Scales with | Bites at |
 | --- | --- | --- |
 | Database rows | Households and their content | Never, realistically — this is text |
-| Photo **storage** | Recipes that carry a photo | Release 2, slowly |
-| Photo **egress** | People *browsing*, not people storing | Release 2, quickly |
+| Photo **storage** | Recipes that carry a photo | Release 3, slowly |
+| Photo **egress** | People *browsing*, not people storing | Release 3, quickly |
 | Edge Function invocations | Notification sweeps, classification | Modest at both releases |
-| Classifier inference | Recipe creates and updates, plus backfills | Release 2, depends on hosting |
+| Classifier inference | Recipe creates, updates, backfills | Release 2, depends on hosting |
 | Push delivery | Notifications sent | Free at the transport layer |
 
-**Release 1 is structurally bounded and Release 2 is not**, and the split is
-exactly the release boundary. A household's photos are viewed by that household:
-storage grows slowly, egress is trivial, and the whole thing is a rounding error.
-The showcase changes the denominator from *members of one household* to *anyone
-browsing*, and egress is the one number that scales with strangers.
+**Releases 1 and 2 are structurally bounded and Release 3 is not**, and that is
+precisely why the funding gate sits where it does. A household's photos are
+viewed by that household: storage grows slowly, egress is trivial, and the whole
+thing is a rounding error. The showcase changes the denominator from *members of
+one household* to *anyone browsing*, and egress is the one number that scales
+with strangers.
 
 ### The arithmetic that matters
 
@@ -126,6 +134,29 @@ attention spent on it is attention not spent on the one driver that matters.
 Recording this stops a later reader from optimising the wrong thing on the
 grounds that optimising is generally good.
 
+## The Release 3 gate
+
+Release 3 is conditional on funding being allocated for it, and the gate sits
+after Release 2 rather than before it because the two cost different currencies.
+
+Release 2 costs **time** — 120 hours, roughly 40 of them hand-labelling — and
+almost no recurring money. It is also the most technically interesting work in
+the plan, and it improves the private cookbook through facet search and
+recommendation without needing a public surface at all. Putting it behind a
+funding gate would have placed the best part of the portfolio behind a door that
+may never open.
+
+Release 3 is where money starts. Public photos are the only cost that scales with
+strangers browsing, and the moderation queue spends the other scarce resource,
+which is one person's attention.
+
+So the decision to make after Release 2 is a real one with a real default. **Not
+building Release 3 leaves a complete, published, demonstrable application** — the
+thing the household uses every day, and the thing being demonstrated. The
+showcase adds reach that a portfolio does not need and a bill that scales with
+people who are not evaluating the work.
+
+
 ## If the ceiling is reached
 
 A ladder, in order, so that the first response to an invoice is not a panic:
@@ -154,5 +185,5 @@ is cheaper than a payment processor, and the craft is demonstrated either way.
   with `FR-TAG-18` committing to backfills across every existing recipe, which is
   the expensive shape. Belongs with the classifier engineering plan that P11
   already needs.
-- **Whether Release 2 should launch with a cap already in place** rather than
+- **Whether Release 3 should launch with a cap already in place** rather than
   waiting to need one. Cheap to add before there is content, awkward afterwards.

@@ -31,21 +31,40 @@ no buffer built in.** A date is the earliest the phase can finish given a clean
 run, which is what makes them useful to be held to and what makes a slipped one
 worth noticing rather than absorbing.
 
-## Two releases
+## Three releases, the last one conditional
 
 **Release 1 is the private cookbook** — everything a household does for itself.
 Households, calendar, cookbook, pantry, grocery, nutrition, and search within
-your own recipes.
+your own recipes. **This is the portfolio artifact**, and it is published to both
+stores rather than demonstrated from a build: shipping is itself part of what is
+being demonstrated, and a listed app is a credential a TestFlight link is not.
 
-**Release 2 is the showcase** — publishing, copying, the classifier, and
-moderation.
+**Release 2 is tagging and discovery** — the classifier, facet search, and
+recommendation. All of it improves a private cookbook, and none of it needs a
+public surface to be worth having.
 
-The split matters more than it looks. The classifier gate, the ~40 hours of
-hand-labelling, the corpus licence question, and the moderation queue are all
-consequences of having a public corpus, and none of them is load-bearing for a
-household cooking its own food. Putting them in Release 2 takes every one off the
-first release's critical path while leaving the gate exactly where it was argued
-for: search quality across a public showcase.
+**Release 3 is the showcase** — publishing, copying, attribution, and moderation.
+**It is conditional on funding being allocated for it**, and it may not happen.
+Features beyond Release 2 are listed as planned rather than promised.
+
+The gate sits between Releases 2 and 3 rather than before both, because the two
+cost different currencies. Release 2 costs time — 120 hours, roughly 40 of them
+hand-labelling — and almost no recurring money. Release 3 is where money starts:
+public photos are the one cost that scales with strangers browsing rather than
+with anything under control, and the moderation queue spends the other scarce
+resource, which is one person's attention. Putting the gate before both would
+place the most technically interesting work behind a door that may never open.
+
+This supersedes an earlier two-release split. The reasoning that produced it
+still holds — the classifier gate, the corpus licence, and the moderation queue
+are all consequences of a public corpus, and none is load-bearing for a household
+cooking its own food, which is why none of them sits on Release 1's critical
+path. What changed is that funding, rather than sequence, now separates the
+showcase from everything else.
+
+Dates past Release 1 assume the work continues without pause. A gap at the
+funding gate moves Release 3 by the length of the gap; nothing about the
+arithmetic accounts for a decision taking time.
 
 | Phase | Hours | Starts | Ends |
 | --- | --- | --- | --- |
@@ -61,10 +80,12 @@ for: search quality across a public showcase.
 | P9 · Profile, preferences, notifications, accessibility | 60 | 19 Feb 2027 | 12 Mar 2027 |
 | P10 · Release 1 hardening and submission | 58 | 12 Mar 2027 | **1 Apr 2027** |
 | P11 · Taxonomy and classifier | 120 | 1 Apr 2027 | 13 May 2027 |
-| P12 · Showcase and moderation | 90 | 13 May 2027 | 13 Jun 2027 |
-| P13 · Release 2 hardening | 30 | 13 Jun 2027 | **23 Jun 2027** |
+| P12 · Release 2 hardening and submission | 20 | 13 May 2027 | **20 May 2027** |
+| P13 · Showcase and moderation | 90 | 20 May 2027 | 20 Jun 2027 |
+| P14 · Release 3 hardening and submission | 25 | 20 Jun 2027 | **28 Jun 2027** |
 
-834 hours; 41.7 working weeks plus the holiday.
+849 hours; 42.45 working weeks plus the holiday. The last 115 of those hours
+are conditional.
 
 ---
 
@@ -253,7 +274,7 @@ previous ten phases built.
 
 ---
 
-## Release 2 — the showcase
+## Release 2 — tagging and discovery
 
 ### P11 · Taxonomy and classifier
 **120h · 1 Apr – 13 May 2027**
@@ -277,14 +298,38 @@ task in the plan.
 Delivers `FR-TAG-03`–`FR-TAG-05`, `FR-TAG-09`–`FR-TAG-29`, `NFR-PERF-04`,
 `NFR-OPS-03`–`NFR-OPS-05`.
 
-### P12 · Showcase and moderation
-**90h · 13 May – 13 Jun 2027**
+### P12 · Release 2 hardening and submission
+**20h · 13 May – 20 May 2027**
+
+Regression across the tagging surfaces, a store update, and review. Lighter than
+P10 because the listing, the icon, and both privacy policies already exist — this
+is an update to a published app rather than a first submission.
+
+**Begins when** P11 is done.
+**Done when** an update is on both stores' review queues and the `manual`
+checklist has been walked for anything tagging touched.
+
+Delivers no new requirements.
+
+---
+
+## Release 3 — the showcase
+
+**Conditional on funding.** Everything below happens only if the running costs of
+a public showcase are allocated for — see
+[`operating-model.md`](./operating-model.md), where the escalation ladder makes
+clear that not building this is a real option rather than a failure. Release 1
+remains the portfolio artifact whether or not any of it is built, and Release 2
+remains the last unconditional phase.
+
+### P13 · Showcase and moderation
+**90h · 20 May – 20 Jun 2027**
 
 Publishing, copying with snapshots, upstream notices, attribution degradation,
 the administrator table, reports with automatic suppression, the escalation
 sweep, rate limits, and the search scope control.
 
-**Begins when** P11 is done.
+**Begins when** P12 is done **and** the funding decision has been made.
 **Done when** a copy is unchanged by an edit to its original until accepted, a
 deleted author's name leaves every copy while the content stays, a reported
 dietary claim suppresses on filing, an unreviewed urgent report withdraws its
@@ -294,12 +339,12 @@ Delivers `FR-RCP-06`, `FR-RCP-09`–`FR-RCP-12`, `FR-RCP-14`, `FR-RCP-15`,
 `FR-RCP-17`–`FR-RCP-19`, `FR-MOD-01`–`FR-MOD-13`, `FR-TAG-08`, `FR-TAG-31`,
 `FR-ACCT-03`, `FR-ACCT-05`, `FR-JRN-06`, `FR-MOD-14`, `NFR-OPS-02`.
 
-### P13 · Release 2 hardening
-**30h · 13 Jun – 23 Jun 2027**
+### P14 · Release 3 hardening and submission
+**25h · 20 Jun – 28 Jun 2027**
 
 Beta, moderation dry-run against seeded reports, and submission.
 
-**Begins when** P12 is done.
+**Begins when** P13 is done.
 **Done when** the escalation sweep has been observed firing on a real unattended
 report, and a build is submitted.
 
@@ -307,7 +352,7 @@ Delivers no new requirements.
 
 ---
 
-## Beyond Release 2
+## Beyond Release 3
 
 Not scoped, not estimated, and not dated. Recorded so that the ideas are held
 somewhere deliberate rather than resurfacing from a scratchpad, and so that
@@ -333,7 +378,7 @@ The household axis is the interesting half and the harder one. A household is
 several people with different preferences eating the same dinner, so a household
 taste profile is not the average of its members and cannot be built as one.
 
-**Save-for-later on the showcase.** A Release 2 question, deliberately left open
+**Save-for-later on the showcase.** A Release 3 question, deliberately left open
 until the showcase is being designed rather than settled now. At present the only
 way to keep a showcase `Recipe` is to copy it (`FR-RCP-09`), which creates a
 recipe the household owns, in the shared `Cookbook`, visible to everyone — there

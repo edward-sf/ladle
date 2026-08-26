@@ -9,12 +9,16 @@ else — there is no application code, no `package.json`, and no build or test
 tooling yet. The documents below are complete and internally consistent, and the
 roadmap sequences the work that follows from them.
 
-The plan is two releases: a private cookbook first, then the public showcase.
+Three releases: the private cookbook, then tagging and discovery, then the public
+showcase. Release 1 is the portfolio artifact and is published to both stores.
+Release 3 is conditional on funding being allocated for its running costs and may
+not happen; features beyond Release 2 are listed as planned rather than promised.
 
 | | Scope | Earliest |
 | --- | --- | --- |
 | **Release 1** | Everything a household does for itself — cookbook, calendar, pantry, grocery, nutrition | 1 Apr 2027 |
-| **Release 2** | Publishing, copying, the tag classifier, and moderation | 23 Jun 2027 |
+| **Release 2** | The tag classifier, facet search, and recommendation | 20 May 2027 |
+| **Release 3** | Publishing, copying, and moderation — *conditional on funding* | 28 Jun 2027 |
 
 Those dates are derived rather than chosen: they fall out of a start date, a
 sustained 20h/week, and a planned holiday break applied to per-phase hour

@@ -253,7 +253,7 @@ viable.
   an Application Administrator, who holds no household role and needs a view no
   household member should have. Whether that is a screen inside the mobile app
   gated on `app_administrators`, or a separate minimal web surface, is undecided.
-  It affects repository structure, so it is worth settling before P12 rather than
+  It affects repository structure, so it is worth settling before P13 rather than
   during it. It does not block P0.
 - **Crash reporting is settled** — `NFR-OPS-08` collects it, `NFR-OPS-09` keeps
   health data out of the payload, and `NFR-OPS-10` rules out screenshots,
