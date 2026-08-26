@@ -374,6 +374,8 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-DATA-09** `ci` A migration dropping or renaming a column, table, or enum value fails the build unless it carries an explicit annotation recording that no supported client version references it.
 - **NFR-DATA-10** `test` The client refuses to operate below the server-published minimum supported version, showing a blocking prompt to update.
 - **NFR-DATA-11** `test` The client renders an enum value it does not recognise without erroring.
+- **NFR-DATA-12** `test` A minimum-version check that cannot reach the server does not block the client.
+  - *Given* a device with no connectivity and a populated cache, *when* the app is opened, *then* the `Cookbook` and `GroceryList` are readable and no update prompt is shown.
 
 ### Operability
 

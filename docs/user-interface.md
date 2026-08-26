@@ -369,6 +369,28 @@ The household screen shows roles and their permissions only once there is more
 than one member (`FR-HH-02`, `FR-HH-15`). For someone cooking alone it shows an
 invite action and nothing else — no roles, no approvals, no vocabulary to learn.
 
+The household screen holds two different actions that must not be confused.
+**Inviting** someone sends them an `Invitation` and they arrive with an account
+and a role. **Adding a person** records somebody who will never sign in
+(`FR-HH-21`) — a child, an elderly parent, a housemate who will not install
+anything. They take a name and nothing else at first, hold no role
+(`FR-HH-22`), and are managed by an Owner or Admin (`FR-HH-23`).
+
+The two are separate actions with separate words, because choosing the wrong one
+is silent: an invitation to a four year old sits unaccepted, and a person added
+by hand when an invitation was meant never sees the plan.
+
+A person with no account can carry allergies and dietary tags, and this is the
+path by which a child's allergy is recorded at all (`FR-DIET-11`). It is
+therefore a safety surface rather than a convenience, and it should be as
+reachable as the invite action rather than filed below it. Nothing else is
+collected about them — no date of birth, no measurements (`FR-DIET-12`).
+
+When someone gains an account, their existing record is linked rather than
+replaced (`FR-HH-24`), so their allergies and meal history carry over. It is
+worth designing as an explicit action on the person, not as a matter of inviting
+them and hoping the two records reconcile.
+
 ### Entry points from outside
 
 A start-cooking notification opens the cooking view for that meal, not the app's
@@ -436,6 +458,34 @@ Each names its filling action: an empty Today offers to plan a meal, an empty
 cookbook offers the showcase, an empty grocery list points at the week's plan.
 The first-run Today is the most important screen in the app and the one most
 likely to be built last.
+
+### Consent for health data
+
+Allergies and the nutrition demographics are the only data Ladle asks for that a
+regulator would call health data, and `NFR-SEC-11` requires an explicit opt-in
+before any of it is stored — presented on its own, not bundled into whatever the
+user agreed to at signup.
+
+It appears at the point of collection rather than during onboarding. The first
+time someone opens the dietary profile or the nutrition inputs, the ask comes
+first and no field accepts a value until it is answered. Asking at signup would
+put it in front of people who will never use either feature, and would bury it
+among the things nobody reads.
+
+The ask says what is collected, what it is used for, and who can see it — which
+for these fields is nobody but the user, including their own household. It is a
+plain statement rather than a legal one; `privacy.md` carries the long version
+and the screen links to it.
+
+**Declining is a supported state, not a dead end.** The rest of Ladle works
+untouched, which the requirement's acceptance criterion asserts. The screen that
+was asking closes and the feature stays available to turn on later.
+
+Withdrawal is not a third mechanism. Deleting the health data (`FR-NUT-06`)
+removes what was stored and dismissing nutrition (`FR-NUT-04`) stops anything
+further being collected, and between them they are the withdrawal path — so the
+consent screen points at those rather than introducing a separate revoke action
+that would need its own state.
 
 ### Staleness
 
@@ -623,6 +673,23 @@ unreconciled, the recipe's allergy check cannot complete (`FR-DIET-08`).
 Quantity and unit are optional per line and never block anything. The unit field
 offers the ingredient's default where one is known, and accepts free text where
 it is not, because *a knob* is a unit in the only sense that matters here.
+### Update required
+
+The most hostile screen in the app, shown only when the installed version is
+below the server-published minimum (`NFR-DATA-10`). It blocks everything, states
+plainly that the app must be updated to continue, and offers the store link. No
+dismissal, because a dismissible block is not one.
+
+**It is shown only on a definite answer.** If the check cannot reach the server
+the app carries on as normal (`NFR-DATA-12`) — no answer is not a failed answer,
+and blocking on silence would lock someone out of a cookbook they already have
+cached, which is exactly what `NFR-OFF-01` promises will keep working. A tunnel
+is not an out-of-date client.
+
+It should be rare enough to feel like a surprise. Reaching for it often means
+the expand-and-contract discipline in [`engineering.md`](./engineering.md) is not
+being followed, and this screen is the consequence rather than the tool.
+
 
 ## Accessibility
 
