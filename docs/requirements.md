@@ -71,6 +71,10 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-HH-18** `test` Dissolving a `Household` unpublishes every `Recipe` its `Cookbook` had published.
 - **FR-HH-19** `test` A dissolved `Household` is recoverable for a stated period before it is permanently deleted.
 - **FR-HH-20** `test` Dissolving a `Household` does not alter copies other `Household`s took of its `Recipe`s.
+- **FR-HH-21** `test` A `Household` may contain people who have no `User` account.
+- **FR-HH-22** `test` A person with no account holds no role and no permissions.
+- **FR-HH-23** `test` Adding, editing, and removing a person with no account is an Owner or Admin action.
+- **FR-HH-24** `test` A person with no account may be linked to a `User` account, retaining their recorded allergies, dietary tags, and meal participation history.
   - *Given* a `Recipe` published by one `Household` and copied by another, *when* the publishing `Household` is dissolved, *then* the copy remains readable, editable, and planned exactly as before.
 
 ### Meal Planning
@@ -88,7 +92,7 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
   - *Given* two `Meal`s each requiring two cloves of garlic, *when* one is deleted, *then* two cloves remain on the `GroceryList`.
   - *Given* garlic added to the `GroceryList` by hand and a `Meal` also requiring garlic, *when* that `Meal` is deleted, *then* the hand-added garlic remains.
 - **FR-MEAL-09** `test` A `Meal` records a cooked state at `Household` level, changeable in a single action.
-- **FR-MEAL-10** `test` A `Meal`'s participants are drawn from its `Household`'s members.
+- **FR-MEAL-10** `test` A `Meal`'s participants are drawn from the people in its `Household`, whether or not they hold accounts.
 - **FR-MEAL-11** `test` Each `Household` has exactly one `Calendar`.
 - **FR-MEAL-12** `test` Adding a `Recipe` from the `Cookbook` to a `Calendar` slot completes in no more than three interactions, an interaction being a tap, a drag, or a text entry; scrolling and scrubbing do not count.
 - **FR-MEAL-13** `test` Each participant on a `Meal` carries an `ate` state, distinct from that `Meal`'s cooked state.
@@ -112,7 +116,7 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-RCP-11** `test` When an original is edited, each copy surfaces a non-blocking notice that the original has changed, with a view of what changed.
 - **FR-RCP-12** `test` An upstream change is applied to a copy only when that `Household` accepts it.
   - *Given* a copied `Recipe` and an edit to its original, *when* the copying `Household` takes no action, *then* the copy is byte-for-byte unchanged.
-- **FR-RCP-13** `test` A `Recipe` conflicting with any `Household` member's recorded allergy is marked as such wherever it is displayed, including in the showcase.
+- **FR-RCP-13** `test` A `Recipe` conflicting with any `Household` person's recorded allergy is marked as such wherever it is displayed, including in the showcase.
 - **FR-RCP-14** `test` An unverifiable dietary claim on a published `Recipe` is displayed as the Author's claim, attributed by name.
 - **FR-RCP-15** `test` No verification badge is displayed against any dietary claim.
 - **FR-RCP-16** `test` A `Recipe` in progress is retained when its editor is dismissed, and is recoverable.
@@ -160,6 +164,7 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-NUT-16** `test` The nutrition display presents no colour change or other state change on a target being reached or exceeded.
 - **FR-NUT-17** `manual` Ladle makes no health claim, outcome claim, or comparative nutritional claim outside the app - in store listings, marketing, or any other external material - before the thresholds and target equation have been reviewed by a qualified dietitian.
 - **FR-NUT-18** `policy` A threshold resting on convention keeps its stated-as-convention labelling and remains overridable until that review has taken place.
+- **FR-NUT-19** `test` Nutrition tracking is not offered to a `User` under 18.
 
 ### Ingredient Catalog
 
@@ -187,6 +192,8 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-DIET-08** `test` A `Recipe` containing any unreconciled ingredient reports its allergy check as incomplete rather than as clean.
 - **FR-DIET-09** `test` The absence of an allergen tag is never displayed as evidence that the allergen is absent.
 - **FR-DIET-10** `test` Where a `Meal`'s participants have conflicting dietary requirements, the conflict is displayed and not resolved automatically.
+- **FR-DIET-11** `test` Allergies and dietary tags are recordable for a person with no `User` account.
+- **FR-DIET-12** `test` No demographic health data is stored for a person with no `User` account.
 
 ### Profile and Identity
 
@@ -279,6 +286,7 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-ACCT-05** `test` No action other than publishing makes any `Household` data visible outside that `Household`.
 - **FR-ACCT-06** `test` A password known to have appeared in a public breach corpus is refused at signup and at password change, with the reason stated.
 - **FR-ACCT-07** `test` Authentication attempts are rate limited, per account and per source address.
+- **FR-ACCT-08** `test` Creating an account requires a stated date of birth, and no account is created for anyone under 13.
 
 ### User Experience Paths
 

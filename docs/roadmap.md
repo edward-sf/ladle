@@ -84,7 +84,7 @@ runs the suite, all three EAS profiles build, a user can sign up and return to a
 persisted session, a breached password is refused at signup, and the contrast
 check runs green against the default theme.
 
-Delivers `FR-ACCT-01`, `FR-ACCT-02`, `FR-ACCT-06`, `FR-ACCT-07`, `FR-PREF-07`,
+Delivers `FR-ACCT-01`, `FR-ACCT-02`, `FR-ACCT-06`–`FR-ACCT-08`, `FR-PREF-07`,
 `NFR-SEC-01`–`NFR-SEC-05`, `NFR-SEC-08`, `NFR-SEC-09`, `NFR-OFF-01`–`NFR-OFF-05`,
 `NFR-DATA-01`, `NFR-DATA-04`–`NFR-DATA-06`, `NFR-OPS-01`, `NFR-OPS-06`,
 `NFR-A11Y-02`.
@@ -169,7 +169,7 @@ window.
 
 This phase spans the holiday break; the dates already account for it.
 
-Delivers `FR-HH-03`–`FR-HH-20`, `FR-ACCT-04`, `FR-JRN-02`, `NFR-SEC-06`.
+Delivers `FR-HH-03`–`FR-HH-24`, `FR-ACCT-04`, `FR-JRN-02`, `NFR-SEC-06`.
 
 ### P6 · Dietary and allergy
 **35h · 8 Jan – 20 Jan 2027**
@@ -182,7 +182,7 @@ warning and incomplete-check treatments everywhere a recipe appears.
 allergy does not warn on almond, and a recipe holding one unreconciled ingredient
 reports its check as incomplete rather than clean.
 
-Delivers `FR-DIET-01`–`FR-DIET-10`, `FR-RCP-13`, `FR-TAG-06`, `FR-TAG-07`,
+Delivers `FR-DIET-01`–`FR-DIET-12`, `FR-RCP-13`, `FR-TAG-06`, `FR-TAG-07`,
 `NFR-SEC-11` — the health-data consent gate, which must exist before the first
 allergy is stored.
 
@@ -197,7 +197,7 @@ Today rings.
 user who declines every demographic question can still use the app, and no ring
 changes colour on reaching or exceeding a target.
 
-Delivers `FR-NUT-01`–`FR-NUT-18`, `NFR-SEC-07`.
+Delivers `FR-NUT-01`–`FR-NUT-19`, `NFR-SEC-07`.
 
 ### P8 · Cookbook search
 **20h · 4 Feb – 11 Feb 2027**

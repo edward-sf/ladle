@@ -64,6 +64,28 @@ health apps outside HIPAA, along with the general prohibition on deceptive
 practices — which is the mechanism by which a privacy policy that misdescribes
 the app becomes a federal matter rather than an embarrassment.
 
+### Children
+
+Accounts require a stated date of birth and are not created under 13
+(`FR-ACCT-08`). Anyone younger exists only as a person in a household, recorded
+by the adult who looks after them, carrying a name, allergies, and dietary tags
+and nothing else (`FR-DIET-12`).
+
+That is what makes COPPA tractable rather than expensive. Its trigger is an
+operator collecting personal information **from** a child online, and Ladle does
+not: there is no child-facing account, no child-entered field, and no interface a
+child is expected to use. What exists is a guardian recording that someone at
+their table cannot eat peanuts.
+
+It also means the most protected person in the system is the one Ladle holds
+least about. No date of birth, no body measurements, no nutrition ledger for a
+child — not as a compliance posture but because headcount and allergy checking
+never needed them.
+
+Nutrition tracking is separately gated at 18 (`FR-NUT-19`), which is a product
+decision with a health dimension rather than a legal one: the target equation
+was validated on adults, and nothing here has professional review behind it.
+
 ### What a second market would cost
 
 Recorded now so that the decision is priced when it is made rather than
@@ -119,6 +141,7 @@ by a regulator.
 | Date of birth, height, weight, sex, activity level, goal | Computing nutrition targets, and nothing else | The user alone, with no household exception | Deleted |
 | Recorded allergies | Excluding recipes from recommendation, warning where they appear | The user; the fact of a conflict is visible to their household | Deleted |
 | Dietary frameworks observed | Ranking recommendations | The user; visible to their household | Deleted |
+| A household person's name, allergies, and dietary tags | Headcount, and checking a recipe against everyone at the table | The household | Retained by the household; not the deleting user's to remove |
 | Per-participant `ate` state and the nutrition ledger derived from it | The user's own daily figures | The user alone | Deleted |
 
 Every demographic column is nullable, and a row of all nulls is a user who
@@ -257,11 +280,6 @@ nowhere for someone to type a diagnosis.
 
 ## Open questions
 
-- **Age handling.** Ladle collects date of birth, so it knows the answer, but
-  nothing decides what happens when the answer is a child. This affects the
-  store age rating, the consent basis, and whether the nutrition feature should
-  be offered at all to a minor — the last of which is a product question with a
-  health dimension, not merely a compliance one.
 - **Data export.** Nothing in `requirements.md` commits to giving a user a copy
   of their data. Under several of the candidate jurisdictions that is a right
   rather than a feature, which would make it a requirement rather than a

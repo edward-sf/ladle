@@ -365,7 +365,7 @@ description — it earns a table at that point.
 | Concept | Table |
 | --- | --- |
 | `User` | `auth.users`, plus `users_public` and its satellites |
-| `Household` | `households`, `household_members` |
+| `Household` | `households`, `household_people` |
 | `Invitation` | `invitations` |
 | `Meal` | `meals`, `meal_recipes`, `meal_participants` |
 | `Recipe` | `recipes`, `recipe_versions`, `recipe_ingredients` |
@@ -424,13 +424,15 @@ because a published recipe carries its author's name and picture.
 #### `user_demographics`
 
 The inputs to the nutrition target equation, and the most sensitive rows in the
-database. Nothing outside Nutrition Tracking reads them (`FR-NUT-07`), and no
-principal but their owner may (`FR-NUT-05`, `NFR-SEC-07`).
+database. Age is not among them: the equation reads the date of birth on
+`user_metadata`, collected at signup for the age gate rather than here, so that
+no health data is stored before the consent `NFR-SEC-11` requires. Nothing
+outside Nutrition Tracking reads these rows (`FR-NUT-07`), and no principal but
+their owner may (`FR-NUT-05`, `NFR-SEC-07`).
 
 | Column | Notes |
 | --- | --- |
 | `user_id` | FK → `auth.users`, unique |
-| `dob` | date |
 | `height_cm` | numeric |
 | `weight_kg` | numeric |
 | `sex` | enum; required by Mifflin-St Jeor, not an identity field |
@@ -460,7 +462,16 @@ household members.
 
 #### `user_metadata`
 
-`last_signed_in_at`, `is_active`. **RLS** — all operations: `auth.uid() = user_id`.
+`last_signed_in_at`, `is_active`, and `date_of_birth`.
+
+`date_of_birth` is collected at signup rather than with the demographics,
+because it gates two things that have nothing to do with nutrition: an account
+is not created for anyone under 13 (`FR-ACCT-08`), and nutrition tracking is not
+offered under 18 (`FR-NUT-19`). Keeping it here rather than in
+`user_demographics` means the age gate does not require the health-data consent,
+and the nutrition equation reads the one date rather than a second copy of it.
+
+**RLS** — all operations: `auth.uid() = user_id`.
 
 #### `themes`
 
@@ -502,12 +513,14 @@ rows per user are expected and none takes precedence (`FR-DIET-06`).
 
 ```mermaid
 erDiagram
-  households ||--o{ household_members : has
+  households ||--o{ household_people : seats
   households ||--o{ invitations : issues
   households ||--o{ household_category_order : orders
   households ||--o{ grocery_requests : receives
   households ||--o{ meal_suggestions : receives
-  auth_users ||--o{ household_members : "belongs to"
+  auth_users |o--o{ household_people : "may be"
+  household_people ||--o{ person_allergies : declares
+  household_people ||--o{ person_dietary_tags : observes
   ingredient_categories ||--o{ household_category_order : positioned
 ```
 
@@ -526,23 +539,68 @@ a scheduled job purges rows past `purge_after`.
 **RLS** — all operations: caller is a member of the household, and
 `dissolved_at is null`.
 
-#### `household_members`
+#### `household_people`
+
+Everyone who eats here. Some of them have accounts; an infant, an elderly
+parent, and a housemate who will not install an app do not, and a household that
+cannot record them cannot check their allergies — which is the safety feature
+failing for the person least able to speak up about it.
 
 | Column | Notes |
 | --- | --- |
+| `id` | uuid PK |
 | `household_id` | FK → `households` |
-| `user_id` | FK → `auth.users` |
-| `role` | enum (`owner`, `admin`, `member`) |
-| — | unique `(household_id, user_id)` |
+| `user_id` | nullable FK → `auth.users`; null for a person with no account |
+| `display_name` | nullable; how a person with no account is named here |
+| `role` | nullable enum (`owner`, `admin`, `member`) |
+| — | check: `role` is non-null exactly when `user_id` is (`FR-HH-22`) |
+| — | check: `display_name` is non-null exactly when `user_id` is null |
+| — | partial unique `(household_id, user_id)` where `user_id is not null` |
 | — | partial unique index on `(household_id)` where `role = 'owner'` (`FR-HH-04`) |
 
-The partial unique index is what makes "exactly one Owner" a fact of the
-database rather than a hope about the application. Ownership transfer is a
-`security definer` function that moves the role in one transaction, since no
+Named for people rather than members because `Member` is already a role, and a
+`household_members` table holding people who are not Members would be a trap
+laid for whoever reads it next. One table rather than two: every query that asks
+who eats here — headcount, allergy conflict, meal participation — would
+otherwise have to union two sources, which is exactly where the omission of the
+toddler would survive.
+
+A person with no account holds no role and no permissions (`FR-HH-22`); they are
+a fact about who eats, not a principal who acts. Their row is managed by an
+Owner or Admin (`FR-HH-23`), and it can later be linked to a real account
+without losing their allergies or their meal history (`FR-HH-24`) — a twelve
+year old becomes a thirteen year old.
+
+The partial unique index on the owner is what makes "exactly one Owner" a fact
+of the database rather than a hope about the application. Ownership transfer is
+a `security definer` function that moves the role in one transaction, since no
 sequence of two client-issued updates can pass the index.
 
-**RLS** — select: members of the household. Insert, update, delete: owner or
-admin.
+**RLS** — select: people in the household with an account. Insert, update,
+delete: owner or admin.
+
+#### `person_allergies` and `person_dietary_tags`
+
+Allergies and dietary frameworks for a person with **no** account, scoped to the
+household that recorded them. An account holder's own allergies live in
+`user_allergies` and travel with them between households; a person who exists
+only inside one household has nowhere else for theirs to go.
+
+Same shape as `user_allergies` — two nullable FKs, to `ingredients` and to an
+allergen-facet tag, with a check that exactly one is set — keyed on
+`household_people.id` rather than on a user (`FR-DIET-11`).
+
+Household allergy checking reads a `household_allergens` view that unions both
+sources rather than either alone, because a check that consulted only one of
+them would be silently correct for adults and silently wrong for children.
+
+**Nothing else is stored about a person with no account.** No date of birth, no
+body measurements, no nutrition ledger (`FR-DIET-12`). That falls out of what
+the features need — headcount and allergy conflict need a name and a tag and
+nothing more — and it means Ladle holds no health demographics about any child.
+
+**RLS** — select: people in the household with an account. Insert, update,
+delete: owner or admin.
 
 #### `invitations`
 
@@ -586,7 +644,7 @@ erDiagram
   meals ||--o{ meal_recipes : includes
   meals ||--o{ meal_participants : "eaten by"
   recipes ||--o{ meal_recipes : "used in"
-  auth_users ||--o{ meal_participants : attends
+  household_people ||--o{ meal_participants : attends
   meals ||--o{ grocery_item_sources : contributes
 ```
 
@@ -621,16 +679,25 @@ Where cooked and eaten are held apart (`FR-MEAL-13`).
 | Column | Notes |
 | --- | --- |
 | `meal_id` | FK → `meals` |
-| `user_id` | FK → `auth.users` |
+| `person_id` | FK → `household_people` |
 | `ate` | nullable boolean — null until the meal is cooked |
 
-A trigger sets `ate = true` for every participant when `meals.cooked_at` is
-first set (`FR-MEAL-14`); the participant may then set their own row to false
-(`FR-MEAL-15`). Nutrition reads `ate`, never `cooked_at` (`FR-NUT-12`), which is
-what keeps a household fact from asserting a personal one.
+Keyed on the person rather than on a user, so a meal's headcount counts everyone
+at the table and its allergy check consults everyone's tags. A trigger sets
+`ate = true` for every participant when `meals.cooked_at` is first set
+(`FR-MEAL-14`); a participant with an account may then set their own row to
+false (`FR-MEAL-15`).
 
-**RLS** — select: members of the meal's household. Insert and delete: owner or
-admin. Update of `ate`: `auth.uid() = user_id` only.
+`ate` is recorded for every participant but only means something for the ones
+who have an account, because it exists to feed a nutrition ledger and a person
+with no account has none. Nutrition reads `ate` joined to a person with a
+`user_id`, never `cooked_at` (`FR-NUT-12`), which is what keeps a household fact
+from asserting a personal one.
+
+**RLS** — select: people in the meal's household with an account. Insert and
+delete: owner or admin. Update of `ate`: only where the row's person is the
+caller, which for a person with no account means an owner or admin acting on
+their behalf.
 
 ### Recipes
 
@@ -976,7 +1043,7 @@ erDiagram
 Curation, vocabulary maintenance, corpus labelling, and moderation are all
 **Application Administrator** responsibilities. That is an application-level
 role, entirely separate from the Owner and Admin roles inside a `Household`, and
-it deliberately has no row in `household_members`: an administrator has no
+it deliberately has no row in `household_people`: an administrator has no
 standing in any household whose recipe they review, and a household role that
 carried these powers would be able to read every private cookbook in the system.
 
