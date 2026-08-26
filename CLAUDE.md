@@ -1,0 +1,189 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project status
+
+Ladle is at the planning stage. This repository contains `docs/` and `.claude/skills/` and nothing else — there is no application code, no `package.json`, and no build or test tooling. Work here is currently the writing and refinement of design documentation, and the Supabase commands listed below describe the intended workflow rather than one that can be run today.
+
+The one thing that *does* run is `docs/check.sh`, which holds the structural checks over the documentation — link resolution, identifier sequencing, verification markers, citation resolution, roadmap placement, area mapping, emphasis balance, hard-wrap conformance, and mermaid fences. Run it before any commit touching `docs/`; it exits non-zero on failure. What it cannot check is whether a requirement genuinely covers the intent behind it, which is a reading task and belongs to the `coverage-audit` skill.
+
+## What Ladle is
+
+A cross-platform mobile application for meal planning, nutrition tracking, and pantry management. React Native on Expo, deployed via Expo Application Services, backed by Supabase (Auth, Postgres, Storage, Edge Functions, Realtime).
+
+The product is organized around a `Household`: every `Calendar`, `Cookbook`, `Pantry`, and `GroceryList` belongs to exactly one, and a `User` may belong to several. Within a household an Owner has full control, Admins share day-to-day management, and Members participate by request and approval.
+
+## Documentation map
+
+Each document owns a distinct kind of fact. When a fact could live in two of them, it belongs in the one named here, and the other should reference it rather than restate it.
+
+| File | Owns |
+| --- | --- |
+| [`docs/user-experience.md`](docs/user-experience.md) | Audiences, features, user stories, and end-to-end user journeys. Behavior only. |
+| [`docs/data.md`](docs/data.md) | Data tier technology, environment partitioning, and the data model / ERD. |
+| [`docs/taxonomy.md`](docs/taxonomy.md) | The curated vocabularies: the faceted `Tag` set and the retail `IngredientCategory` set. |
+| [`docs/user-interface.md`](docs/user-interface.md) | UI tooling, brand identity, layout, and theming. |
+| [`docs/requirements.md`](docs/requirements.md) | The canonical numbered, testable functional and non-functional requirements that drive development. |
+| [`docs/roadmap.md`](docs/roadmap.md) | Sequencing and delivery planning. |
+| [`docs/notes.md`](docs/notes.md) | The author's working scratchpad. Not authoritative — ideas here may be half-formed, superseded, or contradicted by the documents above. |
+
+Every document is written. `docs/notes.md` remains the author's scratchpad and is the only non-authoritative file.
+
+## Documentation conventions
+
+- **Features are classified by role, not by schedule.** A *major feature* is a pillar — something a person would name as their reason for using Ladle. A *minor feature* is supporting capability that serves a pillar and would mostly be noticed by its absence. Sequencing is `roadmap.md`'s concern, so a feature's classification does not change when priorities do.
+- **`user-experience.md` names entities but never specifies them.** `Household`, `Meal`, and `Recipe` appear as concepts; fields, keys, types, and relationships belong to `data.md`. Do not carry schema detail from `notes.md` into the UX document.
+- **Requirements appear in two registers.** In `user-experience.md` they are stated as intent, in prose, beneath the feature they shape. In `requirements.md` they are numbered and testable, and trace back to that feature. The UX document is not the place for acceptance criteria.
+- **Requirement IDs are `FR-<AREA>-<NN>` and `NFR-<ATTRIBUTE>-<NN>`, and they are stable.** Each functional area maps to exactly one feature in `user-experience.md`, except `JRN`, which maps to its user experience paths. A withdrawn requirement's number is retired rather than reused, and a new one is appended to the end of its area rather than inserted, so a reference in a test or a commit message never comes to mean something else. Acceptance criteria are written as indented *Given / when / then* lines and appear only where the statement alone does not determine the test.
+- **Every requirement carries a verification marker** — `test`, `ci`, `manual`, `monitor`, or `policy` — immediately after its ID. The point is that a commitment which cannot be an automated test is visibly not one rather than quietly assumed to be covered. The `manual` set *is* the release checklist, generated from the markers rather than kept as a separate list.
+- **A material change to a requirement issues a new ID**; wording and clarity edits keep theirs. The test is whether a currently passing test could now be wrong. This binds from the moment an ID is first cited outside `requirements.md` — before that it can be amended in place.
+- **Coverage between the two registers is kept in sync at review.** Changing a feature's Requirements section in `user-experience.md` obliges a matching pass over that area in `requirements.md`. The intent document deliberately carries no identifiers, so nothing automated catches drift — this is what the `coverage-audit` skill exists for. It found thirteen missing requirements the first time it was run, and two more on its second pass, one of which (`FR-NUT-17`) governs a claim made outside the app entirely.
+- **Release scope is never recorded in `requirements.md`.** Sequencing belongs to `roadmap.md`, which cites requirement IDs, so re-planning never edits the requirements and the two cannot drift.
+- **Every requirement appears in exactly one roadmap phase, and this is checkable.** Not asserted — a requirement in no phase, or in two, is a defect in `roadmap.md`. `docs/check.sh` verifies this; the last run placed all 215 with no unplaced, duplicated, or phantom IDs.
+- **Roadmap dates are derived, not chosen.** They fall out of a start date, a sustained capacity of 20h/week, and a planned holiday break, applied to per-phase hour estimates. The hours are the content; the dates are arithmetic over them, carry no buffer, and are meant to be the earliest a phase can finish on a clean run.
+- **The data model uses SQL names, not conceptual ones.** `docs/data.md` writes tables and columns as they will exist in Postgres (`households`, `grocery_item_sources`), with a mapping table relating them to the conceptual names the other documents use. Every table records its RLS predicate in a line beneath it, and columns that exist to satisfy a requirement cite its ID. Migrations remain authoritative for exact DDL — the model documents shape and reasoning, not types and defaults.
+- **Prose style.** Full sentences and paragraphs rather than bullet fragments. `data.md`, `taxonomy.md` and `user-interface.md` hard-wrap at roughly 80 columns; `user-experience.md` and `requirements.md` leave lines unwrapped. Match the file being edited.
+- Italic feature descriptions in `user-experience.md` are a single emphasis span, so role and state names inside them (Owner, Author, Private) are written plain — nested `*emphasis*` would terminate the span early and break rendering.
+
+## Commit conventions
+
+The existing history already has a house style - a past-tense subject naming the
+artifact and its purpose, with a body paragraph explaining it. That is kept.
+Conventional Commits was considered and rejected: there is no changelog
+automation or semantic version to drive it, and it would break six commits of
+readable history to buy nothing this project uses.
+
+What is added is traceability, because requirement identifiers are stable
+precisely so that a commit can cite one.
+
+```
+Added grocery list category ordering
+
+The GroceryList now groups by IngredientCategory and walks the household's
+own sequence, seeded from the shipped default and rearranged by dragging.
+
+Requirement: FR-PAN-05, FR-PAN-06, FR-PAN-07
+Phase: P4
+```
+
+- **Subject** - past tense, under 72 characters, names what changed. Backtick a
+  filename where it is the subject of the change.
+- **Body** - what and why. The reasoning is the part worth having later.
+- **`Requirement:`** - every identifier the commit implements or changes, comma
+  separated. This is what makes `git log --grep='FR-NUT-13'` answer "when did
+  this get built, and what else moved with it".
+- **`Phase:`** - the roadmap phase, on code commits.
+
+### Cadence
+
+- **One document per commit** while the work is documentation, matching the
+  existing history. The exception is a change driven by a single decision that
+  necessarily touches several documents - propagating an answer is one thought
+  and belongs in one commit, with every file it touched named in the body.
+- **One requirement, or one coherent slice, per commit** once there is code. A
+  commit that needs "and" to describe it is usually two.
+- **Never mix a migration with application code.** The migration lands first, on
+  its own, so that a revert of the app does not strand the schema.
+- **`docs/check.sh` passes before any commit touching `docs/`.** It is the gate,
+  not a suggestion, and it is cheap enough to run every time.
+
+### Branching
+
+`main` is the trunk and stays releasable. Work happens on a branch named for its
+roadmap phase (`phase/p2-cookbook-recipes`) or, for documentation, its topic
+(`planning-docs`). Merge by pull request so that `check.sh` and, later, the test
+suite run before anything reaches `main`.
+
+### Once there is code
+
+- **A migration is immutable once merged.** Corrections are new migrations, never
+  edits to an applied one, because `supabase db reset` replays the chain and
+  `NFR-DATA-04` requires it to build from empty.
+- **RLS policies ship in the migration that creates the table** - `NFR-SEC-01`.
+  A table committed without its policy is a data breach, not a follow-up ticket.
+- **Regenerated TypeScript types are committed in the same commit as the
+  migration that changed them** - `NFR-DATA-05` only holds if they never drift.
+- **Never commit** the `service_role` key, a `.env` holding real credentials, or
+  any data copied down from production.
+
+
+## Product decisions
+
+Choices the documentation depends on, recorded with the reasoning so that revisiting one is a deliberate act rather than a rediscovery. Their consequences are written into [`docs/user-experience.md`](docs/user-experience.md) and [`docs/taxonomy.md`](docs/taxonomy.md).
+
+- **Solo users get a silent household.** A `Household` is created at signup and the role vocabulary stays unrendered until a second person joins. Chosen over a distinct solo mode because it leaves exactly one code path: gaining a housemate reveals machinery that was always present rather than triggering a migration.
+- **Nutrition targets are computed and overridable.** Date of birth, height, weight, sex, activity level, and a stated goal feed a standard published equation, and every resulting number can be overwritten. Chosen because the audience most likely to want targets is the audience least likely to already know them. The cost is that Ladle collects health data, which is why its handling is written as a requirement of the Nutrition Tracking feature, along with keeping the equation's sex input separate from pronouns and display identity.
+- **Recipe copies are snapshots that are told about upstream changes.** A copy is independent and owned outright, and when the original author edits, the copy surfaces a non-blocking notice with a view of what changed. Chosen over a plain snapshot so that an author's correction can reach the people cooking from it, and over a live link so that nothing changes under a cook mid-week. It is the most machinery of the three options, and it needs recipe version history in the data model to work.
+- **Four tabs: Today, Plan, Cookbook, Shop**, with household, preferences, and account behind the profile avatar. Shop holds a permanent slot on ergonomics rather than frequency — it is the one screen used standing up, one-handed, possibly without signal, and burying it inside Plan charges a tap exactly where it is least affordable. The showcase sits inside Cookbook rather than taking a fifth tab.
+- **Components reference semantic tokens only; themes map them to primitives.** A theme is a value table for light and dark, so adding one is never a component change — which is what makes a fixed contrast-pair table checkable per theme per mode in CI.
+- **`border` and `border-control` are separate tokens.** WCAG 1.4.11 asks 3:1 of a control boundary and nothing of a decorative divider; one token held to both would make every list separator a heavy rule. Found by running the contrast table against the proposed palette, which is also how the warning colour turned out to fail at 2.27:1 and became an ochre.
+- **The focus ring is drawn outside a control with a 2pt gap.** It is therefore always evaluated against a surface, never a fill — a blue ring on the terracotta accent is 1.06:1, which is an indicator that is present, compliant on paper, and invisible.
+- **Phone-first, one column, portrait; tablets run it scaled.** A scope statement rather than a preference: the ergonomic constraints in `user-interface.md` are claims about a phone in a hand, and hedging them across form factors would weaken the load-bearing ones. Layouts use logical start/end so a right-to-left language stays a translation problem.
+- **Motion is decoration and never carries state.** The platform reduced-motion setting is honoured by default rather than by remembering, because vestibular triggers ship unnoticed when nobody building the app has the setting on.
+- **Theme token values ship in the bundle, not the database.** `themes` rows carry identity only. Chosen because `NFR-A11Y-02` requires every shipped theme to meet AA, and a theme whose values arrived from the server could not have been validated before reaching users.
+- **The wordmark is Fraunces, lowercase, shipped as artwork rather than as a font.** SIL OFL so embedding is unencumbered. The face is not bundled — one word does not justify a variable font file, and shipping one would invite its use in a heading, which is where the dynamic type guarantee starts to leak. It appears on splash and signed-out screens only.
+- **The mark and app icon are deliberately deferred to a later design phase.** Recorded as a gap so nobody fills it by accident. Constraints for whoever does: hold at 16pt and 1024pt, and sit beside a lowercase high-contrast serif wordmark.
+- **The Today nutrition panel is six rings in one hue, stripped of completion semantics.** Rings were chosen over target-marked bars despite carrying completion-framing by convention, so every convention expressing completion is removed: no state colour in either direction, no completion event, the ring caps at full while the figure states the overage in text. Each ring is direct-labelled, so colour carries no identity and six hues would buy nothing while requiring colourblind separation. `FR-NUT-16` makes the no-state-change rule enforceable; if the familiar green-on-complete treatment is ever wanted, `FR-NUT-15` has to change first.
+- **Photos are 4:3 everywhere, and a photoless recipe has no image area.** One ratio means one crop and one cache set. Nothing is generated to stand in for a missing photo — a cookbook of handwritten family recipes is mostly photoless, and a grid of identical placeholders reads as a failed load. The cost is an uneven showcase grid, accepted so that `FR-RCP-02`'s first-class photoless state is not quietly contradicted.
+- **The interface uses the platform system font throughout.** An accessibility decision before an aesthetic one: it is the only font guaranteed to honour dynamic type at every size and weight. A display face appears in the wordmark only, which is an image rather than a text style.
+- **Four named concepts are deliberately not tables.** `Calendar`, `Pantry`, `GroceryList`, and `Cookbook` are each one-per-household and carry no attributes, so their contents reference `household_id` directly rather than an intermediate row. `DietaryModel` is likewise the `dietary` facet of `tags` rather than a table of its own. Chosen to avoid a second identifier for a fact the household already establishes, and a second vocabulary for an idea tags already express. Any of them earns a table the moment it gains a property.
+- **A grocery item stores no quantity.** `grocery_list_items` records that a household needs an ingredient; every claim on it is a row in `grocery_item_sources`, and the displayed quantity is their sum. Chosen because deleting a meal must withdraw only its own claim — a single mutable quantity adjusted on every change is smaller and fails the first time two meals want the same ingredient, which deletes groceries people needed.
+- **Recipe attribution is stored twice so that erasure can degrade it.** A live FK to the author plus a denormalised name: the FK nulls when they leave, the name clears on account deletion, and the copy then shows a placeholder naming nobody. Chosen so erasure neither preserves an identifier for someone who asked to be forgotten nor lets a copier appear to have written what they copied.
+- **Curation, labelling and moderation are Application Administrator work, not household work.** An application-level role with its own table (`app_administrators`) and no row in `household_members`, acting through `security definer` functions rather than raw `service_role` so every action stays attributable to a person. Chosen because an administrator has no standing in the households whose recipes they review, and a household role carrying these powers could read every private cookbook in the system. **There is currently one administrator**, and much of the moderation design exists because of it.
+- **Dissolving a Household is destructive, itemised, and recoverable.** The confirmation lists what will be destroyed, published recipes are unpublished, and the household can be recovered for a stated period. Copies other households took are snapshots and are unaffected. Chosen because the person confirming may be mid-argument rather than post-decision.
+- **Account deletion degrades attribution rather than erasing or preserving it.** Copies of a deleted author's recipes keep their content and lose the name, showing a placeholder that identifies nobody. Chosen so erasure does not rewrite other people's cookbooks, and so a copier never appears to have written what they copied.
+- **Search covers title, ingredient, and tag, with cookbook and showcase as separate scopes.** Chosen because searching by ingredient is the query people actually have — it starts at the fridge — and because discovery being the way into the showcase does not make a two-hundred-recipe cookbook navigable.
+- **Nutrition figures round to a stated step per nutrient** — energy to 5 kcal, macronutrients and fibre to 1 g, sodium to 10 mg, never a decimal. Chosen so the rounding itself conveys the uncertainty and the rule is testable. Note this narrowed a line in `user-experience.md` that had objected to estimates presented "to the gram"; the objection is now to sub-gram precision, which is what it meant.
+- **Cooked and eaten are separate facts.** `Meal.cooked` is a household state that decrements the `Pantry`; a per-participant `ate` state drives that person's nutrition ledger and defaults to true when the meal is marked cooked, correctable afterwards by that participant alone. Chosen so the common case costs one action while the case user-experience.md names by name — the participant who had toast instead — is recorded accurately. A household fact must never silently assert a personal one.
+- **Servings and participants are separate.** A `Meal` has a serving count seeded by the participant headcount and freely overridable; servings drive grocery quantities, participants drive nutrition attribution. Chosen because deliberate leftovers are a core reason people meal-plan, and a single headcount cannot express them.
+- **`IngredientCategory` is a global retail taxonomy, ordered per household.** Categories order the grocery list by shop aisle; botanical and dietary groupings are tags instead. Chosen because one category per ingredient can only serve one axis, and the axis with no alternative mechanism is the one the grocery list walks. The category set is global so that an ingredient's category never depends on where its household shops. The sequence those categories are walked in belongs to the `Household`, seeded from a shipped default and rearranged by dragging — chosen over locale presets because what actually varies is the shop, not the country, and a household knows its own shop better than a country code does.
+- **Tags are a closed, faceted vocabulary.** Ladle defines every term, and each belongs to exactly one facet: allergen, dietary, course, cuisine, method, season, effort. The vocabulary lives in `docs/taxonomy.md`, separate from the data model, because it is long and changes on its own schedule. Chosen because search, recommendation, and incompatibility rules need a finite vocabulary, and because facets let the allergen safety rule be written against a facet rather than a hardcoded list that would need revisiting every time an allergen is added.
+- **A trained classifier applies the five discovery facets only.** Course, cuisine, method, season, and effort are decided by a model running server-side on create and update, so it can be retrained and swapped without an app release; author corrections are durable, and a new model backfills existing recipes. Chosen over a rules-and-LLM hybrid and over a pure LLM, accepting a labelled-corpus obligation in exchange for determinism and low per-call cost.
+- **Nothing that carries a claim is inferred.** Allergen tags are curated on ingredients. Dietary compliance is derived — vegan, vegetarian, pescatarian, dairy-free and gluten-free from those curated ingredient tags; keto, low-carb, high-protein and low-sodium from computed nutrition — or else declared by the author and attributed to them, as kosher and halal must be, since they turn on sourcing and preparation rather than on an ingredient list. Chosen so that the classifier's accuracy bar is a question about search quality rather than about trust, which in turn makes a recall-favouring bar defensible.
+- **Derivation requires a fully reconciled recipe.** A recipe holding an ingredient not yet matched to the catalog carries no derived dietary tag, and its allergy check reports as incomplete rather than clean. Chosen because an absent allergen tag only means the allergen is absent when the ingredient has actually been reviewed — otherwise unreviewed and verified-safe are indistinguishable.
+- **Cuisine tags are hierarchical, with depth only where cooking differs.** A recipe carries every applicable level, so Chinese and Sichuan sit together and a search for the broad tradition finds the regional cooking. Regions are added only where staples and techniques genuinely differ; uniform depth is explicitly not a goal. Mirrors the group-and-specific pattern already used for tree nuts.
+- **The classifier's corpus is hand-labelled first.** A seed corpus is labelled by people before any training, rather than bootstrapped from rules or accumulated from production use. Chosen for initial quality and for a clean held-out set to evaluate against.
+- **The corpus is drawn only from public-domain and permissively licensed sources, stratified to a per-tag floor.** Licence terms are confirmed before labelling starts, since a research-only or non-commercial licence would invalidate the corpus after the work was done. Recipe text comes from those open sources; the labelled sample is stratified to guarantee a minimum number of examples per tag rather than drawn flat. Chosen because a classifier is sized by its vocabulary, not by how many recipes exist — a flat sample starves the long tail and only reveals it at evaluation. At a floor of 50 examples that is roughly 1,250 recipes across 150 classifier-decided tags. Labelling sits with the Application Administrator who maintains the vocabulary.
+- **The per-tag floor is measured per facet, not chosen.** Each facet's floor sits where its accuracy curve stops improving, since five coarse season terms and ninety-four fine cuisine ones need different evidence. The circularity — the floor comes from evaluation, evaluation needs data the floor scopes — resolves by tranches: label a first tranche at a working figure of fifty per tag, fit the curve, set the floors, top up what falls short. Fifty is a budgeting device, not a commitment.
+- **Long-dormant tags are reviewed at each retraining pass, never retired on a timer.** An administrator seeds, keeps, or retires them by judgement. The review attaches to retraining because activation states are recalculated there anyway and the evidence is freshest — which makes the retraining schedule the vocabulary's review schedule too. Automatic retirement is specifically rejected because dormancy correlates with the cuisines an openly licensed corpus already under-represents, so a timer would quietly erase the food the vocabulary was expanded to include.
+- **Administrator obligations are sequenced, and capacity is not an available answer.** Catalog, vocabulary and labelling run before launch; catalog, vocabulary and moderation run after — the queue is empty until recipes are published, and the release is gated on a classifier labelled beforehand, so the obligations never overlap. With one administrator, "add capacity if squeezed" is not a lever, so the mitigations are structural instead: automatic suppression, time-based escalation, and a bounded queue. The measures still carry their deadlines — labelling throughput against unmet tag floors and the release date before launch, oldest unresolved report per tier against its target after.
+- **Tags the corpus cannot support ship dormant, and activate on qualifying.** Every classifier-decided tag is active once it holds its floor of examples and dormant below it; a dormant tag is searchable and applicable by hand but never emitted by the model. Chosen so the full vocabulary can ship without the corpus covering all of it: an author applying a dormant tag by hand produces the example it needs, and the committed backfill activates it retroactively. Dormancy is an internal state, not shown to users, and it is what resolves the conflict between open-source-only sourcing, a per-tag floor, 94 cuisine terms, and a gated release.
+- **The cuisine facet grows on evidence, not ambition.** The 94 terms in `docs/taxonomy.md` are the launch set; a region is added when recipes do not fit the existing terms or someone who cooks that food asks, with the case recorded. Chosen because cuisine is about two thirds of the classifier's vocabulary, so every term added to it enlarges the corpus that gates the first release.
+- **Two releases: the private cookbook, then the showcase.** Release 1 is everything a household does for itself; Release 2 adds publishing, copying, the classifier, and moderation. Chosen because the classifier gate, the ~40 hours of labelling, the corpus licence question and the moderation queue are all consequences of having a public corpus and none is load-bearing for a household cooking its own food. This does not reverse the gating decision below — it puts the gate where it was argued for, on search across a public showcase.
+- **The first release is gated on the classifier.** Tagging works end to end before Ladle ships, rather than launching with manual tagging and backfilling later. Chosen for consistent search quality from day one, accepting that the launch date is tied to the schedule of a hand-labelling project — reaffirmed after establishing that the labelling is one person's work, on the order of forty hours across roughly 1,250 recipes, and that the full cuisine vocabulary ships rather than being trimmed to shorten it. This puts corpus size and sourcing on the critical path, and makes it the next thing `roadmap.md` has to answer.
+- **Ingredient tags are curated by people, with assisted suggestions.** Tooling proposes terms as an ingredient enters the catalog; an administrator approves them before it is published. Chosen because ingredient tags are the base that recipe-level allergy checking joins against, and assistance makes building a catalog of thousands tractable without putting inference underneath a safety claim.
+- **Nutrition-derived dietary thresholds follow regulation where it exists.** Low sodium and high protein take their figures from FDA and EU nutrition-claim rules so a tag means what a food label means; keto and low-carb follow convention, since no regulator defines them, and are marked as convention in `docs/taxonomy.md`. Ladle computes per serving and so follows the US per-serving basis where it diverges from the EU's per-100g one.
+- **A contested dietary claim is suppressed pending review; the recipe is not.** A reported claim shows as under review until an administrator rules, while the recipe carrying it stays published. Chosen as the fail-safe direction: suppression costs an author a label, while a wrong claim left standing costs a household its observance. Report volume orders the queue but never decides an outcome, so brigading cannot remove anything an administrator has not agreed to.
+- **One general moderation queue exists from the first release, tiered by what happens without a human.** Wrong dietary claims are one report reason among several — spam, unsafe instructions, copied content. An `unsafe` report is the urgent tier because nothing acts on it until it is read; a disputed dietary claim is already suppressed on filing, so only its restoration waits, and the party bearing that wait is the author. Chosen after noticing the original hours-level target was aimed at the tier automatic suppression had already protected.
+- **An unattended urgent report escalates by itself.** Past its target with no ruling, the recipe is withdrawn from the showcase until an administrator rules; it stays fully visible to its own household. Chosen so the system fails toward caution exactly when the single administrator is away, which is the only time it matters that there is one of them.
+- **The queue is bounded by construction.** One report per person per target, a daily cap, and identical reports collapsed into one item with a count. Chosen because the scarce resource is one person's attention and a queue bounded only by goodwill is not bounded.
+- **Professional review of the health-adjacent numbers is deferred, and ends on a claim rather than a date.** The first release states the keto and low-carb thresholds as convention, says so where they are used, and claims nothing further. Dietitian sign-off on those and on the Mifflin-St Jeor targets becomes required before Ladle says anything about health outside the app — marketing, store copy, any comparative or outcome claim — and before any figure stops being labelled as convention or stops being overridable. Chosen over a version milestone or a user-count threshold because it ties the obligation to the act that creates the exposure.
+- **Unverifiable dietary claims are attributed and reportable, never badged.** Kosher, halal, and the contested frameworks show as the author's claim under their name; any reader can report one and an administrator reviews it. Chosen over a verification badge deliberately: a badge implies a check Ladle cannot perform, and the households most likely to rely on it are the least able to afford its being wrong. This is what puts a moderation queue on the roadmap.
+- **Nutrition tracks energy, macronutrients, fibre, and sodium.** Micronutrients are excluded deliberately: generic catalog estimates for them are much weaker than for macros, and including them would turn `Today` from a glance into a table while presenting figures with more confidence than the data supports.
+- **One cookbook per household, collections as views.** A recipe lives in the household's single cookbook and appears in any number of saved collections. Chosen so that a recipe is never in the wrong place and never duplicated to be in two.
+
+## Planned commands
+
+Described in `data.md`; none are runnable until the application exists.
+
+```
+supabase start                    # full local stack in Docker
+supabase db reset                 # drop, replay every migration, apply seed.sql
+supabase migration new <name>     # scaffold a timestamped SQL migration
+supabase db push                  # apply migrations to a hosted project (CI)
+supabase gen types typescript     # regenerate client types from the live schema
+supabase functions deploy         # deploy Edge Functions
+```
+
+`supabase db reset` is the definition of a clean environment: a migration that does not build from empty fails there before it fails in CI.
+
+## Architectural invariants
+
+These are load-bearing decisions from `data.md`, each of which is a defect if violated:
+
+- **RLS is the authorization model.** The client queries PostgREST directly, so every user-owned table has row-level security enabled with policies keyed to `auth.uid()`, written in the same migration that creates the table. A table without RLS is a data breach.
+- **The `service_role` key never ships in the mobile bundle.** It bypasses RLS and lives only in Edge Function secrets and CI. The app ships the public `anon` key.
+- **Schema lives in migrations, not in the dashboard.** There is no ORM; Supabase Studio is for inspection only. TypeScript types are generated from the schema and committed so a breaking change fails at compile time.
+- **Production data flows out, never in.** Production is never seeded, reset, or restored from another environment, and its data is never copied down. All non-production data is synthetic.
+- **The design is offline-tolerant, not offline-first.** Reads are served from a persisted TanStack Query cache without a connection; writes require one.
