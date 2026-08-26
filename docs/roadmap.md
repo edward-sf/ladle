@@ -124,7 +124,7 @@ later, and a recipe sits in several collections without duplication.
 
 Delivers `FR-HH-01`, `FR-HH-02`, `FR-RCP-01`–`FR-RCP-05`, `FR-RCP-07`,
 `FR-RCP-08`, `FR-RCP-16`, `FR-RCP-20`, `FR-ING-03`, `FR-ING-08`, `FR-JRN-01`,
-`NFR-DATA-03`.
+`NFR-DATA-03`, `NFR-PERF-06`.
 
 ### P3 · Calendar, meals and cooking
 **60h · 2 Nov – 23 Nov 2026**

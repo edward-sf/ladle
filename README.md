@@ -36,6 +36,7 @@ belongs in the one named here and the other references it.
 | [`docs/roadmap.md`](docs/roadmap.md) | Sequencing and delivery planning. |
 | [`docs/engineering.md`](docs/engineering.md) | Repository structure, testing strategy, CI, and observability. |
 | [`docs/privacy.md`](docs/privacy.md) | What personal data Ladle holds, retention and deletion, and the store disclosures. |
+| [`docs/operating-model.md`](docs/operating-model.md) | What Ladle is for, whether it takes money, and what it costs to run. |
 
 [`CLAUDE.md`](CLAUDE.md) records the product decisions behind all of it, each
 with its reasoning and what it costs, so that revisiting one is a deliberate act

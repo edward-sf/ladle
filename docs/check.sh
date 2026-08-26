@@ -16,7 +16,7 @@ QUIET=0
 [ "${1:-}" = "-q" ] && QUIET=1
 
 WRAP_MAX=100          # hard limit for prose in the hard-wrapped documents
-WRAPPED="docs/data.md docs/taxonomy.md docs/user-interface.md docs/engineering.md docs/privacy.md"
+WRAPPED="docs/data.md docs/taxonomy.md docs/user-interface.md docs/engineering.md docs/privacy.md docs/operating-model.md"
 
 command -v python3 >/dev/null 2>&1 || { echo "check.sh needs python3"; exit 2; }
 

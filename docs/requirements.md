@@ -323,6 +323,7 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-PERF-03** `test` `Ingredient` search returns results within 300 ms of the final keystroke, at P95 on the reference devices.
 - **NFR-PERF-04** `test` Classification never sits between a cook and a saved `Recipe`; save latency is unaffected by it.
 - **NFR-PERF-05** `test` Recipe search returns results within 500 ms of the final keystroke, at P95 on the reference devices.
+- **NFR-PERF-06** `test` Grid and list views load thumbnail derivatives rather than full-size images.
 
 ### Reliability and Offline
 

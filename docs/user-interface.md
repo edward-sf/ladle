@@ -148,6 +148,13 @@ than 16:9.
 Derivative sizes come from Supabase Storage's on-the-fly transformation rather
 than being generated and stored, as [`data.md`](./data.md) describes.
 
+**Grids and lists load the thumbnail derivative, never the full image**
+(`NFR-PERF-06`). This reads as a performance rule and is also the largest cost
+decision in the project: showcase egress scales with people browsing rather than
+with people storing, and a grid of full-size images spends roughly ten times the
+bandwidth of a grid of thumbnails for no visible gain at that size. See
+[`operating-model.md`](./operating-model.md).
+
 **A recipe with no photo has no image area at all** (`FR-RCP-20`). It is a text
 card, and the title takes the room the image would have. Nothing is generated to
 stand in — no tinted block, no course icon, no muted logo — because a household
