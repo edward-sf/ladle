@@ -274,10 +274,11 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 
 #### Account Security and Privacy
 
-*Authentication, multi-factor enrolment, session management, and the controls governing what a user shares with their households and with the showcase.*
+*Authentication, session management, and the controls governing what a user shares with their households and with the showcase.*
 
 ##### Requirements
 - Signing in must be routine and rare. Sessions persist across app restarts, and a returning user lands on `Today`, not on a login screen.
+- The defences match the threat that actually exists. Nobody is mounting a targeted attack to read a shopping list; what happens to apps like Ladle is a password reused from somewhere it leaked, tried in bulk. So a password known to have appeared in a breach is refused, and sign-in attempts are rate limited. Multi-factor authentication is deliberately not offered: a second factor on an app that is signed into twice a year has usually been lost by the time it is needed, and a lockout would need a recovery path that a single operator cannot staff. That is a decision to revisit if Ladle ever holds something worth stealing, not a gap to fill quietly.
 - Publishing is the only action that makes anything visible outside a household, and it must be clearly reversible.
 - Account deletion removes the person's data and transfers or dissolves the households that depend on them, rather than leaving either in an undefined state.
 

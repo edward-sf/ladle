@@ -276,6 +276,8 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-ACCT-03** `test` Unpublishing removes a `Recipe` from the showcase.
 - **FR-ACCT-04** `test` Account deletion transfers or dissolves every `Household` the `User` owns, and states which before the deletion is confirmed.
 - **FR-ACCT-05** `test` No action other than publishing makes any `Household` data visible outside that `Household`.
+- **FR-ACCT-06** `test` A password known to have appeared in a public breach corpus is refused at signup and at password change, with the reason stated.
+- **FR-ACCT-07** `test` Authentication attempts are rate limited, per account and per source address.
 
 ### User Experience Paths
 

@@ -81,11 +81,13 @@ navigation shell.
 **Begins when** nothing — this is the first phase.
 **Done when** `supabase db reset` builds from empty, CI replays migrations and
 runs the suite, all three EAS profiles build, a user can sign up and return to a
-persisted session, and the contrast check runs green against the default theme.
+persisted session, a breached password is refused at signup, and the contrast
+check runs green against the default theme.
 
-Delivers `FR-ACCT-01`, `FR-ACCT-02`, `FR-PREF-07`, `NFR-SEC-01`–`NFR-SEC-05`,
-`NFR-SEC-08`, `NFR-SEC-09`, `NFR-OFF-01`–`NFR-OFF-05`, `NFR-DATA-01`,
-`NFR-DATA-04`–`NFR-DATA-06`, `NFR-OPS-01`, `NFR-OPS-06`, `NFR-A11Y-02`.
+Delivers `FR-ACCT-01`, `FR-ACCT-02`, `FR-ACCT-06`, `FR-ACCT-07`, `FR-PREF-07`,
+`NFR-SEC-01`–`NFR-SEC-05`, `NFR-SEC-08`, `NFR-SEC-09`, `NFR-OFF-01`–`NFR-OFF-05`,
+`NFR-DATA-01`, `NFR-DATA-04`–`NFR-DATA-06`, `NFR-OPS-01`, `NFR-OPS-06`,
+`NFR-A11Y-02`.
 
 ### P1 · Ingredient catalog
 **50h · 22 Sep – 9 Oct 2026**
