@@ -26,9 +26,8 @@ Each document owns a distinct kind of fact. When a fact could live in two of the
 | [`docs/user-interface.md`](docs/user-interface.md) | UI tooling, brand identity, layout, and theming. |
 | [`docs/requirements.md`](docs/requirements.md) | The canonical numbered, testable functional and non-functional requirements that drive development. |
 | [`docs/roadmap.md`](docs/roadmap.md) | Sequencing and delivery planning. |
-| [`docs/notes.md`](docs/notes.md) | The author's working scratchpad. Not authoritative — ideas here may be half-formed, superseded, or contradicted by the documents above. |
 
-Every document is written. `docs/notes.md` remains the author's scratchpad and is the only non-authoritative file.
+Every document above is written and authoritative. The author also keeps a `docs/notes.md` scratchpad, which is deliberately untracked and will not be present in a fresh clone — if you find one locally, treat it as half-formed thinking that may be superseded or contradicted by the documents above, never as a source of fact.
 
 ## Documentation conventions
 
