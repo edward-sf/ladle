@@ -182,7 +182,9 @@ warning and incomplete-check treatments everywhere a recipe appears.
 allergy does not warn on almond, and a recipe holding one unreconciled ingredient
 reports its check as incomplete rather than clean.
 
-Delivers `FR-DIET-01`–`FR-DIET-10`, `FR-RCP-13`, `FR-TAG-06`, `FR-TAG-07`.
+Delivers `FR-DIET-01`–`FR-DIET-10`, `FR-RCP-13`, `FR-TAG-06`, `FR-TAG-07`,
+`NFR-SEC-11` — the health-data consent gate, which must exist before the first
+allergy is stored.
 
 ### P7 · Nutrition
 **45h · 20 Jan – 4 Feb 2027**
@@ -238,11 +240,14 @@ blocking here because a store submission needs an icon.
 
 **Begins when** P9 is done.
 **Done when** a build is on both stores' review queues, every P95 latency target
-has been measured rather than assumed, and the `manual` release checklist has
-been worked through once end to end.
+has been measured rather than assumed, both privacy policies are published and
+linked, and the `manual` release checklist has been worked through once end to
+end.
 
-Delivers no new requirements. Everything here verifies what the previous ten
-phases built.
+Delivers `NFR-SEC-12` and `NFR-OPS-07` — the consumer health data privacy
+policy and the breach response procedure, both of which are submission-time
+obligations rather than product features. Everything else here verifies what the
+previous ten phases built.
 
 ---
 

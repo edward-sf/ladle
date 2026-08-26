@@ -27,6 +27,61 @@ before the first store submission.** That is the same shape as the deferred
 dietitian review — the exposure is created by publishing, so publishing is what
 ends the deferral.
 
+## Jurisdiction
+
+**Release 1 lists in the United States only.** Store availability is a setting
+rather than a fact, and it is the single biggest determinant of how many regimes
+this document has to satisfy. Listing narrowly first is the cheap lever a solo
+developer has, and opening a market later is a decision that reopens this
+section rather than an inheritance from the default.
+
+Three things follow, and one of them is unusual.
+
+**Washington's My Health My Data Act is the binding constraint**, and it binds
+because the developer is in Washington rather than because of where users are.
+It is unusual in three ways that matter here. It carries no revenue or
+user-count threshold, so it applies on day one with zero users — where the
+comprehensive state privacy laws, California's included, only bite above
+thresholds Ladle will not approach for years. It carries a private right of
+action, so the exposure is any user with a grievance rather than a regulator who
+has to be provoked into acting. And it requires a **consumer health data privacy
+policy as a separate, distinctly linked document**, with opt-in consent taken
+before the data is collected and separately from any other consent.
+
+Whether the nutrition demographics fall inside its definition of consumer health
+data is a question for review. Recorded allergies almost certainly do. Ladle
+therefore treats both as in scope rather than waiting for the answer, since the
+design cost of doing so is a consent screen and the cost of being wrong the
+other way is a private action.
+
+**HIPAA does not apply.** It reaches healthcare providers, health plans, and
+clearinghouses, and Ladle is none of them. This is recorded because the instinct
+on seeing health data is to reach for HIPAA, and doing so would produce a policy
+describing obligations Ladle does not have while missing the ones it does.
+
+**The FTC Health Breach Notification Rule does apply**, having been extended to
+health apps outside HIPAA, along with the general prohibition on deceptive
+practices — which is the mechanism by which a privacy policy that misdescribes
+the app becomes a federal matter rather than an embarrassment.
+
+### What a second market would cost
+
+Recorded now so that the decision is priced when it is made rather than
+discovered afterwards. The EU and EEA are the expensive step: GDPR treats health
+data as special category requiring explicit consent, an Article 27 representative
+established in the Union is a recurring paid obligation for a developer with no
+EU presence, and the showcase would fall within the DSA's notice-and-action
+rules. Ladle's moderation design already sits close to the last of those, which
+is a fortunate accident of having designed it carefully rather than a plan.
+
+The English-speaking markets — the UK, Canada, Australia, New Zealand — are
+cheaper than the EU and not free, adding three regimes and their own consent and
+access rules.
+
+None of this is legal advice, and privacy law in this area has been moving
+quickly. The specifics above are the starting point for a review, not the
+conclusion of one.
+
 ## Standing commitments
 
 These are already requirements, and they constrain everything below. They are
@@ -45,6 +100,9 @@ words, creates a second version that can drift from the first.
 | The public/private boundary is stated where data is entered | `FR-PROF-02` |
 | Private storage objects are served only by short-lived signed URL | `NFR-SEC-08` |
 | Production data is never copied into another environment | `NFR-DATA-06` |
+| Health data is stored only after a separate, explicit opt-in | `NFR-SEC-11` |
+| The consumer health data policy is a distinct, separately linked document | `NFR-SEC-12` |
+| A breach response procedure exists before production holds user data | `NFR-OPS-07` |
 
 ## The inventory
 
@@ -119,7 +177,10 @@ would make one of them do something a user did not ask for.
 **Deleting health data alone** (`FR-NUT-06`) removes the demographic row and the
 derived targets, leaving the account and everything else intact. This is the
 escape hatch for someone who tried nutrition tracking and would rather Ladle did
-not hold the inputs.
+not hold the inputs. It is also the withdrawal-of-consent path that
+`NFR-SEC-11` implies — together with `FR-NUT-04`, which dismisses the feature so
+that nothing further is collected, withdrawal is expressed as two existing
+capabilities rather than a third mechanism that would need its own screen.
 
 **Leaving a household** removes membership. An owner must transfer ownership
 first (`FR-HH-10`), so no exit orphans data.
@@ -196,11 +257,6 @@ nowhere for someone to type a diagnosis.
 
 ## Open questions
 
-- **Which jurisdiction's rules apply.** UK GDPR, EU GDPR, and the US state laws
-  differ on lawful basis, on the age of consent, and on what a data subject
-  request must return. The inventory above is jurisdiction-independent; the
-  rights and basis sections of the public policy are not, and cannot be written
-  until this is settled. This is the question that gates the rest.
 - **Age handling.** Ladle collects date of birth, so it knows the answer, but
   nothing decides what happens when the answer is a child. This affects the
   store age rating, the consent basis, and whether the nutrition feature should

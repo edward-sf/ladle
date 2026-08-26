@@ -331,6 +331,9 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-SEC-08** `test` Private Storage objects are served only through short-lived signed URLs.
 - **NFR-SEC-09** `manual` An Edge Function acts as its caller by default; escalation to `service_role` is explicit and commented at each call site.
 - **NFR-SEC-10** `test` Signing out removes that device's push notification token.
+- **NFR-SEC-11** `test` No health data — a demographic input or a recorded allergy — is stored before the `User` has given an explicit opt-in consent presented separately from any other consent.
+  - *Given* a `User` who has not consented, *when* they open the dietary or nutrition screens, *then* consent is requested before any field accepts a value, and declining leaves the rest of Ladle fully usable.
+- **NFR-SEC-12** `policy` Ladle publishes a consumer health data privacy policy as a document distinct from, and separately linked to, its general privacy policy.
 
 ### Accessibility
 
@@ -361,3 +364,4 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-OPS-04** `monitor` Classifier accuracy is measured per facet against a held-out set drawn from the labelled corpus.
 - **NFR-OPS-05** `policy` Per-facet floors are set from the evaluation curve rather than fixed in advance.
 - **NFR-OPS-06** `ci` Applying a migration to production requires explicit human approval.
+- **NFR-OPS-07** `policy` A breach response procedure covering health data notification exists before production holds any user data.
