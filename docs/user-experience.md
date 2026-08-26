@@ -247,6 +247,7 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 
 ##### Requirements
 - Every notification must be worth the interruption, and every category must be independently switchable off.
+- The same warning is not repeated. Hearing once that the spinach is about to turn is worth an interruption; hearing it every morning until the spinach is dealt with is what makes someone switch the category off - and switching it off is how they stop hearing about the next thing too.
 - Reminders derive from data the app already holds, so that no one is asked to set an alarm Ladle could have set itself.
 - Household-wide events notify the people they concern - the person who made a request, the people who can approve it - and no one else.
 

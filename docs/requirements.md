@@ -71,11 +71,11 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-HH-18** `test` Dissolving a `Household` unpublishes every `Recipe` its `Cookbook` had published.
 - **FR-HH-19** `test` A dissolved `Household` is recoverable for 30 days, after which it is permanently deleted.
 - **FR-HH-20** `test` Dissolving a `Household` does not alter copies other `Household`s took of its `Recipe`s.
+  - *Given* a `Recipe` published by one `Household` and copied by another, *when* the publishing `Household` is dissolved, *then* the copy remains readable, editable, and planned exactly as before.
 - **FR-HH-21** `test` A `Household` may contain people who have no `User` account.
 - **FR-HH-22** `test` A person with no account holds no role and no permissions.
 - **FR-HH-23** `test` Adding, editing, and removing a person with no account is an Owner or Admin action.
 - **FR-HH-24** `test` A person with no account may be linked to a `User` account, retaining their recorded allergies, dietary tags, and meal participation history.
-  - *Given* a `Recipe` published by one `Household` and copied by another, *when* the publishing `Household` is dissolved, *then* the copy remains readable, editable, and planned exactly as before.
 
 ### Meal Planning
 
@@ -375,7 +375,7 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-DATA-10** `test` The client refuses to operate below the server-published minimum supported version, showing a blocking prompt to update.
 - **NFR-DATA-11** `test` The client renders an enum value it does not recognise without erroring.
 - **NFR-DATA-12** `test` A minimum-version check that cannot reach the server does not block the client.
-  - *Given* a device with no connectivity and a populated cache, *when* the app is opened, *then* the `Cookbook` and `GroceryList` are readable and no update prompt is shown.
+  - *Given* a device with no connectivity and a populated cache, *when* the app is opened, *then* the client is not blocked, no update prompt is shown, and the `Cookbook` and `GroceryList` are readable.
 
 ### Operability
 

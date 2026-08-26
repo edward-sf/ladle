@@ -250,7 +250,47 @@ except (AttributeError, ValueError, TypeError) as e:
 check("schedule", problems,
       f"{len(rows)} phases, dates re-derive from hours and capacity")
 
-# --- 11. coverage tally (informational) --------------------------------------
+# --- 11. criteria belong to the requirement above them -----------------------
+# Appending to the end of an area silently orphans a trailing criterion: the new
+# requirement inherits it. This has happened twice (FR-RCP-20, FR-HH-24). The
+# misplacement is semantic, but it leaves a mechanical trace - a criterion that
+# shares no vocabulary with the statement it is supposed to test. Zero overlap
+# means the criterion is either attached to the wrong requirement or worded so it
+# never names what it checks. Both are worth fixing.
+STOP = set("a an the and or of to in is are be that which when then given it its "
+           "for with on at by from as not no any every each their this those "
+           "there".split())
+
+def _stem(w):
+    for suf in ("ing", "ed", "es", "s"):
+        if len(w) > 4 and w.endswith(suf):
+            return w[:-len(suf)]
+    return w
+
+def _toks(text):
+    text = re.sub(r'\*(Given|when|then)\*', '', text)
+    words = re.findall(r'`[^`]+`|\b[A-Za-z][A-Za-z-]{3,}\b', text)
+    return {_stem(w.lower().strip('`.,;:\u2014-"()')) for w in words} - STOP
+
+problems = []
+n_criteria = 0
+current = None
+for i, line in enumerate(req_src.splitlines(), 1):
+    m = re.match(r'^- \*\*((?:FR|NFR)-[A-Z0-9]+-\d+)\*\* `\w+` (.+)$', line)
+    if m:
+        current = m.groups()
+        continue
+    if re.match(r'^\s+- \*Given\*', line):
+        n_criteria += 1
+        if current is None:
+            problems.append(f"line {i}: criterion with no requirement above it")
+        elif not (_toks(current[1]) & _toks(line)):
+            problems.append(f"{current[0]} (line {i}): criterion shares no wording "
+                            f"with the requirement it tests")
+check("criteria", problems,
+      f"{n_criteria} criteria, each sharing vocabulary with its requirement")
+
+# --- 12. coverage tally (informational) --------------------------------------
 if not QUIET:
     bullets = collections.Counter()
     feature = None; in_req = False
