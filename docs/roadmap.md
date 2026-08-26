@@ -296,6 +296,42 @@ Delivers no new requirements.
 
 ---
 
+## Beyond Release 2
+
+Not scoped, not estimated, and not dated. Recorded so that the ideas are held
+somewhere deliberate rather than resurfacing from a scratchpad, and so that
+decisions taken in Release 1 and 2 can avoid foreclosing them.
+
+**Taste profiles and the recommendation pipeline.** The intended direction for
+Release 3 and beyond. Recommendation through Release 2 is deliberately thin —
+`FR-TAG-22` weights what the `Pantry` already stocks and `FR-TAG-23` requires
+every suggestion to state its reason, and that is the whole of it. What comes
+after is maturation on two fronts: a per-`User` and per-`Household` taste
+profile built from what a household actually cooks, repeats, and abandons, and
+the services and pipelines that turn it into suggestions worth reading.
+
+Two things about it are already settled by decisions taken earlier. The signal is
+revealed preference rather than stated — Ladle records who cooked what and when,
+which is better evidence than anything a person would fill in on a form, and it
+accrues from the first release without anyone building for it. And whatever it
+grows into, `FR-TAG-23` holds: a recommendation states its reason, because an
+unexplained ranked list is not something a person can act on. A taste profile
+that cannot explain itself is not shippable here regardless of how well it ranks.
+
+The household axis is the interesting half and the harder one. A household is
+several people with different preferences eating the same dinner, so a household
+taste profile is not the average of its members and cannot be built as one.
+
+**Save-for-later on the showcase.** A Release 2 question, deliberately left open
+until the showcase is being designed rather than settled now. At present the only
+way to keep a showcase `Recipe` is to copy it (`FR-RCP-09`), which creates a
+recipe the household owns, in the shared `Cookbook`, visible to everyone — there
+is no lightweight "maybe" state, so every flicker of interest costs a permanent
+addition to a cookbook other people read. Whether that friction is worth a
+mechanism is a judgement best made against a real showcase. If it is built, it is
+personal rather than household-scoped, which is what distinguishes it from a
+collection.
+
 ## What could move this
 
 - **The corpus licence.** Unresolved, and the only open question that can
