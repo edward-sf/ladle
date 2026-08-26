@@ -69,7 +69,7 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-HH-16** `test` An action a Member cannot perform directly is presented as requiring approval, rather than hidden or failed after the attempt.
 - **FR-HH-17** `test` Dissolving a `Household` states, before confirmation, exactly what will be destroyed: its `Cookbook`, `Calendar`, `Pantry`, and `GroceryList`.
 - **FR-HH-18** `test` Dissolving a `Household` unpublishes every `Recipe` its `Cookbook` had published.
-- **FR-HH-19** `test` A dissolved `Household` is recoverable for a stated period before it is permanently deleted.
+- **FR-HH-19** `test` A dissolved `Household` is recoverable for 30 days, after which it is permanently deleted.
 - **FR-HH-20** `test` Dissolving a `Household` does not alter copies other `Household`s took of its `Recipe`s.
 - **FR-HH-21** `test` A `Household` may contain people who have no `User` account.
 - **FR-HH-22** `test` A person with no account holds no role and no permissions.
@@ -257,6 +257,7 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-NOTIF-03** `test` Expiry warnings derive from `Pantry` stock and are not user-scheduled.
 - **FR-NOTIF-04** `test` A `Household` event notifies only the members it concerns.
 - **FR-NOTIF-05** `test` An expiry warning for a given `Pantry` item is delivered to a given `User` at most once.
+- **FR-NOTIF-06** `test` Notification delivery history is pruned 90 days after the delivery it records.
 
 ### Reporting and Moderation
 
@@ -276,6 +277,7 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-MOD-11** `test` A `User` may report a given `Recipe`, or a given claim on it, at most once.
 - **FR-MOD-12** `test` The number of reports a `User` may raise in a day is capped.
 - **FR-MOD-13** `test` Reports naming the same target and reason collapse into one queue item carrying a count, rather than appearing as separate items.
+- **FR-MOD-14** `test` A resolved report is deleted 12 months after its resolution.
 
 ### Account Security and Privacy
 
@@ -290,6 +292,7 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-ACCT-09** `test` A `User` may export every record they can read — profile, preferences, health data, and the contents of every `Household` they belong to — in a machine-readable format.
   - *Given* a `User` in two `Household`s, *when* they request an export, *then* it contains both cookbooks, both calendars, both pantries, and their own demographic inputs.
 - **FR-ACCT-10** `test` The export is produced and delivered within the app, without a request to the developer and without passing through a third-party service.
+- **FR-ACCT-11** `test` Account deletion removes the `User`'s rows on confirmation rather than after a recovery window.
 
 ### User Experience Paths
 
@@ -366,6 +369,7 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-DATA-05** `ci` TypeScript types are generated from the live schema and committed, so a schema change that breaks the app fails at compile time.
 - **NFR-DATA-06** `policy` Production data is never restored, seeded, or copied into any other environment.
 - **NFR-DATA-07** `test` Nutrition figures are stored as estimates, with the basis of each recorded alongside it.
+- **NFR-DATA-08** `policy` Backups are retained for 30 days, after which deleted data is unrecoverable from them.
 
 ### Operability
 

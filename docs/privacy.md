@@ -236,11 +236,29 @@ cooking from for a year. Degrading the attribution satisfies both — the person
 is no longer identified, and the copier still does not appear to have written
 what they copied.
 
-**Retention periods are not yet specified.** The recovery window for a dissolved
-household is "a stated period" in the requirement and no figure has been chosen;
-the same is true of how long a deleted account's rows persist before hard
-deletion, and how long resolved reports are kept. Each needs a number before the
-policy can be published, and each is a decision rather than a detail.
+### Retention
+
+| What | Kept for | Why that long |
+| --- | --- | --- |
+| A deleted account's rows | Not at all — removed on confirmation (`FR-ACCT-11`) | The itemised confirmation is the protection against accident; a grace period would mean "deleted" did not mean deleted |
+| A dissolved `Household` | 30 days (`FR-HH-19`) | The person confirming may be mid-argument rather than post-decision, so the window has to outlast the argument |
+| Resolved reports | 12 months (`FR-MOD-14`) | Long enough to see repeat behaviour and to stand behind a ruling, short enough not to become an archive |
+| Notification delivery history | 90 days (`FR-NOTIF-06`) | It exists only to avoid sending the same warning twice, and its foreign keys already cascade it away with its subject |
+| Backups | 30 days (`NFR-DATA-08`) | Operational recovery. This is the honest caveat on every deletion claim above |
+
+Deletion is immediate everywhere except the two places where something has to be
+recoverable, and both of those are recoverable because the destruction reaches
+beyond the person who asked for it.
+
+**The backup line is the one most policies leave out.** Nothing that runs on real
+infrastructure can claim data is gone the instant a row is dropped, because the
+backup taken an hour earlier still holds it. Saying 30 days is less impressive
+than saying "immediately" and is the only version that is true.
+
+These figures are initial targets in the sense `requirements.md` means it — they
+exist to be measured against and revised, not defended. None of them is set by a
+regulator.
+
 
 ## Processors
 
@@ -295,5 +313,3 @@ nowhere for someone to type a diagnosis.
   [`engineering.md`](./engineering.md). Nothing requires it, and a reporting
   tool's default payload is a privacy question in an app holding health data
   rather than a configuration detail.
-- **Retention figures**, per the note above. Every one of them is currently
-  "a stated period" with no number behind it.

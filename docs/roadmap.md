@@ -86,7 +86,8 @@ check runs green against the default theme.
 
 Delivers `FR-ACCT-01`, `FR-ACCT-02`, `FR-ACCT-06`–`FR-ACCT-08`, `FR-PREF-07`,
 `NFR-SEC-01`–`NFR-SEC-05`, `NFR-SEC-08`, `NFR-SEC-09`, `NFR-OFF-01`–`NFR-OFF-05`,
-`NFR-DATA-01`, `NFR-DATA-04`–`NFR-DATA-06`, `NFR-OPS-01`, `NFR-OPS-06`,
+`NFR-DATA-01`, `NFR-DATA-04`–`NFR-DATA-06`, `NFR-DATA-08`, `NFR-OPS-01`,
+`NFR-OPS-06`,
 `NFR-A11Y-02`.
 
 ### P1 · Ingredient catalog
@@ -226,8 +227,8 @@ phase from 45 hours to 60.
 moves the day boundary, every notification category switches off independently,
 and every `manual` accessibility requirement has been walked through.
 
-Delivers `FR-PROF-01`–`FR-PROF-03`, `FR-PREF-01`–`FR-PREF-06`, `FR-ACCT-09`,
-`FR-ACCT-10`,
+Delivers `FR-PROF-01`–`FR-PROF-03`, `FR-PREF-01`–`FR-PREF-06`, `FR-ACCT-09`–
+`FR-ACCT-11`, `FR-NOTIF-06`,
 `FR-NOTIF-01`–`FR-NOTIF-05`, `NFR-SEC-10`, `NFR-A11Y-03`, `NFR-A11Y-04`,
 `NFR-A11Y-06`–`NFR-A11Y-08`.
 
@@ -291,7 +292,7 @@ recipe from the showcase by itself, and no volume of reports removes anything.
 
 Delivers `FR-RCP-06`, `FR-RCP-09`–`FR-RCP-12`, `FR-RCP-14`, `FR-RCP-15`,
 `FR-RCP-17`–`FR-RCP-19`, `FR-MOD-01`–`FR-MOD-13`, `FR-TAG-08`, `FR-TAG-31`,
-`FR-ACCT-03`, `FR-ACCT-05`, `FR-JRN-06`, `NFR-OPS-02`.
+`FR-ACCT-03`, `FR-ACCT-05`, `FR-JRN-06`, `FR-MOD-14`, `NFR-OPS-02`.
 
 ### P13 · Release 2 hardening
 **30h · 13 Jun – 23 Jun 2027**
