@@ -289,6 +289,13 @@ SQL files run at every stage:
 Because approval happens on a commit that has already been applied to staging,
 the production step is a rehearsed operation rather than a first attempt.
 
+Promotion says nothing about whether the schema is *safe* for the clients already
+installed, which is a separate constraint and a stricter one. A destructive
+change is two migrations separated by time — expand, then contract once no
+supported client reads what is being removed — and `NFR-DATA-09` fails the build
+on a drop or rename that does not say so explicitly. See
+[`engineering.md`](./engineering.md).
+
 ### Seed data
 
 `supabase/seed.sql` is committed and builds a known fixture set — a small number

@@ -187,6 +187,47 @@ commitment goes unmet. The markers exist so that the gap is visible rather than
 papered over. The `manual` set is the release checklist; the `policy` set is
 kept honest by review.
 
+## Data for development, testing, and demonstration
+
+Three different needs that look like one, and conflating them produces data that
+serves none of them well.
+
+**`seed.sql` is for local development, and it should be ugly.** Its job is to
+make every screen reachable and every awkward path exercisable without twenty
+minutes of clicking: a photoless recipe, an ingredient not yet reconciled with
+the catalog, a household of four including a child with no account and a
+recorded allergy, a meal whose participants have conflicting dietary
+requirements, an empty pantry beside a full grocery list. Attractive data hides
+exactly the states that need looking at. All of it is synthetic, per the
+invariant that no production data ever flows the other way.
+
+**Tests build their own fixtures and do not read `seed.sql`.** A test asserting
+on three recipes becomes a test that fails when somebody adds a fourth to the
+seed for unrelated reasons, and the failure will look like a regression. Fixtures
+are constructed by the test that needs them, in the state it needs, and torn
+down after. The seed's stability is then a convenience rather than a contract.
+
+**Demo content is a real account, populated by hand, in production.** Release 1
+is the portfolio artifact and an empty cookbook demonstrates nothing, so there
+has to be a household that looks like a household using Ladle well. That is not
+a seeding exercise — `NFR-DATA-06` says production is never seeded and it stays
+true, because entering thirty recipes through the app is *using* the app rather
+than loading a fixture into it.
+
+Doing it by hand is deliberate and has a second payoff: it is the last honest
+acceptance test before submission. If entering thirty recipes is tedious, that is
+a finding about the recipe editor rather than a chore to push through, and P10 is
+the last phase where the finding is still actionable.
+
+**Demo photographs need a licence, and this is the corpus trap in miniature.**
+Thirty recipes with photographs means thirty photographs from somewhere. Either
+the author took them, or they are openly licensed and their terms were confirmed
+first. This is the same failure mode the training corpus carries — discovering a
+licence problem after the work is done — arriving eight months earlier and on
+Release 1's critical path rather than Release 3's. It is already implicitly in
+P10's scope, because store listing screenshots need populated data too.
+
+
 ## Continuous integration
 
 GitHub Actions. Every job below runs on a pull request; the deployment jobs run
@@ -217,6 +258,53 @@ could be persuaded to skip. The promotion path itself is described in
 The `journey` job is the slow one and runs on pull requests into `main` rather
 than on every push, because a suite that takes long enough to be avoided is a
 suite that gets avoided.
+
+## Client and schema compatibility
+
+**You cannot force anybody to update a mobile app.** A binary installed today
+will still be running in six months, issuing the queries it was compiled with,
+against whatever schema production has by then. `NFR-DATA-05` generates and
+commits types so a schema change breaks the build — but that protects the build,
+not the copy of the app already on somebody's phone.
+
+Expo narrows this usefully. A JavaScript-only change ships over the air without a
+store round trip, so most clients converge within days rather than months. It
+does not close the gap: a device that is offline, or a user who has disabled
+updates, still runs old code against a new database, and a change touching native
+modules needs a store release regardless.
+
+So the schema moves under three rules.
+
+**Expand and contract, never mutate.** A destructive change is two migrations
+separated by time. Add the new column, backfill it, write to both, and only drop
+the old one once nothing in circulation reads it. Renames are the same shape —
+there is no such thing as a rename that an old client survives.
+
+**A minimum supported version, published by the server and enforced on launch.**
+This is the only mechanism that actually retires an old client, and without it
+the contract step above has no defensible moment. Below the minimum the app shows
+a blocking prompt to update and does nothing else (`NFR-DATA-10`). It exists to
+be used rarely; a project that reaches for it often has a different problem.
+
+**Contract only once the minimum supported version postdates the expand.** That
+makes the rule mechanical rather than a judgement each time: a column may be
+dropped when the oldest client that could still run never read it.
+
+`NFR-DATA-09` puts the guard in CI rather than in memory. A migration containing
+a drop or a rename fails the build unless it carries an explicit annotation
+recording that no supported client references what it removes — which turns
+"I'm fairly sure nothing uses this" into a sentence somebody had to write down.
+
+Two client-side disciplines follow from the same problem:
+
+- **Enum values are additive, and the client tolerates ones it does not know**
+  (`NFR-DATA-11`). An exhaustive switch over a server-supplied enum is a crash
+  waiting for the next migration. Decode with a fallback and render the unknown
+  case as unremarkable rather than as an error.
+- **Edge Function request and response shapes are additive too.** They are called
+  by clients as old as any query is, and they carry no generated types to break
+  the build.
+
 
 ## Observability
 
@@ -255,13 +343,3 @@ viable.
   gated on `app_administrators`, or a separate minimal web surface, is undecided.
   It affects repository structure, so it is worth settling before P13 rather than
   during it. It does not block P0.
-- **Crash reporting is settled** — `NFR-OPS-08` collects it, `NFR-OPS-09` keeps
-  health data out of the payload, and `NFR-OPS-10` rules out screenshots,
-  session replay, and request bodies. The reasoning is in
-  [`privacy.md`](./privacy.md); the scrubbing is tested rather than configured,
-  because the default payload of every crash reporter is generous and the drift
-  is silent.
-- **Seed data for a realistic local database.** `supabase db reset` applies
-  `seed.sql`, and what that contains determines whether local development
-  exercises anything resembling a real household. Related to the ingredient
-  catalog seeding in P1, and worth deciding alongside it.

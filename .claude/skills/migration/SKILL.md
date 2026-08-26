@@ -96,6 +96,36 @@ Requirement: FR-MEAL-08, FR-PAN-03, NFR-DATA-02
 Phase: P4
 ```
 
+### 7. Check it against the clients already installed
+
+A migration is safe for the codebase you are holding. It is not automatically
+safe for the binary somebody installed four months ago, which is still issuing
+the queries it was compiled with. You cannot force a mobile update.
+
+So a destructive change is **two migrations separated by time**:
+
+1. **Expand** — add the new column, backfill it, write to both.
+2. **Contract** — drop the old one, but only once the minimum supported version
+   is one that never read it.
+
+`NFR-DATA-09` fails the build on any migration containing a drop or a rename
+unless it carries an explicit annotation saying no supported client references
+what it removes. Write that annotation as a sentence you would defend, not a
+formality:
+
+```sql
+-- compat: safe to contract. `recipes.prep_time` was last read by client 1.4.0;
+-- minimum supported version is 1.6.0 as of this migration.
+alter table public.recipes drop column prep_time;
+```
+
+Adding a NOT NULL column with no default breaks old inserts the same way. Add it
+nullable, backfill, then tighten in a later migration.
+
+Enum values are additive only. Removing one breaks every client that still sends
+it, and adding one is safe only because `NFR-DATA-11` requires clients to
+tolerate values they do not recognise.
+
 ### Never
 
 - **Edit a migration that has been merged.** It has been applied somewhere and
@@ -104,3 +134,5 @@ Phase: P4
   lives in migrations, and there is no ORM to reconcile the difference.
 - **Seed, reset, or restore production, or copy its data anywhere.** `NFR-DATA-06`.
   All non-production data is synthetic.
+- **Drop or rename anything in the same migration that stopped using it.** That
+  is the contract step, and it belongs in a later release than the expand.

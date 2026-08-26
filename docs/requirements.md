@@ -371,6 +371,9 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-DATA-06** `policy` Production data is never restored, seeded, or copied into any other environment.
 - **NFR-DATA-07** `test` Nutrition figures are stored as estimates, with the basis of each recorded alongside it.
 - **NFR-DATA-08** `policy` Backups are retained for 30 days, after which deleted data is unrecoverable from them.
+- **NFR-DATA-09** `ci` A migration dropping or renaming a column, table, or enum value fails the build unless it carries an explicit annotation recording that no supported client version references it.
+- **NFR-DATA-10** `test` The client refuses to operate below the server-published minimum supported version, showing a blocking prompt to update.
+- **NFR-DATA-11** `test` The client renders an enum value it does not recognise without erroring.
 
 ### Operability
 
