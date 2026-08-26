@@ -22,11 +22,16 @@ that exists.
 
 ## Repository structure
 
-One application, not a monorepo. There is exactly one consumer of this code and
-no shared library with a second one, so a workspace tool would be indirection
-bought against a need that has not arrived. If an administrative surface ends up
-separate from the mobile app — see the open question at the end — that is the
-change that would justify revisiting it.
+One application and one internal tool, not a monorepo. There is exactly one
+consumer of the application code and no shared library, so a workspace tool would
+be indirection bought against a need that has not arrived.
+
+The internal tool is the Application Administrator's surface, and it is
+deliberately not part of the app. It is **local-only** — run on the
+administrator's own machine, against the database as their own authenticated
+user, never publicly deployed — which is what keeps it a directory with a build
+rather than a second product. It shares no packages with the app; anything it
+needs, it has its own copy of.
 
 ```
 app/                    Expo Router routes; the file tree is the navigation
@@ -49,6 +54,11 @@ tests/
   rls/                  policy tests, one file per table
   helpers/              fixture users, household factories
 e2e/                    Maestro flows, one per user experience path
+admin/                  the Application Administrator's tool - local only
+  catalog/              ingredient curation and approval
+  labelling/            the corpus labelling surface
+  moderation/           the report queue
+scripts/                one-off import and export, spreadsheet round-trips
 docs/
 .claude/skills/
 ```
@@ -66,6 +76,35 @@ not be treated as untouchable because they arrived from elsewhere.
 Component tests sit beside their component as `Component.test.tsx`. Tests that
 are not about a single module — policy tests, journeys — live in the trees above,
 because they belong to a requirement rather than to a file.
+
+### The administrator tool
+
+The Application Administrator has work in three phases, and only the last of them
+is moderation. P1 curates the ingredient catalog, P11 labels roughly 1,250
+recipes across 150 tags, and P13 works the report queue. The first is bulk
+one-time work and runs through `scripts/` and a spreadsheet; the other two need
+an interface.
+
+**It is separate from the app because the work is desk work.** Labelling a
+thousand recipes and curating thousands of ingredients is keyboard-and-wide-screen
+work with bulk operations, and the application is deliberately phone-first, one
+column, portrait — a scope decision resting on claims about a phone in a hand.
+Admin tooling in that form factor fights the design rather than reusing it. It
+also keeps admin code out of every user's bundle.
+
+**It is local-only.** It has no public deployment, no hosting cost, and no
+sign-up. That is what makes a second surface cheap enough to be the right answer
+rather than an indulgence.
+
+**It acts through `security definer` functions, exactly as the app would.** Not
+`service_role`, and not Supabase Studio. `CLAUDE.md` records that administrator
+actions run through those functions so that each stays attributable to a person,
+and Studio bypasses precisely that — which makes Studio fine for looking and
+wrong for ruling.
+
+It grows one section per phase rather than arriving whole, and the scaffold is
+built in P11 with the labelling surface that first needs it.
+
 
 ## Code conventions
 
@@ -337,9 +376,5 @@ viable.
 
 ## Open questions
 
-- **Where the administrator's moderation surface lives.** The queue is worked by
-  an Application Administrator, who holds no household role and needs a view no
-  household member should have. Whether that is a screen inside the mobile app
-  gated on `app_administrators`, or a separate minimal web surface, is undecided.
-  It affects repository structure, so it is worth settling before P13 rather than
-  during it. It does not block P0.
+None outstanding.
+

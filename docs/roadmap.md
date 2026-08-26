@@ -69,22 +69,22 @@ arithmetic accounts for a decision taking time.
 | Phase | Hours | Starts | Ends |
 | --- | --- | --- | --- |
 | P0 · Foundations | 82 | 25 Aug 2026 | 22 Sep 2026 |
-| P1 · Ingredient catalog | 50 | 22 Sep 2026 | 9 Oct 2026 |
-| P2 · Cookbook and recipes | 70 | 9 Oct 2026 | 2 Nov 2026 |
-| P3 · Calendar, meals and cooking | 60 | 2 Nov 2026 | 23 Nov 2026 |
-| P4 · Pantry and grocery | 45 | 23 Nov 2026 | 8 Dec 2026 |
-| P5 · Household collaboration | 60 | 8 Dec 2026 | 12 Jan 2027 |
-| P6 · Dietary and allergy | 43 | 12 Jan 2027 | 27 Jan 2027 |
-| P7 · Nutrition | 46 | 27 Jan 2027 | 12 Feb 2027 |
-| P8 · Cookbook search | 20 | 12 Feb 2027 | 19 Feb 2027 |
-| P9 · Profile, preferences, notifications, accessibility | 60 | 19 Feb 2027 | 12 Mar 2027 |
-| P10 · Release 1 hardening and submission | 58 | 12 Mar 2027 | **1 Apr 2027** |
-| P11 · Taxonomy and classifier | 120 | 1 Apr 2027 | 13 May 2027 |
-| P12 · Release 2 hardening and submission | 20 | 13 May 2027 | **20 May 2027** |
-| P13 · Showcase and moderation | 90 | 20 May 2027 | 20 Jun 2027 |
-| P14 · Release 3 hardening and submission | 25 | 20 Jun 2027 | **28 Jun 2027** |
+| P1 · Ingredient catalog | 55 | 22 Sep 2026 | 11 Oct 2026 |
+| P2 · Cookbook and recipes | 70 | 11 Oct 2026 | 4 Nov 2026 |
+| P3 · Calendar, meals and cooking | 60 | 4 Nov 2026 | 25 Nov 2026 |
+| P4 · Pantry and grocery | 45 | 25 Nov 2026 | 10 Dec 2026 |
+| P5 · Household collaboration | 60 | 10 Dec 2026 | 14 Jan 2027 |
+| P6 · Dietary and allergy | 43 | 14 Jan 2027 | 29 Jan 2027 |
+| P7 · Nutrition | 46 | 29 Jan 2027 | 14 Feb 2027 |
+| P8 · Cookbook search | 20 | 14 Feb 2027 | 21 Feb 2027 |
+| P9 · Profile, preferences, notifications, accessibility | 60 | 21 Feb 2027 | 14 Mar 2027 |
+| P10 · Release 1 hardening and submission | 58 | 14 Mar 2027 | **3 Apr 2027** |
+| P11 · Taxonomy and classifier | 135 | 3 Apr 2027 | 20 May 2027 |
+| P12 · Release 2 hardening and submission | 20 | 20 May 2027 | **27 May 2027** |
+| P13 · Showcase and moderation | 102 | 27 May 2027 | 1 Jul 2027 |
+| P14 · Release 3 hardening and submission | 25 | 1 Jul 2027 | **9 Jul 2027** |
 
-849 hours; 42.45 working weeks plus the holiday. The last 115 of those hours
+881 hours; 44.05 working weeks plus the holiday. The last 127 of those hours
 are conditional.
 
 ---
@@ -114,11 +114,13 @@ Delivers `FR-ACCT-01`, `FR-ACCT-02`, `FR-ACCT-06`–`FR-ACCT-08`, `FR-PREF-07`,
 `NFR-A11Y-02`.
 
 ### P1 · Ingredient catalog
-**50h · 22 Sep – 9 Oct 2026**
+**55h · 22 Sep – 11 Oct 2026**
 
 Schema and seed content: categories, ingredients, synonyms, nutrition per 100g,
 and the allergen tag facet. Roughly a third of this is code and the rest is
-content work.
+content work. Curation runs through import and export scripts rather than a
+user interface — a spreadsheet round-trip is the right tool for bulk one-time
+work, and it defers the administrator tool proper to the phase that needs one.
 
 **Begins when** P0 is done.
 **Done when** the catalog holds enough ingredients to write real recipes against,
@@ -133,7 +135,7 @@ Delivers `FR-ING-01`, `FR-ING-02`, `FR-ING-04`–`FR-ING-07`, `FR-TAG-01`,
 `FR-TAG-02`, `NFR-DATA-07`, `NFR-PERF-03`.
 
 ### P2 · Cookbook and recipes
-**70h · 9 Oct – 2 Nov 2026**
+**70h · 11 Oct – 4 Nov 2026**
 
 The silent household, recipes, versions, ingredient lines with reconciliation,
 collections, the viewer, and the editor. The editor is the hardest screen in the
@@ -150,7 +152,7 @@ Delivers `FR-HH-01`, `FR-HH-02`, `FR-RCP-01`–`FR-RCP-05`, `FR-RCP-07`,
 `NFR-DATA-03`, `NFR-PERF-06`.
 
 ### P3 · Calendar, meals and cooking
-**60h · 2 Nov – 23 Nov 2026**
+**60h · 4 Nov – 25 Nov 2026**
 
 Meals with the generated start time, week and month views, participants and
 servings held apart, the cooked state, and the cooking view.
@@ -165,7 +167,7 @@ Delivers `FR-MEAL-01`–`FR-MEAL-15`, `FR-JRN-03`, `FR-JRN-05`, `NFR-PERF-01`,
 `NFR-A11Y-05`.
 
 ### P4 · Pantry and grocery
-**45h · 23 Nov – 8 Dec 2026**
+**45h · 25 Nov – 10 Dec 2026**
 
 Grocery items with per-contribution provenance, the pantry, check-off, and
 household category ordering.
@@ -179,7 +181,7 @@ Delivers `FR-PAN-01`–`FR-PAN-13`, `FR-JRN-04`, `NFR-DATA-02`, `NFR-OFF-06`,
 `NFR-PERF-02`, `NFR-A11Y-01`.
 
 ### P5 · Household collaboration
-**60h · 8 Dec 2026 – 12 Jan 2027**
+**60h · 10 Dec 2026 – 14 Jan 2027**
 
 Members and roles, the single-owner index, invitations through a `security
 definer` accept, requests and approvals, dissolution with its grace period, and
@@ -196,7 +198,7 @@ This phase spans the holiday break; the dates already account for it.
 Delivers `FR-HH-03`–`FR-HH-24`, `FR-ACCT-04`, `FR-JRN-02`, `NFR-SEC-06`.
 
 ### P6 · Dietary and allergy
-**43h · 12 Jan – 27 Jan 2027**
+**43h · 14 Jan – 29 Jan 2027**
 
 Allergy and dietary profiles, derivation from curated ingredient tags, and the
 warning and incomplete-check treatments everywhere a recipe appears.
@@ -211,7 +213,7 @@ Delivers `FR-DIET-01`–`FR-DIET-12`, `FR-RCP-13`, `FR-TAG-06`, `FR-TAG-07`,
 allergy is stored.
 
 ### P7 · Nutrition
-**46h · 27 Jan – 12 Feb 2027**
+**46h · 29 Jan – 14 Feb 2027**
 
 Demographics, Mifflin-St Jeor targets with overrides, the tracked six, and the
 Today rings.
@@ -224,7 +226,7 @@ changes colour on reaching or exceeding a target.
 Delivers `FR-NUT-01`–`FR-NUT-19`, `NFR-SEC-07`.
 
 ### P8 · Cookbook search
-**20h · 12 Feb – 19 Feb 2027**
+**20h · 14 Feb – 21 Feb 2027**
 
 Search across the household's own recipes by title, ingredient, and tag. The
 scope control is not built here — there is only one scope until the showcase
@@ -237,7 +239,7 @@ synonym, within the 500ms target.
 Delivers `FR-TAG-30`, `FR-TAG-32`, `NFR-PERF-05`.
 
 ### P9 · Profile, preferences, notifications, accessibility
-**60h · 19 Feb – 12 Mar 2027**
+**60h · 21 Feb – 14 Mar 2027**
 
 Public profile, per-user preferences, reminders and expiry warnings, and the
 accessibility pass across everything built so far. Notifications carry their own
@@ -256,7 +258,7 @@ Delivers `FR-PROF-01`–`FR-PROF-03`, `FR-PREF-01`–`FR-PREF-06`, `FR-ACCT-09`�
 `NFR-A11Y-06`–`NFR-A11Y-08`.
 
 ### P10 · Release 1 hardening and submission
-**58h · 12 Mar – 1 Apr 2027**
+**58h · 14 Mar – 3 Apr 2027**
 
 Beta through TestFlight and the internal track, performance measured against the
 reference devices, store listing, and **the app icon and mark** — the design
@@ -279,10 +281,13 @@ previous ten phases built.
 ## Release 2 — tagging and discovery
 
 ### P11 · Taxonomy and classifier
-**120h · 1 Apr – 13 May 2027**
+**135h · 3 Apr – 20 May 2027**
 
 The full tag vocabulary, corpus licence verification, corpus assembly,
 hand-labelling, training, evaluation, and the activation and backfill machinery.
+Includes building the administrator tool that the labelling runs through — the
+~40 hours below is a rate that assumes one, and labelling 1,250 recipes through
+Supabase Studio would cost considerably more and produce worse labels.
 
 **Begins when** the corpus licence question is answered. This is the phase's real
 entry criterion and it can be resolved at any time before then — it does not need
@@ -301,7 +306,7 @@ Delivers `FR-TAG-03`–`FR-TAG-05`, `FR-TAG-09`–`FR-TAG-29`, `NFR-PERF-04`,
 `NFR-OPS-03`–`NFR-OPS-05`.
 
 ### P12 · Release 2 hardening and submission
-**20h · 13 May – 20 May 2027**
+**20h · 20 May – 27 May 2027**
 
 Regression across the tagging surfaces, a store update, and review. Lighter than
 P10 because the listing, the icon, and both privacy policies already exist — this
@@ -325,11 +330,12 @@ remains the portfolio artifact whether or not any of it is built, and Release 2
 remains the last unconditional phase.
 
 ### P13 · Showcase and moderation
-**90h · 20 May – 20 Jun 2027**
+**102h · 27 May – 1 Jul 2027**
 
 Publishing, copying with snapshots, upstream notices, attribution degradation,
 the administrator table, reports with automatic suppression, the escalation
-sweep, rate limits, and the search scope control.
+sweep, rate limits, and the search scope control. The moderation queue is a
+section added to the administrator tool built in P11, not a new surface.
 
 **Begins when** P12 is done **and** the funding decision has been made.
 **Done when** a copy is unchanged by an edit to its original until accepted, a
@@ -342,7 +348,7 @@ Delivers `FR-RCP-06`, `FR-RCP-09`–`FR-RCP-12`, `FR-RCP-14`, `FR-RCP-15`,
 `FR-ACCT-03`, `FR-ACCT-05`, `FR-JRN-06`, `FR-MOD-14`, `NFR-OPS-02`.
 
 ### P14 · Release 3 hardening and submission
-**25h · 20 Jun – 28 Jun 2027**
+**25h · 1 Jul – 9 Jul 2027**
 
 Beta, moderation dry-run against seeded reports, and submission.
 

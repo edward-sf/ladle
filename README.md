@@ -16,9 +16,9 @@ not happen; features beyond Release 2 are listed as planned rather than promised
 
 | | Scope | Earliest |
 | --- | --- | --- |
-| **Release 1** | Everything a household does for itself — cookbook, calendar, pantry, grocery, nutrition | 1 Apr 2027 |
-| **Release 2** | The tag classifier, facet search, and recommendation | 20 May 2027 |
-| **Release 3** | Publishing, copying, and moderation — *conditional on funding* | 28 Jun 2027 |
+| **Release 1** | Everything a household does for itself — cookbook, calendar, pantry, grocery, nutrition | 3 Apr 2027 |
+| **Release 2** | The tag classifier, facet search, and recommendation | 27 May 2027 |
+| **Release 3** | Publishing, copying, and moderation — *conditional on funding* | 9 Jul 2027 |
 
 Those dates are derived rather than chosen: they fall out of a start date, a
 sustained 20h/week, and a planned holiday break applied to per-phase hour
