@@ -35,6 +35,7 @@ belongs in the one named here and the other references it.
 | [`docs/requirements.md`](docs/requirements.md) | The numbered, testable requirements that drive development. |
 | [`docs/roadmap.md`](docs/roadmap.md) | Sequencing and delivery planning. |
 | [`docs/engineering.md`](docs/engineering.md) | Repository structure, testing strategy, CI, and observability. |
+| [`docs/privacy.md`](docs/privacy.md) | What personal data Ladle holds, retention and deletion, and the store disclosures. |
 
 [`CLAUDE.md`](CLAUDE.md) records the product decisions behind all of it, each
 with its reasoning and what it costs, so that revisiting one is a deliberate act

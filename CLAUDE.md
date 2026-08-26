@@ -27,6 +27,7 @@ Each document owns a distinct kind of fact. When a fact could live in two of the
 | [`docs/requirements.md`](docs/requirements.md) | The canonical numbered, testable functional and non-functional requirements that drive development. |
 | [`docs/roadmap.md`](docs/roadmap.md) | Sequencing and delivery planning. |
 | [`docs/engineering.md`](docs/engineering.md) | Repository structure, code conventions, testing strategy, CI jobs, and observability. |
+| [`docs/privacy.md`](docs/privacy.md) | What personal data Ladle holds, why, retention and deletion, processors, and the store disclosures. |
 
 Every document above is written and authoritative. The author also keeps a `docs/notes.md` scratchpad, which is deliberately untracked and will not be present in a fresh clone — if you find one locally, treat it as half-formed thinking that may be superseded or contradicted by the documents above, never as a source of fact.
 
