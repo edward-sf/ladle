@@ -209,7 +209,48 @@ for f in AUTHORITATIVE:
             problems.append(f"{f}:{line} mermaid block has no recognised diagram type")
 check("mermaid", problems, "code fences balanced, mermaid blocks declare a diagram type")
 
-# --- 10. coverage tally (informational) --------------------------------------
+# --- 10. roadmap dates re-derive from the hours ------------------------------
+# "Dates are derived, not chosen" - so they are checkable. Start, capacity, and
+# the break are read from the inputs table rather than hardcoded here.
+problems = []
+try:
+    from datetime import date, timedelta
+    def _d(t):
+        t = t.strip().replace("Sept", "Sep")
+        for fmt in ("%d %B %Y", "%d %b %Y"):
+            try:
+                import datetime as _dt
+                return _dt.datetime.strptime(t, fmt).date()
+            except ValueError:
+                pass
+        return None
+    start = _d(re.search(r'\| Start \| ([^|]+) \|', road).group(1))
+    cap = float(re.search(r'\| Sustained capacity \| (\d+) hours', road).group(1))
+    bk = re.search(r'\| Planned break \| ([^–|]+)[–-]([^|]+) \|', road)
+    bs, be = _d(bk.group(1)), _d(bk.group(2))
+    rows = re.findall(
+        r'^\| (P\d+) · [^|]+\| (\d+) \| ([^|]+?) \| \*{0,2}([^|*]+?)\*{0,2} \|$',
+        road, flags=re.M)
+    cur = start
+    for name, hours, stated_start, stated_end in rows:
+        if _d(stated_start) != cur:
+            problems.append(f"{name} starts {stated_start.strip()}, derived {cur:%-d %b %Y}")
+        cur = cur + timedelta(days=int(hours) / cap * 7)
+        if bs and bs <= cur and cur <= be + timedelta(days=int(hours) / cap * 7):
+            if stated_start and _d(stated_start) < bs <= cur:
+                cur = cur + (be - bs)
+        if _d(stated_end) != cur:
+            problems.append(f"{name} ends {stated_end.strip()}, derived {cur:%-d %b %Y}")
+    total = sum(int(h) for _, h, _, _ in rows)
+    stated_total = int(re.search(r'^(\d+) hours;', road, flags=re.M).group(1))
+    if total != stated_total:
+        problems.append(f"phase hours sum to {total}, document states {stated_total}")
+except (AttributeError, ValueError, TypeError) as e:
+    problems.append(f"could not parse the schedule inputs: {e}")
+check("schedule", problems,
+      f"{len(rows)} phases, dates re-derive from hours and capacity")
+
+# --- 11. coverage tally (informational) --------------------------------------
 if not QUIET:
     bullets = collections.Counter()
     feature = None; in_req = False
