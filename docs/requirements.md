@@ -380,3 +380,7 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-OPS-05** `policy` Per-facet floors are set from the evaluation curve rather than fixed in advance.
 - **NFR-OPS-06** `ci` Applying a migration to production requires explicit human approval.
 - **NFR-OPS-07** `policy` A breach response procedure covering health data notification exists before production holds any user data.
+- **NFR-OPS-08** `test` Crash and error reports are collected from production builds.
+- **NFR-OPS-09** `test` No demographic input, allergy, or other health data appears in a crash or error payload.
+  - *Given* a crash raised while the nutrition screen holds a user's weight and date of birth, *when* the payload is captured, *then* neither value appears in it, in any frame, breadcrumb, or attached context.
+- **NFR-OPS-10** `test` Crash reporting captures no screenshot, session replay, or network request body.

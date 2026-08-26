@@ -271,6 +271,7 @@ name.
 | Expo / EAS | Build and update infrastructure | No user data at rest |
 | Apple and Google | Store distribution and push notification transport | Also the recipients of the disclosure forms |
 | Breached-password lookup | Nothing | See below |
+| Crash reporting | Stack traces and device model, scrubbed of health data | See below |
 
 `FR-ACCT-06` refuses passwords known to have appeared in a public breach corpus.
 This sounds like sending a password to a third party and is not: the standard
@@ -279,6 +280,27 @@ prefix of the hash, receiving back every matching suffix to compare on the
 device. **The password, and any identifier of the account, never leave.** Worth
 recording precisely, because a reader of the policy will reasonably assume the
 worse version.
+
+### Crash reporting
+
+Ladle collects crash and error reports from production builds
+(`NFR-OPS-08`), because a solo developer shipping to devices they do not own
+otherwise learns about failures from store reviews. Store-provided crash
+reporting was not enough on its own: it captures native crashes, and in React
+Native most failures are JavaScript errors that never reach the native layer.
+
+The payload is constrained by requirement rather than by configuration. No
+demographic input, allergy, or other health data appears in a report
+(`NFR-OPS-09`), and no screenshot, session replay, or network request body is
+captured at all (`NFR-OPS-10`). Both are tested rather than trusted to a
+settings page, because the default configuration of every crash reporter is
+generous and the drift is silent.
+
+That constraint is what keeps this out of the consent question. A payload
+containing no health data is not a disclosure of consumer health data, so
+nothing has to be asked for — which is a better position than a consent dialog,
+since asking implies the payload might contain something worth worrying about.
+
 
 ## Store disclosures
 
@@ -301,7 +323,10 @@ it is a store-blocking one rather than a policy nicety.
 
 Recorded because an absence is a decision and should be visible as one.
 
-No location. No contacts. No advertising identifiers. No third-party analytics.
+No location. No contacts. No advertising identifiers. No analytics of any kind.
+Crash reporting is not analytics: it carries no behavioural events, records
+nothing about what a person did, and is scoped by `NFR-OPS-09` and
+`NFR-OPS-10`.
 No micronutrients — excluded from the product for reasons of data quality rather
 than privacy, but the effect is that Ladle holds less. No free-text health
 information: the demographic inputs are enumerated fields and a date, so there is
@@ -309,7 +334,7 @@ nowhere for someone to type a diagnosis.
 
 ## Open questions
 
-- **Crash and error reporting**, carried over from
-  [`engineering.md`](./engineering.md). Nothing requires it, and a reporting
-  tool's default payload is a privacy question in an app holding health data
-  rather than a configuration detail.
+None outstanding. Every question this document opened has been answered and
+written into the requirements; what remains is the legal review recorded at the
+top, which is triggered by publication rather than by anything left undecided.
+

@@ -255,12 +255,12 @@ viable.
   gated on `app_administrators`, or a separate minimal web surface, is undecided.
   It affects repository structure, so it is worth settling before P12 rather than
   during it. It does not block P0.
-- **Crash and error reporting has no requirement behind it.** Nothing in
-  `requirements.md` commits to knowing when the app fails in someone's hands,
-  which is an absence rather than a decision. If it is wanted, it belongs in
-  `NFR-OPS` with a requirement stating what is collected — Ladle holds health
-  data, so a reporting tool's default payload is a privacy question rather than
-  a configuration detail.
+- **Crash reporting is settled** — `NFR-OPS-08` collects it, `NFR-OPS-09` keeps
+  health data out of the payload, and `NFR-OPS-10` rules out screenshots,
+  session replay, and request bodies. The reasoning is in
+  [`privacy.md`](./privacy.md); the scrubbing is tested rather than configured,
+  because the default payload of every crash reporter is generous and the drift
+  is silent.
 - **Seed data for a realistic local database.** `supabase db reset` applies
   `seed.sql`, and what that contains determines whether local development
   exercises anything resembling a real household. Related to the ingredient
