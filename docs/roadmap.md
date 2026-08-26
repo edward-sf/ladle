@@ -3,3 +3,311 @@ name: roadmap.md
 description: This file outlines the development roadmap for the Ladle application.
 ---
 # Roadmap
+
+This file sequences the work. It is the only place release scope is recorded:
+[`requirements.md`](./requirements.md) deliberately carries no release markers, so
+that re-planning happens here and the two cannot drift.
+
+Every one of the 213 requirements is assigned to exactly one phase below. That is
+checkable rather than asserted — a requirement belonging to no phase, or to two,
+is a defect in this document.
+
+## How to read this
+
+Phases run in dependency order. Each states what must be true to **begin** it and
+what must be true to call it **done**, and lists the requirements it delivers.
+
+Dates are derived, not chosen. They come from three inputs and nothing else:
+
+| Input | Value |
+| --- | --- |
+| Start | 25 August 2026 |
+| Sustained capacity | 20 hours per week |
+| Planned break | 21 December 2026 – 4 January 2027 |
+
+If capacity changes, every date after that point moves proportionally; the hour
+estimates are the real content and the dates are arithmetic over them. **There is
+no buffer built in.** A date is the earliest the phase can finish given a clean
+run, which is what makes them useful to be held to and what makes a slipped one
+worth noticing rather than absorbing.
+
+## Two releases
+
+**Release 1 is the private cookbook** — everything a household does for itself.
+Households, calendar, cookbook, pantry, grocery, nutrition, and search within
+your own recipes.
+
+**Release 2 is the showcase** — publishing, copying, the classifier, and
+moderation.
+
+The split matters more than it looks. The classifier gate, the ~40 hours of
+hand-labelling, the corpus licence question, and the moderation queue are all
+consequences of having a public corpus, and none of them is load-bearing for a
+household cooking its own food. Putting them in Release 2 takes every one off the
+first release's critical path while leaving the gate exactly where it was argued
+for: search quality across a public showcase.
+
+| Phase | Hours | Starts | Ends |
+| --- | --- | --- | --- |
+| P0 · Foundations | 80 | 25 Aug 2026 | 22 Sep 2026 |
+| P1 · Ingredient catalog | 50 | 22 Sep 2026 | 9 Oct 2026 |
+| P2 · Cookbook and recipes | 70 | 9 Oct 2026 | 2 Nov 2026 |
+| P3 · Calendar, meals and cooking | 60 | 2 Nov 2026 | 23 Nov 2026 |
+| P4 · Pantry and grocery | 45 | 23 Nov 2026 | 8 Dec 2026 |
+| P5 · Household collaboration | 50 | 8 Dec 2026 | 8 Jan 2027 |
+| P6 · Dietary and allergy | 35 | 8 Jan 2027 | 20 Jan 2027 |
+| P7 · Nutrition | 45 | 20 Jan 2027 | 4 Feb 2027 |
+| P8 · Cookbook search | 20 | 4 Feb 2027 | 11 Feb 2027 |
+| P9 · Profile, preferences, notifications, accessibility | 45 | 11 Feb 2027 | 26 Feb 2027 |
+| P10 · Release 1 hardening and submission | 50 | 26 Feb 2027 | **15 Mar 2027** |
+| P11 · Taxonomy and classifier | 120 | 15 Mar 2027 | 26 Apr 2027 |
+| P12 · Showcase and moderation | 90 | 26 Apr 2027 | 27 May 2027 |
+| P13 · Release 2 hardening | 30 | 27 May 2027 | **6 Jun 2027** |
+
+790 hours; 39.5 working weeks plus the holiday.
+
+---
+
+## Release 1 — the private cookbook
+
+### P0 · Foundations
+**80h · 25 Aug – 22 Sep 2026**
+
+Supabase local stack and both hosted projects, the migration chain, CI, EAS
+profiles, auth and session persistence, the typed client with TanStack Query and
+MMKV persistence, NativeWind with the token layers, the contrast check, and the
+navigation shell.
+
+**Begins when** nothing — this is the first phase.
+**Done when** `supabase db reset` builds from empty, CI replays migrations and
+runs the suite, all three EAS profiles build, a user can sign up and return to a
+persisted session, and the contrast check runs green against the default theme.
+
+Delivers `FR-ACCT-01`, `FR-ACCT-02`, `FR-PREF-07`, `NFR-SEC-01`–`NFR-SEC-05`,
+`NFR-SEC-08`, `NFR-SEC-09`, `NFR-OFF-01`–`NFR-OFF-05`, `NFR-DATA-01`,
+`NFR-DATA-04`–`NFR-DATA-06`, `NFR-OPS-01`, `NFR-OPS-06`, `NFR-A11Y-02`.
+
+### P1 · Ingredient catalog
+**50h · 22 Sep – 9 Oct 2026**
+
+Schema and seed content: categories, ingredients, synonyms, nutrition per 100g,
+and the allergen tag facet. Roughly a third of this is code and the rest is
+content work.
+
+**Begins when** P0 is done.
+**Done when** the catalog holds enough ingredients to write real recipes against,
+every one carries a category and a nutrition estimate, allergen tags are curated
+and approved, and synonym search returns the right entry.
+
+USDA FoodData Central is public domain, which makes it the obvious nutrition
+source and sidesteps the licence question entirely here — unlike the recipe
+corpus in P11, where the same question is unresolved.
+
+Delivers `FR-ING-01`, `FR-ING-02`, `FR-ING-04`–`FR-ING-07`, `FR-TAG-01`,
+`FR-TAG-02`, `NFR-DATA-07`, `NFR-PERF-03`.
+
+### P2 · Cookbook and recipes
+**70h · 9 Oct – 2 Nov 2026**
+
+The silent household, recipes, versions, ingredient lines with reconciliation,
+collections, the viewer, and the editor. The editor is the hardest screen in the
+release and most of this estimate.
+
+**Begins when** P1 is done — the editor cannot offer catalog matches without a
+catalog.
+**Done when** a recipe with a title alone saves, a dismissed editor leaves a
+recoverable draft, an unreconciled ingredient persists as typed and can be matched
+later, and a recipe sits in several collections without duplication.
+
+Delivers `FR-HH-01`, `FR-HH-02`, `FR-RCP-01`–`FR-RCP-05`, `FR-RCP-07`,
+`FR-RCP-08`, `FR-RCP-16`, `FR-RCP-20`, `FR-ING-03`, `FR-ING-08`, `FR-JRN-01`,
+`NFR-DATA-03`.
+
+### P3 · Calendar, meals and cooking
+**60h · 2 Nov – 23 Nov 2026**
+
+Meals with the generated start time, week and month views, participants and
+servings held apart, the cooked state, and the cooking view.
+
+**Begins when** P2 is done.
+**Done when** a block is drawn from preparation start to serving time, servings
+seed from participants and diverge on edit, marking cooked records every
+participant as having eaten, and the cooking view holds a multi-recipe meal in
+one scroll with the screen awake.
+
+Delivers `FR-MEAL-01`–`FR-MEAL-15`, `FR-JRN-03`, `FR-JRN-05`, `NFR-PERF-01`,
+`NFR-A11Y-05`.
+
+### P4 · Pantry and grocery
+**45h · 23 Nov – 8 Dec 2026**
+
+Grocery items with per-contribution provenance, the pantry, check-off, and
+household category ordering.
+
+**Begins when** P3 is done — there are no contributions without meals.
+**Done when** deleting one of two meals needing garlic leaves garlic on the list,
+a hand-added item survives every meal deletion, check-off stocks the pantry
+without a dialog, and the whole list works through a loss of signal.
+
+Delivers `FR-PAN-01`–`FR-PAN-13`, `FR-JRN-04`, `NFR-DATA-02`, `NFR-OFF-06`,
+`NFR-PERF-02`, `NFR-A11Y-01`.
+
+### P5 · Household collaboration
+**50h · 8 Dec 2026 – 8 Jan 2027**
+
+Members and roles, the single-owner index, invitations through a `security
+definer` accept, requests and approvals, dissolution with its grace period, and
+Realtime on the shared tables.
+
+**Begins when** P4 is done — approvals need something to approve.
+**Done when** a second member cannot create a second owner, an invitee lands in a
+household already showing its planned week, a denied request reaches its
+requester with a reason, and a dissolved household is recoverable within its
+window.
+
+This phase spans the holiday break; the dates already account for it.
+
+Delivers `FR-HH-03`–`FR-HH-20`, `FR-ACCT-04`, `FR-JRN-02`, `NFR-SEC-06`.
+
+### P6 · Dietary and allergy
+**35h · 8 Jan – 20 Jan 2027**
+
+Allergy and dietary profiles, derivation from curated ingredient tags, and the
+warning and incomplete-check treatments everywhere a recipe appears.
+
+**Begins when** P5 is done — conflicts between participants need participants.
+**Done when** an allergen match warns wherever a recipe is shown, a cashew
+allergy does not warn on almond, and a recipe holding one unreconciled ingredient
+reports its check as incomplete rather than clean.
+
+Delivers `FR-DIET-01`–`FR-DIET-10`, `FR-RCP-13`, `FR-TAG-06`, `FR-TAG-07`.
+
+### P7 · Nutrition
+**45h · 20 Jan – 4 Feb 2027**
+
+Demographics, Mifflin-St Jeor targets with overrides, the tracked six, and the
+Today rings.
+
+**Begins when** P6 is done.
+**Done when** targets compute and a manual override survives recomputation, a
+user who declines every demographic question can still use the app, and no ring
+changes colour on reaching or exceeding a target.
+
+Delivers `FR-NUT-01`–`FR-NUT-18`, `NFR-SEC-07`.
+
+### P8 · Cookbook search
+**20h · 4 Feb – 11 Feb 2027**
+
+Search across the household's own recipes by title, ingredient, and tag. The
+scope control is not built here — there is only one scope until the showcase
+exists.
+
+**Begins when** P7 is done.
+**Done when** a search for an ingredient returns recipes using it, including by
+synonym, within the 500ms target.
+
+Delivers `FR-TAG-30`, `FR-TAG-32`, `NFR-PERF-05`.
+
+### P9 · Profile, preferences, notifications, accessibility
+**45h · 11 Feb – 26 Feb 2027**
+
+Public profile, per-user preferences, reminders and expiry warnings, and the
+accessibility pass across everything built so far.
+
+**Begins when** P8 is done — the accessibility pass wants the screens finished.
+**Done when** units change display without touching stored quantities, timezone
+moves the day boundary, every notification category switches off independently,
+and every `manual` accessibility requirement has been walked through.
+
+Delivers `FR-PROF-01`–`FR-PROF-03`, `FR-PREF-01`–`FR-PREF-06`,
+`FR-NOTIF-01`–`FR-NOTIF-04`, `NFR-A11Y-03`, `NFR-A11Y-04`, `NFR-A11Y-06`–`NFR-A11Y-08`.
+
+### P10 · Release 1 hardening and submission
+**50h · 26 Feb – 15 Mar 2027**
+
+Beta through TestFlight and the internal track, performance measured against the
+reference devices, store listing, and **the app icon and mark** — the design
+phase deferred in [`user-interface.md`](./user-interface.md), which becomes
+blocking here because a store submission needs an icon.
+
+**Begins when** P9 is done.
+**Done when** a build is on both stores' review queues, every P95 latency target
+has been measured rather than assumed, and the `manual` release checklist has
+been worked through once end to end.
+
+Delivers no new requirements. Everything here verifies what the previous ten
+phases built.
+
+---
+
+## Release 2 — the showcase
+
+### P11 · Taxonomy and classifier
+**120h · 15 Mar – 26 Apr 2027**
+
+The full tag vocabulary, corpus licence verification, corpus assembly,
+hand-labelling, training, evaluation, and the activation and backfill machinery.
+
+**Begins when** the corpus licence question is answered. This is the phase's real
+entry criterion and it can be resolved at any time before then — it does not need
+Release 1 to be finished, and resolving it early is free insurance against
+discovering the corpus is unusable after the labelling is done.
+
+**Done when** per-facet floors are set from the evaluation curve rather than
+guessed, dormant tags are searchable and manually applicable, an author's removal
+survives a retraining pass, and a backfill applies newly active tags retroactively.
+
+The ~40 hours of hand-labelling inside this estimate is content work at a fixed
+rate and does not compress with practice. It is the largest single uninterrupted
+task in the plan.
+
+Delivers `FR-TAG-03`–`FR-TAG-05`, `FR-TAG-09`–`FR-TAG-29`, `NFR-PERF-04`,
+`NFR-OPS-03`–`NFR-OPS-05`.
+
+### P12 · Showcase and moderation
+**90h · 26 Apr – 27 May 2027**
+
+Publishing, copying with snapshots, upstream notices, attribution degradation,
+the administrator table, reports with automatic suppression, the escalation
+sweep, rate limits, and the search scope control.
+
+**Begins when** P11 is done.
+**Done when** a copy is unchanged by an edit to its original until accepted, a
+deleted author's name leaves every copy while the content stays, a reported
+dietary claim suppresses on filing, an unreviewed urgent report withdraws its
+recipe from the showcase by itself, and no volume of reports removes anything.
+
+Delivers `FR-RCP-06`, `FR-RCP-09`–`FR-RCP-12`, `FR-RCP-14`, `FR-RCP-15`,
+`FR-RCP-17`–`FR-RCP-19`, `FR-MOD-01`–`FR-MOD-13`, `FR-TAG-08`, `FR-TAG-31`,
+`FR-ACCT-03`, `FR-ACCT-05`, `FR-JRN-06`, `NFR-OPS-02`.
+
+### P13 · Release 2 hardening
+**30h · 27 May – 6 Jun 2027**
+
+Beta, moderation dry-run against seeded reports, and submission.
+
+**Begins when** P12 is done.
+**Done when** the escalation sweep has been observed firing on a real unattended
+report, and a build is submitted.
+
+Delivers no new requirements.
+
+---
+
+## What could move this
+
+- **The corpus licence.** Unresolved, and the only open question that can
+  invalidate work already done rather than merely delay work not yet started.
+  Answer it before P11 begins, and ideally before Release 1 ships.
+- **Catalog seeding (P1) and labelling (P11) are content, not code.** Together
+  they are roughly 65 hours that no amount of tooling or familiarity speeds up.
+  They are also the two phases most likely to be underestimated, because they feel
+  like data entry until you are doing them.
+- **The editor (P2) and the calendar (P3)** are the two hardest screens. If any
+  code phase overruns, it will be one of these.
+- **No buffer exists.** At 20 hours a week, a fortnight lost to illness, travel, or
+  a demanding stretch at work moves every subsequent date by two weeks. That is
+  not a failure of the plan; it is the plan telling the truth about what happened.
+- **The dietitian review is not scheduled**, deliberately. It triggers on a claim
+  rather than a date: before Ladle says anything about health outside the app, and
+  before any nutrition figure stops being labelled as convention or overridable.
