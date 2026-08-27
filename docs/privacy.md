@@ -244,7 +244,7 @@ what they copied.
 | A dissolved `Household` | 30 days (`FR-HH-19`) | The person confirming may be mid-argument rather than post-decision, so the window has to outlast the argument |
 | Resolved reports | 12 months (`FR-MOD-14`) | Long enough to see repeat behaviour and to stand behind a ruling, short enough not to become an archive |
 | Notification delivery history | 90 days (`FR-NOTIF-06`) | It exists only to avoid sending the same warning twice, and its foreign keys already cascade it away with its subject |
-| Backups | 30 days (`NFR-DATA-08`) | Operational recovery. This is the honest caveat on every deletion claim above |
+| Backups | 7 days (`NFR-DATA-13`) | Operational recovery. This is the honest caveat on every deletion claim above |
 
 Deletion is immediate everywhere except the two places where something has to be
 recoverable, and both of those are recoverable because the destruction reaches
@@ -252,8 +252,14 @@ beyond the person who asked for it.
 
 **The backup line is the one most policies leave out.** Nothing that runs on real
 infrastructure can claim data is gone the instant a row is dropped, because the
-backup taken an hour earlier still holds it. Saying 30 days is less impressive
+backup taken an hour earlier still holds it. Saying seven days is less impressive
 than saying "immediately" and is the only version that is true.
+
+Seven is the managed tier's retention rather than a figure Ladle chose, which is
+worth saying plainly: the window is short because that is what the platform
+does, not because a shorter one was bought. It replaces an earlier claim of 30
+days that was retired for being inaccurate rather than merely generous, and the
+correction moves in the direction that favours the reader.
 
 These figures are initial targets in the sense `requirements.md` means it — they
 exist to be measured against and revised, not defended. None of them is set by a

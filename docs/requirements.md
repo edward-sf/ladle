@@ -11,6 +11,7 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **Identifiers** are `FR-<AREA>-<NN>` for functional requirements and `NFR-<ATTRIBUTE>-<NN>` for non-functional ones. Each functional area maps to exactly one feature in [`user-experience.md`](./user-experience.md), except `JRN`, which maps to its user experience paths.
 - **Identifiers are stable.** A withdrawn requirement's number is retired rather than reused, and a new requirement is appended to the end of its area rather than inserted, so a reference in a test or a commit message never silently comes to mean something else.
 - **A material change issues a new identifier.** If a requirement changes such that a test currently passing against it could now be wrong, the old identifier is retired and a new one issued. Edits to wording, clarity, or formatting keep theirs. The judgement is whether the claim moved, not whether the sentence did.
+- **A retirement leaves a tombstone.** The retired identifier stays where it was, struck through, naming what superseded it and why. It is no longer a requirement - it carries no verification marker, takes no roadmap phase, and must not be cited - but the gap it leaves in the sequence is accounted for rather than merely tolerated, which is what lets [`check.sh`](./check.sh) fail an accidental gap while passing a deliberate one.
 - **Stability binds from first external citation.** Until an identifier is cited outside this document - by a test, by `roadmap.md`, or in a commit - it may be amended in place, because there is nothing yet to mislead.
 - **One requirement, one claim.** Each is a single declarative statement that is either satisfied or not. A statement needing the word "and" to join two independent claims is two requirements.
 - **Criteria appear where they earn their place** - where the statement alone does not determine the test - as indented *Given / when / then* lines beneath it. Their absence means the statement is its own test, not that the requirement matters less.
@@ -370,12 +371,13 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-DATA-05** `ci` TypeScript types are generated from the live schema and committed, so a schema change that breaks the app fails at compile time.
 - **NFR-DATA-06** `policy` Production data is never restored, seeded, or copied into any other environment.
 - **NFR-DATA-07** `test` Nutrition figures are stored as estimates, with the basis of each recorded alongside it.
-- **NFR-DATA-08** `policy` Backups are retained for 30 days, after which deleted data is unrecoverable from them.
+- ~~**NFR-DATA-08**~~ *Retired, superseded by `NFR-DATA-13`.* It claimed a 30-day backup window that no plan Ladle runs on offers: the managed tier keeps daily backups for seven days, and a longer window is a paid add-on costing several times the whole monthly ceiling in [`operating-model.md`](./operating-model.md). The claim had also been made against a plan carrying no backups at all, so it was never true rather than newly false.
 - **NFR-DATA-09** `ci` A migration dropping or renaming a column, table, or enum value fails the build unless it carries an explicit annotation recording that no supported client version references it.
 - **NFR-DATA-10** `test` The client refuses to operate below the server-published minimum supported version, showing a blocking prompt to update.
 - **NFR-DATA-11** `test` The client renders an enum value it does not recognise without erroring.
 - **NFR-DATA-12** `test` A minimum-version check that cannot reach the server does not block the client.
   - *Given* a device with no connectivity and a populated cache, *when* the app is opened, *then* the client is not blocked, no update prompt is shown, and the `Cookbook` and `GroceryList` are readable.
+- **NFR-DATA-13** `policy` Backups are retained for 7 days, after which deleted data is unrecoverable from them.
 
 ### Operability
 
