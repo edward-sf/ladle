@@ -27,6 +27,12 @@ One application and one internal tool, not a monorepo. There is exactly one
 consumer of the application code and no shared library, so a workspace tool would
 be indirection bought against a need that has not arrived.
 
+That repository is **public**, under a noncommercial source-available licence, and
+it holds everything below including the planning documents — which are part of
+what is being demonstrated rather than support material for it. A second, private
+repository arrives at P11 and holds the classifier corpus. Why that boundary
+exists, and why it is the only one, is in *The corpus repository* below.
+
 The internal tool is the Application Administrator's surface, and it is
 deliberately not part of the app. It is **local-only** — run on the
 administrator's own machine, against the database as their own authenticated
@@ -105,6 +111,55 @@ wrong for ruling.
 
 It grows one section per phase rather than arriving whole, and the scaffold is
 built in P11 with the labelling surface that first needs it.
+
+### The corpus repository
+
+The labelled corpus and the training pipeline live in a second, private
+repository created at P11. It is the only boundary of its kind in the project,
+and the case for it does not rest on privacy.
+
+**It would earn a repository even if everything were public.** The toolchain is
+different — training and evaluation are not React Native. The cadence is
+different: the model is retrained on its own schedule, and `FR-TAG-11` puts
+classification server-side precisely so it can be swapped without an app release.
+The artifacts are large binaries that version control handles badly. And the
+inputs carry licence terms that need their own provenance records, which is a
+filing obligation the application repository has no reason to take on. A boundary
+justified only by secrecy erodes, because every individual exception to it looks
+harmless; this one stands on grounds that do not depend on who is looking.
+
+**It is not a service.** The private repository produces an artifact on a slow
+cadence and nothing calls it at request time — it is closer to a compiler than to
+a component of the running system. Ladle has no application tier to decompose:
+the client queries PostgREST directly and RLS is the authorization model, so any
+process holding elevated rights and re-implementing authorization would create a
+second one, and the policy tests in `tests/rls/` would then prove only half of
+what they claim to. The runtime topology does not change when the second
+repository appears.
+
+**The seam is narrow and the vocabulary is the contract.** Recipe text goes to
+inference and facet tags come back, drawn from the closed vocabulary in
+[`taxonomy.md`](./taxonomy.md), which stays canonical in the public repository.
+An Edge Function makes the call; the app never talks to inference directly.
+
+**Dormancy is filtered at serving time, not trained in.** A dormant tag is one
+below its per-facet floor, and the model must never emit one. That rule is
+enforced in the Edge Function against the activation state the database already
+holds, rather than by training a model that knows which tags are dormant. Two
+reasons: activation is retroactive, so a tag qualifying must take effect without
+a retraining pass, and the state belongs to the same table the labelling
+throughput measure reads. A model that encoded dormancy would make every
+activation a training job.
+
+**Requirement identifiers stay global.** The register in
+[`requirements.md`](./requirements.md) is not split — the private repository
+implements requirements it does not own, and a commit there cites `FR-TAG-11` the
+same way a commit here would. This is what keeps `git log --grep` meaningful
+across the boundary, and it is why the split costs the traceability convention
+nothing.
+
+**It is created at P11, not before.** There is no corpus yet, and an empty
+repository is the same indirection the top of this section already declined.
 
 
 ## Code conventions
@@ -386,5 +441,15 @@ viable.
 
 ## Open questions
 
-None outstanding.
+- **Where the corpus physically lives is unspecified.** [`data.md`](./data.md)
+  models no corpus table; `tags.example_count` is maintained per retraining pass
+  and `admin/labelling/` is a surface that writes somewhere the documents do not
+  name. The choice is between rows in a database — and not production, since the
+  corpus is not user data — and files with a manifest, labelled through the local
+  tool. Files are the better fit for the licence obligation, because per-recipe
+  source provenance is far easier to keep and to audit as a manifest than as rows
+  nobody exports, but this is a real decision rather than a formality: it settles
+  whether the second repository holds data or only a pipeline. It sits on P11's
+  critical path and belongs with the classifier engineering plan that phase
+  already needs.
 
