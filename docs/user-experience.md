@@ -78,6 +78,7 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 - When an author later edits a published recipe, every copy of it surfaces a quiet notice that the original has changed, showing what changed and offering the choice to take it or leave it. Nothing is ever applied without that household accepting it: an author's correction must not rewrite someone else's dinner while they are cooking it.
 - An author who deletes their account leaves the recipes they published in other people's cookbooks, because those copies are snapshots the copying household owns. What goes is their name: attribution degrades to a placeholder identifying nobody. Erasure should not rewrite someone else's cookbook, and it should not let a copier appear to have written what they copied.
 - Recipes belong to the cookbook and collections are views over it. Removing a recipe from a collection never deletes it, and no recipe is ever filed in the wrong place, because it can be filed in every place it belongs.
+- The showcase is stocked before anybody publishes into it. A new user's cookbook is empty by definition, and an app whose first instruction is to write a recipe from nothing has asked for the hardest thing first. So a curated set is published from the first release, and the first meal can be planned from something somebody else wrote. It is the same surface the showcase later opens to everyone, holding recipes from one household rather than from all of them, which also makes copying demonstrable on day one rather than asserted.
 - A published recipe carrying a claim Rootloom cannot verify - kosher, halal, and the frameworks resting on contested definitions - shows that claim as the author's, under their name. Any reader can report one they believe is wrong. While it waits for review the claim is suppressed and the recipe stays published, because a suppressed claim costs its author a label while a wrong one left standing costs a household its observance.
 - There is deliberately no verification badge. A badge would imply a check Rootloom does not perform and cannot perform, and the households most likely to rely on one are the households least able to afford its being wrong.
 - The showcase must be browsable by someone with no idea what they want to cook. Discovery is the entry point for the recipe collector, not search.
@@ -314,7 +315,7 @@ The shortest path from installing Rootloom to getting value out of it, walked by
 2. Record allergies and dietary models, or skip. This is asked early because it is a safety input to everything that follows, and it is skippable because a first-run questionnaire is where applications lose people.
 3. A household is created silently, with the new user as its *Owner*. No naming, no invitations, no explanation of roles.
 4. Land on `Today`, which is empty and says what to do about it.
-5. Plan one meal - from the showcase, since the cookbook is empty. The grocery list fills itself as a consequence, which is the first moment Rootloom does something a paper calendar cannot.
+5. Plan one meal - from the curated library, since the cookbook is empty. The grocery list fills itself as a consequence, which is the first moment Rootloom does something a paper calendar cannot.
 
 ### Bringing in the household
 

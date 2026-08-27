@@ -268,7 +268,7 @@ From Release 2 that list stops being merely tedious. Passkey relying-party
 origins are capped rather than unbounded — the documented limit is five — and the
 production and preview variants of two platforms plus the development build come
 to exactly that. It is recorded here because a cap reached is a different failure
-from an entry forgotten, and it wants confirming against the platform when P12
+from an entry forgotten, and it wants confirming against the platform when P13
 plans its work rather than when a preview build cannot enrol a passkey.
 
 ### Production

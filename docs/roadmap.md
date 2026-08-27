@@ -33,9 +33,10 @@ worth noticing rather than absorbing.
 
 ## Three releases, the last one conditional
 
-**Release 1 is the private cookbook** — everything a household does for itself.
-Households, calendar, cookbook, pantry, grocery, nutrition, and search within
-your own recipes. **This is the portfolio artifact**, and it is published to the
+**Release 1 is the private cookbook, with something already in it** — everything
+a household does for itself. Households, calendar, cookbook, pantry, grocery,
+nutrition, search within your own recipes, and a curated library to start from so
+that a new user's first action is not authoring a recipe from nothing. **This is the portfolio artifact**, and it is published to the
 Play Store rather than demonstrated from a build: shipping is itself part of what
 is being demonstrated, and a listed app is a credential an internal-track link is
 not. It goes to one store rather than two. The Apple Developer Program is an
@@ -91,15 +92,16 @@ for a decision taking time.
 | P6 · Dietary and allergy | 43 | 14 Jan 2027 | 29 Jan 2027 |
 | P7 · Nutrition | 46 | 29 Jan 2027 | 14 Feb 2027 |
 | P8 · Cookbook search | 20 | 14 Feb 2027 | 21 Feb 2027 |
-| P9 · Profile, preferences, notifications, accessibility | 74 | 21 Feb 2027 | 18 Mar 2027 |
-| P10 · Release 1 hardening and Play submission | 56 | 18 Mar 2027 | **6 Apr 2027** |
-| P11 · Taxonomy and classifier | 135 | 6 Apr 2027 | 23 May 2027 |
-| P12 · iOS launch and parallel-provider auth | 72 | 23 May 2027 | 17 Jun 2027 |
-| P13 · Release 2 hardening and submission | 28 | 17 Jun 2027 | **26 Jun 2027** |
-| P14 · Showcase and moderation | 102 | 26 Jun 2027 | 31 Jul 2027 |
-| P15 · Release 3 hardening and submission | 25 | 31 Jul 2027 | **8 Aug 2027** |
+| P9 · Curated library | 46 | 21 Feb 2027 | 9 Mar 2027 |
+| P10 · Profile, preferences, notifications, accessibility | 74 | 9 Mar 2027 | 3 Apr 2027 |
+| P11 · Release 1 hardening and Play submission | 48 | 3 Apr 2027 | **19 Apr 2027** |
+| P12 · Taxonomy and classifier | 135 | 19 Apr 2027 | 5 Jun 2027 |
+| P13 · iOS launch and parallel-provider auth | 72 | 5 Jun 2027 | 30 Jun 2027 |
+| P14 · Release 2 hardening and submission | 28 | 30 Jun 2027 | **9 Jul 2027** |
+| P15 · Opening publishing, and moderation | 62 | 9 Jul 2027 | 30 Jul 2027 |
+| P16 · Release 3 hardening and submission | 25 | 30 Jul 2027 | **7 Aug 2027** |
 
-973 hours; 48.65 working weeks plus the holiday. The last 127 of those hours
+971 hours; 48.55 working weeks plus the holiday. The last 87 of those hours
 are conditional.
 
 ---
@@ -146,7 +148,7 @@ and approved, and synonym search returns the right entry.
 
 USDA FoodData Central is public domain, which makes it the obvious nutrition
 source and sidesteps the licence question entirely here — unlike the recipe
-corpus in P11, where the same question is unresolved.
+corpus in P12, where the same question is unresolved.
 
 Delivers `FR-ING-01`, `FR-ING-02`, `FR-ING-04`–`FR-ING-07`, `FR-TAG-01`,
 `FR-TAG-02`, `NFR-DATA-07`, `NFR-PERF-03`.
@@ -256,8 +258,64 @@ synonym, within the 500ms target.
 
 Delivers `FR-TAG-30`, `FR-TAG-32`, `NFR-PERF-05`.
 
-### P9 · Profile, preferences, notifications, accessibility
-**74h · 21 Feb – 18 Mar 2027**
+### P9 · Curated library
+**46h · 21 Feb – 9 Mar 2027**
+
+Public-readable recipes, the browsable library, and copying into your own
+cookbook. This is the showcase surface, built here rather than in Release 3, and
+it ships with exactly one household able to publish into it.
+
+**That is the whole of the curation mechanism.** No second surface, no separate
+content type, no flag on a recipe. The administrator's own household authors
+recipes through the app — the demo household work that used to sit in the
+hardening phase — and publishes them through an administrator script, the same
+pattern P1 already uses for bulk catalog curation. It is a curated library
+because one household is the only one that has been given a way to publish yet.
+The user-facing publish control, and the confirmation that states what a
+household is about to expose, wait for Release 3.
+
+Copy semantics are complete here rather than half-built: snapshot, attribution,
+and the notice when an original changes. The library is precisely where upstream
+edits happen — one author correcting recipes other households already cook from —
+and the version history this needs has been paid for since P2. Building half of it
+now would mean changing copy behaviour in Release 3 under recipes people already
+hold.
+
+**The library ships photoless**, which is why Release 1's photo egress stays what
+[`operating-model.md`](./operating-model.md) says it is: a household's photos
+viewed by that household. A photoless recipe is first-class by design and
+[`user-interface.md`](./user-interface.md) already accepts an uneven grid rather
+than placeholder imagery, so this costs a design allowance that was granted
+years before it was needed. It also removes the licence question entirely, which
+is the trap that has already caught the training corpus and the demo
+photographs.
+
+Browse only, no search. Thirty recipes do not need it, and searching across two
+scopes at once is a question that belongs with the showcase, where it bites.
+
+Eight of the hours are the **demo household** — thirty recipes entered by hand
+through the app, moved here from the hardening phase because a library with
+nothing in it is not a library. One household covers both jobs: its photoless
+recipes are what the library publishes, and the ones carrying photographs stay
+private, which demonstrates the published and private states side by side rather
+than asserting that both work. The photographs are therefore still only ever seen
+inside the household that owns them, and the licence question they carry is the
+one [`engineering.md`](./engineering.md) already describes rather than a wider
+one.
+
+**Begins when** P8 is done **and** the demo photograph licence question is
+answered.
+**Done when** a new user with an empty cookbook can browse the library,
+copy a recipe, and plan it without authoring anything; an edit to a published
+original surfaces on its copies without altering them; and the library is
+non-empty in production.
+
+Delivers `FR-RCP-06`, `FR-RCP-09`–`FR-RCP-12`, `FR-RCP-14`, `FR-RCP-15`,
+`FR-RCP-17`, `FR-RCP-19`, `FR-RCP-21`, `FR-RCP-22`, `FR-HH-18`, `FR-ACCT-03`,
+`FR-ACCT-05`, `FR-JRN-06`, `FR-JRN-07`, `NFR-OPS-11`.
+
+### P10 · Profile, preferences, notifications, accessibility
+**74h · 9 Mar – 3 Apr 2027**
 
 Public profile, per-user preferences, reminders and expiry warnings, the optional
 second factor, and the accessibility pass across everything built so far.
@@ -279,22 +337,21 @@ Delivers `FR-PROF-01`–`FR-PROF-03`, `FR-PREF-01`–`FR-PREF-06`, `FR-ACCT-09`�
 `FR-NOTIF-01`–`FR-NOTIF-05`, `NFR-SEC-10`, `NFR-A11Y-03`, `NFR-A11Y-04`,
 `NFR-A11Y-06`–`NFR-A11Y-08`.
 
-### P10 · Release 1 hardening and Play submission
-**56h · 18 Mar – 6 Apr 2027**
+### P11 · Release 1 hardening and Play submission
+**48h · 3 Apr – 19 Apr 2027**
 
 Closed-track beta, performance measured against the reference devices, the Play
 listing, **the app icon and mark** — the design phase deferred in
 [`user-interface.md`](./user-interface.md), which becomes blocking here because a
-build cannot reach a tester without an icon — and **the demo household**, thirty
-recipes entered by hand through the app as
-[`engineering.md`](./engineering.md) describes.
+build cannot reach a tester without an icon. The demo household is no longer part
+of this phase: it moved to P9, where the library it stocks is built.
 
 Ten hours came off this phase when Release 1 stopped going to two stores. What
 replaced them costs no hours and constrains the phase more than the hours do. **A
 personal Play Console account created after November 2023 cannot reach production
 until a closed test has run twelve testers, continuously opted in, for fourteen
-days.** That is elapsed time rather than work, and at 56 hours this phase spans
-about twenty days, so the window fits inside it — but only if the build reaches
+days.** That is elapsed time rather than work, and at 48 hours this phase spans
+about seventeen days, so the window fits inside it — but only if the build reaches
 the closed track on the first day. Two things follow. The icon stops being
 something this phase contains and becomes the first thing it does. And the
 testers are recruited before the phase opens, in numbers above twelve, because
@@ -302,23 +359,19 @@ the requirement is twelve *continuously* enrolled: one person uninstalling drops
 the count, and the fourteen days are not satisfied until twelve have been in
 place for fourteen unbroken ones.
 
-Eight of the hours are that content work: roughly half sourcing photographs and
-confirming their licences, half entering the recipes. It is named rather than
-folded into the hardening estimate because it is the one part of this phase that
-is neither verification nor paperwork, and because entering thirty recipes is
-also the last honest acceptance test of the recipe editor — if it is tedious,
-that is a finding, and this is the last phase where the finding is actionable.
+The eight hours of content work left with the demo household, and so did the
+argument for naming them: entering thirty recipes by hand is the last honest
+acceptance test of the recipe editor, and that test now happens two phases
+earlier, where a finding about the editor is more actionable rather than less.
 
-**Begins when** P9 is done, **and** the demo photograph licence question is
-answered, **and** at least twelve testers have committed to the closed track.
-The last two are the corpus licence question in miniature and carry the same
-logic: each can be resolved at any time before this phase, and resolving it early
-is free insurance — against choosing thirty photographs and then discovering they
-cannot be used, and against a fourteen-day clock that cannot start.
+**Begins when** P10 is done **and** at least twelve testers have committed to the
+closed track. That second criterion is the corpus licence question in miniature
+and carries the same logic: it can be resolved at any time before this phase, and
+resolving it early is free insurance against a fourteen-day clock that cannot
+start.
 **Done when** a build is in Play's review queue, every P95 latency target
 has been measured rather than assumed, both privacy policies are published and
-linked, the demo household is populated and every photograph in it has a recorded
-licence, and the `manual` release checklist has been worked through once end to
+linked, and the `manual` release checklist has been worked through once end to
 end.
 
 Delivers `NFR-SEC-12` and `NFR-OPS-07` — the consumer health data privacy
@@ -330,8 +383,8 @@ previous ten phases built.
 
 ## Release 2 — tagging and discovery
 
-### P11 · Taxonomy and classifier
-**135h · 6 Apr – 23 May 2027**
+### P12 · Taxonomy and classifier
+**135h · 19 Apr – 5 Jun 2027**
 
 The full tag vocabulary, corpus licence verification, corpus assembly,
 hand-labelling, training, evaluation, and the activation and backfill machinery.
@@ -360,8 +413,8 @@ task in the plan.
 Delivers `FR-TAG-03`–`FR-TAG-05`, `FR-TAG-09`–`FR-TAG-29`, `FR-TAG-33`,
 `NFR-PERF-04`, `NFR-OPS-03`–`NFR-OPS-05`, `NFR-OPS-14`.
 
-### P12 · iOS launch and parallel-provider auth
-**72h · 23 May – 17 Jun 2027**
+### P13 · iOS launch and parallel-provider auth
+**72h · 5 Jun – 30 Jun 2027**
 
 The Apple Developer Program, the first iOS build to reach a device, and the
 sign-in methods that were waiting for an Apple team to exist: a third-party
@@ -374,7 +427,7 @@ The hours are enrolment and credentials 6, the iOS build and TestFlight 10, the
 two providers 14, passkeys 24, the association files and their hosting 6, an
 iOS-only interface and accessibility pass 8, and 4 to re-measure the P95 latency
 targets on the iPhone that joins the reference hardware here — the harness exists
-from P10, so this is a second run rather than a second harness. The second provider is an App Store
+from P11, so this is a second run rather than a second harness. The second provider is an App Store
 rule (`FR-ACCT-18`) before it is a preference, which is why it is a requirement
 rather than something for the submission to discover.
 
@@ -385,13 +438,13 @@ support is JavaScript, Swift and Dart, and none of those is React Native —
 `supabase-js` drives a browser API this runtime does not have, so the work is
 wiring a native module to Supabase's WebAuthn endpoints with no reference
 implementation to follow. **The fallback is to ship this phase without them**:
-third-party sign-in and the optional second factor from P9 each stand alone,
+third-party sign-in and the optional second factor from P10 each stand alone,
 `FR-ACCT-19` and `NFR-SEC-13` move to a later phase, and nothing else here
 depends on either. That is the same shape as the classifier's accuracy risk — a
 named alternative chosen when the phase opens, rather than a discovery made
 halfway through it.
 
-**Begins when** P11 is done **and** the Apple Developer Program enrolment has
+**Begins when** P12 is done **and** the Apple Developer Program enrolment has
 completed. That second criterion is not a formality: enrolment takes as long as
 it takes, and it is the one item in this phase that working harder does not
 shorten.
@@ -402,8 +455,8 @@ re-measured on the iPhone that joins the reference hardware here.
 
 Delivers `FR-ACCT-17`–`FR-ACCT-20`, `NFR-SEC-13`, and `NFR-SEC-14`.
 
-### P13 · Release 2 hardening and submission
-**28h · 17 Jun – 26 Jun 2027**
+### P14 · Release 2 hardening and submission
+**28h · 30 Jun – 9 Jul 2027**
 
 Regression across the tagging surfaces, submission, and review. Play is an update
 and is light, because the listing, the icon and both privacy policies already
@@ -414,7 +467,7 @@ that, and they are the part of this plan most likely to be wrong, because a firs
 submission is where the store gets to disagree with assumptions nobody has tested
 yet.
 
-**Begins when** P12 is done.
+**Begins when** P13 is done.
 **Done when** a build is on both stores' review queues and the `manual`
 checklist has been walked for anything tagging touched.
 
@@ -422,43 +475,50 @@ Delivers no new requirements.
 
 ---
 
-## Release 3 — the showcase
+## Release 3 — opening the showcase
 
-**Conditional on moderation capacity.** Everything below happens only if there is
-an administrator committed to working a report queue for as long as the showcase
-stays open — see [`operating-model.md`](./operating-model.md), where the gate's
+**Conditional on moderation capacity.** The showcase *surface* already exists —
+P9 built the public library, the browsable entry points and the copy machinery,
+and Releases 1 and 2 ship with them. What is conditional is opening publishing to
+every household, and the moderation the moment they can. That is a narrower
+release than the one this section used to describe, and deliberately so: the gate
+now holds back exactly the thing the gate is about. Everything below happens only
+if there is an administrator committed to working a report queue for as long as
+the showcase stays open — see [`operating-model.md`](./operating-model.md), where the gate's
 narrowing from money to attention is recorded, and where the escalation ladder
 makes clear that not building this is a real option rather than a failure.
 Release 1 remains the portfolio artifact whether or not any of it is built, and
 Release 2 remains the last unconditional phase.
 
-### P14 · Showcase and moderation
-**102h · 26 Jun – 31 Jul 2027**
+### P15 · Opening publishing, and moderation
+**62h · 9 Jul – 30 Jul 2027**
 
-Publishing, copying with snapshots, upstream notices, attribution degradation,
-the administrator table, reports with automatic suppression, the escalation
-sweep, rate limits, and the search scope control. The moderation queue is a
-section added to the administrator tool built in P11, not a new surface.
+The publish control in the recipe editor and the confirmation that states what a
+household is about to expose; the administrator table; reports with automatic
+suppression; the escalation sweep; rate limits; and the search scope control. The
+moderation queue is a section added to the administrator tool built in P12, not a
+new surface.
 
-**Begins when** P13 is done **and** the capacity decision has been made.
-**Done when** a copy is unchanged by an edit to its original until accepted, a
-deleted author's name leaves every copy while the content stays, a reported
-dietary claim suppresses on filing, an unreviewed urgent report withdraws its
-recipe from the showcase by itself, and no volume of reports removes anything.
+Forty hours left this phase for P9, and what remains is the half that needs a
+person rather than a screen. That is the right shape for a conditional phase: if
+the capacity decision goes the other way, what is lost is user publishing, not
+the ability of anyone to find a recipe they did not write.
 
-Delivers `FR-RCP-06`, `FR-RCP-09`–`FR-RCP-12`, `FR-RCP-14`, `FR-RCP-15`,
-`FR-RCP-17`–`FR-RCP-19`, `FR-RCP-21`, `FR-RCP-22`, `FR-HH-18`,
-`FR-MOD-01`–`FR-MOD-15`, `FR-TAG-08`,
-`FR-TAG-31`,
-`FR-ACCT-03`, `FR-ACCT-05`, `FR-JRN-06`, `FR-JRN-07`, `NFR-OPS-02`,
-`NFR-OPS-11`.
+**Begins when** P14 is done **and** the capacity decision has been made.
+**Done when** a household other than the administrator's can publish and
+unpublish, a reported dietary claim suppresses on filing, an unreviewed urgent
+report withdraws its recipe from the showcase by itself, and no volume of reports
+removes anything.
 
-### P15 · Release 3 hardening and submission
-**25h · 31 Jul – 8 Aug 2027**
+Delivers `FR-RCP-18`, `FR-MOD-01`–`FR-MOD-15`, `FR-TAG-08`, `FR-TAG-31`,
+`NFR-OPS-02`.
+
+### P16 · Release 3 hardening and submission
+**25h · 30 Jul – 7 Aug 2027**
 
 Beta, moderation dry-run against seeded reports, and submission.
 
-**Begins when** P14 is done.
+**Begins when** P15 is done.
 **Done when** the escalation sweep has been observed firing on a real unattended
 report, and a build is submitted.
 
@@ -506,8 +566,8 @@ collection.
 
 - **The corpus licence.** Unresolved, and the only open question that can
   invalidate work already done rather than merely delay work not yet started.
-  Answer it before P11 begins, and ideally before Release 1 ships.
-- **Catalog seeding (P1) and labelling (P11) are content, not code.** Together
+  Answer it before P12 begins, and ideally before Release 1 ships.
+- **Catalog seeding (P1) and labelling (P12) are content, not code.** Together
   they are roughly 65 hours that no amount of tooling or familiarity speeds up.
   They are also the two phases most likely to be underestimated, because they feel
   like data entry until you are doing them.

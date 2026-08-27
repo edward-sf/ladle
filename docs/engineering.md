@@ -29,7 +29,7 @@ be indirection bought against a need that has not arrived.
 That repository is **public**, under a noncommercial source-available licence, and
 it holds everything below including the planning documents — which are part of
 what is being demonstrated rather than support material for it. A second, private
-repository arrives at P11 and holds the classifier corpus. Why that boundary
+repository arrives at P12 and holds the classifier corpus. Why that boundary
 exists, and why it is the only one, is in *The corpus repository* below.
 
 The internal tool is the Application Administrator's surface, and it is
@@ -86,8 +86,8 @@ because they belong to a requirement rather than to a file.
 ### The administrator tool
 
 The Application Administrator has work in three phases, and only the last of them
-is moderation. P1 curates the ingredient catalog, P11 labels roughly 1,250
-recipes across 150 tags, and P14 works the report queue. The first is bulk
+is moderation. P1 curates the ingredient catalog, P12 labels roughly 1,250
+recipes across 150 tags, and P15 works the report queue. The first is bulk
 one-time work and runs through `scripts/` and a spreadsheet; the other two need
 an interface.
 
@@ -109,12 +109,12 @@ and Studio bypasses precisely that — which makes Studio fine for looking and
 wrong for ruling.
 
 It grows one section per phase rather than arriving whole, and the scaffold is
-built in P11 with the labelling surface that first needs it.
+built in P12 with the labelling surface that first needs it.
 
 ### The corpus repository
 
 The labelled corpus and the training pipeline live in a second, private
-repository created at P11. It is the only boundary of its kind in the project,
+repository created at P12. It is the only boundary of its kind in the project,
 and the case for it does not rest on privacy.
 
 **It would earn a repository even if everything were public.** The toolchain is
@@ -198,7 +198,7 @@ Function (`FR-TAG-11`), so the model can be replaced without shipping an app.
 [`operating-model.md`](./operating-model.md) records why the split falls there,
 and it is a cost argument rather than an architectural one.
 
-**It is created at P11, not before.** There is no corpus yet, and an empty
+**It is created at P12, not before.** There is no corpus yet, and an empty
 repository is the same indirection the top of this section already declined.
 
 
@@ -236,7 +236,7 @@ on SDK 57.
 
 The reason is the schedule rather than caution. It carries no buffer, so an
 upgrade dropped into a phase is unestimated work in a plan with nowhere to absorb
-it. And P10 measures every P95 latency target on reference devices rather than
+it. And P11 measures every P95 latency target on reference devices rather than
 assuming it — a measurement worth taking on the toolchain that ships, not on one
 the next SDK has since replaced.
 
@@ -244,7 +244,7 @@ the next SDK has since replaced.
 raise the platform requirements a submitted build has to meet, on their schedule
 rather than Rootloom's, and an SDK upgrade is usually how an Expo app meets
 them. No date is stated here because it moves; the point is that it is checked
-before P10 plans its work rather than discovered in a rejection notice.
+before P11 plans its work rather than discovered in a rejection notice.
 `NFR-OPS-15` keeps the pins honest in the meantime, because a pin that only
 exists in prose drifts the first time somebody's machine disagrees with it.
 
@@ -395,10 +395,18 @@ not a seeding exercise — `NFR-DATA-06` says production is never seeded and it
 stays true, because entering thirty recipes through the app is *using* the app
 rather than loading a fixture into it.
 
-Doing it by hand is deliberate and has a second payoff: it is the last honest
-acceptance test before submission. If entering thirty recipes is tedious, that is
-a finding about the recipe editor rather than a chore to push through, and P10 is
-the last phase where the finding is still actionable.
+Doing it by hand is deliberate and has a second payoff: it is an honest
+acceptance test of the recipe editor. If entering thirty recipes is tedious, that
+is a finding about the editor rather than a chore to push through, and it now
+arrives at P9 rather than at the hardening phase, which leaves two more phases in
+which the finding can be acted on.
+
+**It stocks the curated library as well.** The photoless recipes in it are what
+P9 publishes, and the ones carrying photographs stay private, so the household
+demonstrates the published and the private state at once. The photographs are
+therefore still only ever served to the household that owns them, which is what
+keeps the licence question the narrow one described below rather than the wider
+one that public display would ask.
 
 **Demo photographs need a licence, and this is the corpus trap in miniature.**
 Thirty recipes with photographs means thirty photographs from somewhere. Either
@@ -406,7 +414,7 @@ the author took them, or they are openly licensed and their terms were confirmed
 first. This is the same failure mode the training corpus carries — discovering a
 licence problem after the work is done — arriving eight months earlier and on
 Release 1's critical path rather than Release 3's. It is scoped explicitly in
-P10, with its own entry criterion, on the same reasoning that gates P11 on the
+P11, with its own entry criterion, on the same reasoning that gates P12 on the
 corpus licence: the question is answerable long before the phase, and answering
 it late is answering it after the work is done.
 

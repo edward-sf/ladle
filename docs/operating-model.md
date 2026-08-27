@@ -64,7 +64,7 @@ discovery. Monetisation would add, at minimum:
 | A payment processor | A new row in the processor table, and a store disclosure |
 | Billing and purchase records | A new category in the data inventory, with its own retention |
 | Purchase, restore, and receipt flows | New surfaces in a finished feature set |
-| Store billing rules and review requirements | Scope in P12, where the Apple account is bought and iOS is first submitted |
+| Store billing rules and review requirements | Scope in P13, where the Apple account is bought and iOS is first submitted |
 | A free-tier boundary | A product decision touching almost every feature |
 
 The last is the expensive one, and it is expensive in design rather than in code.
@@ -209,11 +209,22 @@ is `NFR-OPS-11`, and it is the same argument that put a scheduled digest behind
 | Push delivery | Notifications sent | Free at the transport layer |
 
 **Releases 1 and 2 are structurally bounded and Release 3 is not**, and that is
-precisely why the gate sits where it does. A household's photos are
-viewed by that household: storage grows slowly, egress is trivial, and the whole
-thing is a rounding error. The showcase changes the denominator from *members of
-one household* to *anyone browsing*, and egress is the one number that scales
-with strangers.
+precisely why the gate sits where it does. A household's photos are viewed by
+that household: storage grows slowly, egress is trivial, and the whole thing is a
+rounding error. Opening publishing changes the denominator from *members of one
+household* to *anyone browsing*, and egress is the one number that scales with
+strangers.
+
+**The curated library does not change this, because it ships photoless.** From
+Release 1 there is a publicly readable set of recipes and anyone can browse it,
+which reads like exactly the change described above and is not one: the bytes
+that scale are photographs, and the library carries none. Its recipes are text,
+which is a rounding error on a rounding error. The demo household's photographs
+stay on its private recipes and are therefore still only ever served to the
+household that owns them. This was the reason for choosing a photoless library
+over a licensed one, and it is recorded here because the first person to notice
+that Release 1 now serves public content will reasonably wonder whether this
+section survived it.
 
 ### The arithmetic that matters
 
@@ -285,7 +296,7 @@ The decision follows from that:
   online path so the model can be replaced without shipping an app; it does not
   require a periodic bulk job to take the same route.
 
-The risk worth naming is accuracy rather than cost. If evaluation at P11 shows
+The risk worth naming is accuracy rather than cost. If evaluation at P12 shows
 that no model small enough for an Edge Function clears the per-facet bar
 `NFR-OPS-04` measures, the fallback is a hosted endpoint — and the number to
 price then is its standing charge, not its per-call rate.
@@ -299,8 +310,17 @@ grounds that optimising is generally good.
 
 ## The Release 3 gate
 
-Release 3 is conditional, and the gate sits after Release 2 rather than before it
-because the two cost different currencies. Release 2 costs **time** — 120 hours,
+Release 3 is conditional, and it is now a narrower thing than it was. The public
+surface — the library, the browsable entry points, the copy machinery — is built
+in P9 and ships with Release 1, because a new user with an empty cookbook needed
+something to start from. What stayed behind the gate is opening publishing to
+every household, and the moderation that becomes owed the moment they can. The
+gate therefore holds back precisely what the gate is about, and if it never opens
+what is lost is other people's recipes reaching the showcase rather than anyone's
+ability to find a recipe they did not write.
+
+The gate sits after Release 2 rather than before it because the two cost
+different currencies. Release 2 costs **time** — 120 hours,
 roughly 40 of them hand-labelling — and almost no recurring money. It is also the
 most technically interesting work in the plan, and it improves the private
 cookbook through facet search and recommendation without needing a public surface
@@ -386,7 +406,7 @@ is cheaper than a payment processor, and the craft is demonstrated either way.
 
 Note that the first two rungs cost nothing, and both are taken before the
 measure ever moves rather than in response to it — `NFR-PERF-06` settles the
-first at P2, and the publishing cap settles the second at P14. That is the whole
+first at P2, and the publishing cap settles the second at P15. That is the whole
 argument for deciding them early: with the platform's limit enforced, a showcase
 shipped without a cap of Rootloom's own would find that the first limit anyone
 meets is the platform's, applied to everything at once, during an outage.
