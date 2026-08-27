@@ -306,16 +306,18 @@ entry criterion and it can be resolved at any time before then — it does not n
 Release 1 to be finished, and resolving it early is free insurance against
 discovering the corpus is unusable after the labelling is done.
 
-**Done when** per-facet floors are set from the evaluation curve rather than
-guessed, dormant tags are searchable and manually applicable, an author's removal
-survives a retraining pass, and a backfill applies newly active tags retroactively.
+**Done when** every corpus entry names its source and that source's licence,
+per-facet floors are set from the evaluation curve rather than guessed, a trained
+model names the corpus revision behind it, dormant tags are searchable and
+manually applicable, an author's removal survives a retraining pass, and a
+backfill applies newly active tags retroactively.
 
 The ~40 hours of hand-labelling inside this estimate is content work at a fixed
 rate and does not compress with practice. It is the largest single uninterrupted
 task in the plan.
 
-Delivers `FR-TAG-03`–`FR-TAG-05`, `FR-TAG-09`–`FR-TAG-29`, `NFR-PERF-04`,
-`NFR-OPS-03`–`NFR-OPS-05`.
+Delivers `FR-TAG-03`–`FR-TAG-05`, `FR-TAG-09`–`FR-TAG-29`, `FR-TAG-33`,
+`NFR-PERF-04`, `NFR-OPS-03`–`NFR-OPS-05`, `NFR-OPS-14`.
 
 ### P12 · Release 2 hardening and submission
 **20h · 20 May – 27 May 2027**

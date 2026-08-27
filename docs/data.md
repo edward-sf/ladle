@@ -963,6 +963,12 @@ erDiagram
 | `is_active` | **generated** — `example_count >= floor for this facet` (`FR-TAG-15`) |
 | `retired_at` | nullable (`FR-TAG-21`) |
 
+`example_count` is published from the training corpus, which lives outside this
+database entirely — see [`engineering.md`](./engineering.md). It and the facet
+floors are the only things that cross that boundary, which is what lets dormancy
+be derived from the corpus without the corpus being reachable from the
+application.
+
 Dormancy is derived rather than set, so no code path can mark a tag active
 without the examples that justify it. The vocabulary is closed to users and to
 the classifier alike (`FR-TAG-02`): **select for any authenticated user; no user

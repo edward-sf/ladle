@@ -250,6 +250,7 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-TAG-31** `test` Searching the `Household`'s `Cookbook` and searching the showcase are separate scopes, and a result set never mixes them.
 - **FR-TAG-32** `test` A search by ingredient returns `Recipe`s using that `Ingredient`, including where the query used a recorded synonym.
   - *Given* a `Recipe` using spring onion, *when* a user searches the showcase for "scallion", *then* that `Recipe` is returned.
+- **FR-TAG-33** `ci` Every training corpus entry records the source it was drawn from and the licence that source carries.
 
 ### Notifications and Reminders
 
@@ -396,3 +397,4 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-OPS-12** `test` A preview build identifies the specific database it is pointed at, not merely that it is a preview.
   - *Given* a preview build running against a newly created branch, *when* the debug screen is opened, *then* it names that branch, and two preview builds cut against different branches are distinguishable from the screen alone.
 - **NFR-OPS-13** `monitor` Preview branches in existence are reported with their age, so one outliving its release candidate is visible.
+- **NFR-OPS-14** `ci` A trained classifier records the corpus revision it was trained from.

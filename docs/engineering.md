@@ -122,9 +122,10 @@ and the case for it does not rest on privacy.
 different — training and evaluation are not React Native. The cadence is
 different: the model is retrained on its own schedule, and `FR-TAG-11` puts
 classification server-side precisely so it can be swapped without an app release.
-The artifacts are large binaries that version control handles badly. And the
-inputs carry licence terms that need their own provenance records, which is a
-filing obligation the application repository has no reason to take on. A boundary
+The trained weights are large binaries that version control handles badly - the
+corpus text is not, and the boundary was never about size. And the inputs carry
+licence terms that need their own provenance records, which is a filing
+obligation the application repository has no reason to take on. A boundary
 justified only by secrecy erodes, because every individual exception to it looks
 harmless; this one stands on grounds that do not depend on who is looking.
 
@@ -157,6 +158,37 @@ implements requirements it does not own, and a commit there cites `FR-TAG-11` th
 same way a commit here would. This is what keeps `git log --grep` meaningful
 across the boundary, and it is why the split costs the traceability convention
 nothing.
+
+**The corpus is files, not rows.** One file per recipe, plus a manifest carrying
+the source each was drawn from, the licence that source carries, and when it was
+retrieved (`FR-TAG-33`). It is a few megabytes of text, so the question was never
+storage; it was which properties the store gives away for free.
+
+Three of them decide it. Training pins to a revision, so every model traces to
+the exact corpus that produced it (`NFR-OPS-14`) - the same reproducibility
+`NFR-DATA-04` demands of the schema, applied to the other input that determines
+what ships. The licence obligation in `FR-TAG-25` is a filing obligation, and a
+misread licence has to become a reviewable deletion with history rather than an
+`UPDATE` nobody sees. And a label correction is a judgement worth reading, which
+a diff shows and a row does not.
+
+Against that, a database would buy ad-hoc querying the labelling surface does not
+need at this size - it loads the corpus and indexes it in memory - and would cost
+either a second database to run or, if it went in the Ladle schema, a table under
+RLS, in the migration chain, and owed a policy test, for data no user will ever
+read.
+
+**One thing crosses from the corpus to the product, and it is a number.** Per-tag
+example counts and per-facet floors are published into `tags.example_count` and
+`tag_facet_floors`, where `tags.is_active` is generated from them
+(`FR-TAG-15`). Dormancy is therefore derived from the corpus without the corpus
+being reachable from the application at all.
+
+**The labelling surface stays in `admin/labelling/`** and reads the corpus from a
+configured path rather than moving to the private repository with it. It is
+local-only, so a sibling checkout is unremarkable, and it already holds the
+authenticated path to production that publishing those counts needs. Labelling
+itself needs no session: it edits files.
 
 **It is created at P11, not before.** There is no corpus yet, and an empty
 repository is the same indirection the top of this section already declined.
@@ -442,15 +474,5 @@ viable.
 
 ## Open questions
 
-- **Where the corpus physically lives is unspecified.** [`data.md`](./data.md)
-  models no corpus table; `tags.example_count` is maintained per retraining pass
-  and `admin/labelling/` is a surface that writes somewhere the documents do not
-  name. The choice is between rows in a database — and not production, since the
-  corpus is not user data — and files with a manifest, labelled through the local
-  tool. Files are the better fit for the licence obligation, because per-recipe
-  source provenance is far easier to keep and to audit as a manifest than as rows
-  nobody exports, but this is a real decision rather than a formality: it settles
-  whether the second repository holds data or only a pipeline. It sits on P11's
-  critical path and belongs with the classifier engineering plan that phase
-  already needs.
+None outstanding.
 
