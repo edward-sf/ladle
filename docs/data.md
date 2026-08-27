@@ -186,7 +186,7 @@ for as long as a release candidate is being tested, then destroyed.
 | --- | --- | --- | --- | --- |
 | Local | Docker, via `supabase start` | Synthetic seed | Expo dev client on the LAN | The working session |
 | Preview | Supabase branch off `rootloom-prod` | Synthetic seed + QA data | EAS `preview` builds (internal distribution) | The release candidate |
-| Production | Hosted project `rootloom-prod` | Real user data | EAS `production` builds (App Store / Play) | Permanent |
+| Production | Hosted project `rootloom-prod` | Real user data | EAS `production` builds (Play; App Store from Release 2) | Permanent |
 
 The boundary that matters is between preview and production. A branch is a
 distinct database with its own URL, API keys, storage buckets, and Auth user
@@ -286,8 +286,14 @@ have all three variants installed side by side on one device.
 | EAS profile | Points at | Bundle ID | Distribution |
 | --- | --- | --- | --- |
 | `development` | Local stack (LAN IP) | `app.rootloom.dev` | Dev client |
-| `preview` | The current preview branch | `app.rootloom.preview` | Internal (TestFlight / internal track) |
-| `production` | `rootloom-prod` | `app.rootloom` | App Store / Play Store |
+| `preview` | The current preview branch | `app.rootloom.preview` | Internal (Play internal track; TestFlight from Release 2) |
+| `production` | `rootloom-prod` | `app.rootloom` | Play Store (App Store from Release 2) |
+
+The iOS profiles are configured from the start and build against the simulator,
+which needs no paid membership. What waits for Release 2 is distribution: a
+device build, TestFlight, and a submission all require the Apple Developer
+Program, so Release 1 is exercised on hardware through the Play internal track
+alone.
 
 The identifiers reverse `rootloom.app`, a domain the project owns, rather than
 taking the `com.` form that would decode to one it does not. The last segment

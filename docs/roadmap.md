@@ -35,9 +35,13 @@ worth noticing rather than absorbing.
 
 **Release 1 is the private cookbook** — everything a household does for itself.
 Households, calendar, cookbook, pantry, grocery, nutrition, and search within
-your own recipes. **This is the portfolio artifact**, and it is published to both
-stores rather than demonstrated from a build: shipping is itself part of what is
-being demonstrated, and a listed app is a credential a TestFlight link is not.
+your own recipes. **This is the portfolio artifact**, and it is published to the
+Play Store rather than demonstrated from a build: shipping is itself part of what
+is being demonstrated, and a listed app is a credential an internal-track link is
+not. It goes to one store rather than two. The Apple Developer Program is an
+annual charge and iOS waits for Release 2, where it is taken up together with the
+commercialisation question and with the parallel sign-in providers that cannot be
+built without it.
 
 **Release 2 is tagging and discovery** — the classifier, facet search, and
 recommendation. All of it improves a private cookbook, and none of it needs a
@@ -86,13 +90,13 @@ for a decision taking time.
 | P7 · Nutrition | 46 | 29 Jan 2027 | 14 Feb 2027 |
 | P8 · Cookbook search | 20 | 14 Feb 2027 | 21 Feb 2027 |
 | P9 · Profile, preferences, notifications, accessibility | 74 | 21 Feb 2027 | 18 Mar 2027 |
-| P10 · Release 1 hardening and submission | 66 | 18 Mar 2027 | **10 Apr 2027** |
-| P11 · Taxonomy and classifier | 135 | 10 Apr 2027 | 27 May 2027 |
-| P12 · Release 2 hardening and submission | 20 | 27 May 2027 | **3 Jun 2027** |
-| P13 · Showcase and moderation | 102 | 3 Jun 2027 | 8 Jul 2027 |
-| P14 · Release 3 hardening and submission | 25 | 8 Jul 2027 | **16 Jul 2027** |
+| P10 · Release 1 hardening and Play submission | 56 | 18 Mar 2027 | **6 Apr 2027** |
+| P11 · Taxonomy and classifier | 135 | 6 Apr 2027 | 23 May 2027 |
+| P12 · Release 2 hardening and submission | 20 | 23 May 2027 | **30 May 2027** |
+| P13 · Showcase and moderation | 102 | 30 May 2027 | 4 Jul 2027 |
+| P14 · Release 3 hardening and submission | 25 | 4 Jul 2027 | **12 Jul 2027** |
 
-903 hours; 45.15 working weeks plus the holiday. The last 127 of those hours
+893 hours; 44.65 working weeks plus the holiday. The last 127 of those hours
 are conditional.
 
 ---
@@ -271,15 +275,28 @@ Delivers `FR-PROF-01`–`FR-PROF-03`, `FR-PREF-01`–`FR-PREF-06`, `FR-ACCT-09`�
 `FR-NOTIF-01`–`FR-NOTIF-05`, `NFR-SEC-10`, `NFR-A11Y-03`, `NFR-A11Y-04`,
 `NFR-A11Y-06`–`NFR-A11Y-08`.
 
-### P10 · Release 1 hardening and submission
-**66h · 18 Mar – 10 Apr 2027**
+### P10 · Release 1 hardening and Play submission
+**56h · 18 Mar – 6 Apr 2027**
 
-Beta through TestFlight and the internal track, performance measured against the
-reference devices, store listing, **the app icon and mark** — the design phase
-deferred in [`user-interface.md`](./user-interface.md), which becomes blocking
-here because a store submission needs an icon — and **the demo household**,
-thirty recipes entered by hand through the app as
+Closed-track beta, performance measured against the reference devices, the Play
+listing, **the app icon and mark** — the design phase deferred in
+[`user-interface.md`](./user-interface.md), which becomes blocking here because a
+build cannot reach a tester without an icon — and **the demo household**, thirty
+recipes entered by hand through the app as
 [`engineering.md`](./engineering.md) describes.
+
+Ten hours came off this phase when Release 1 stopped going to two stores. What
+replaced them costs no hours and constrains the phase more than the hours do. **A
+personal Play Console account created after November 2023 cannot reach production
+until a closed test has run twelve testers, continuously opted in, for fourteen
+days.** That is elapsed time rather than work, and at 56 hours this phase spans
+about twenty days, so the window fits inside it — but only if the build reaches
+the closed track on the first day. Two things follow. The icon stops being
+something this phase contains and becomes the first thing it does. And the
+testers are recruited before the phase opens, in numbers above twelve, because
+the requirement is twelve *continuously* enrolled: one person uninstalling drops
+the count, and the fourteen days are not satisfied until twelve have been in
+place for fourteen unbroken ones.
 
 Eight of the hours are that content work: roughly half sourcing photographs and
 confirming their licences, half entering the recipes. It is named rather than
@@ -288,12 +305,13 @@ is neither verification nor paperwork, and because entering thirty recipes is
 also the last honest acceptance test of the recipe editor — if it is tedious,
 that is a finding, and this is the last phase where the finding is actionable.
 
-**Begins when** P9 is done **and** the demo photograph licence question is
-answered. That second criterion is the corpus licence question in miniature and
-carries the same logic: it can be resolved at any time before this phase, and
-resolving it early is free insurance against choosing thirty photographs and
-then discovering they cannot be used.
-**Done when** a build is on both stores' review queues, every P95 latency target
+**Begins when** P9 is done, **and** the demo photograph licence question is
+answered, **and** at least twelve testers have committed to the closed track.
+The last two are the corpus licence question in miniature and carry the same
+logic: each can be resolved at any time before this phase, and resolving it early
+is free insurance — against choosing thirty photographs and then discovering they
+cannot be used, and against a fourteen-day clock that cannot start.
+**Done when** a build is in Play's review queue, every P95 latency target
 has been measured rather than assumed, both privacy policies are published and
 linked, the demo household is populated and every photograph in it has a recorded
 licence, and the `manual` release checklist has been worked through once end to
@@ -309,7 +327,7 @@ previous ten phases built.
 ## Release 2 — tagging and discovery
 
 ### P11 · Taxonomy and classifier
-**135h · 10 Apr – 27 May 2027**
+**135h · 6 Apr – 23 May 2027**
 
 The full tag vocabulary, corpus licence verification, corpus assembly,
 hand-labelling, training, evaluation, and the activation and backfill machinery.
@@ -339,7 +357,7 @@ Delivers `FR-TAG-03`–`FR-TAG-05`, `FR-TAG-09`–`FR-TAG-29`, `FR-TAG-33`,
 `NFR-PERF-04`, `NFR-OPS-03`–`NFR-OPS-05`, `NFR-OPS-14`.
 
 ### P12 · Release 2 hardening and submission
-**20h · 27 May – 3 Jun 2027**
+**20h · 23 May – 30 May 2027**
 
 Regression across the tagging surfaces, a store update, and review. Lighter than
 P10 because the listing, the icon, and both privacy policies already exist — this
@@ -364,7 +382,7 @@ Release 1 remains the portfolio artifact whether or not any of it is built, and
 Release 2 remains the last unconditional phase.
 
 ### P13 · Showcase and moderation
-**102h · 3 Jun – 8 Jul 2027**
+**102h · 30 May – 4 Jul 2027**
 
 Publishing, copying with snapshots, upstream notices, attribution degradation,
 the administrator table, reports with automatic suppression, the escalation
@@ -384,7 +402,7 @@ Delivers `FR-RCP-06`, `FR-RCP-09`–`FR-RCP-12`, `FR-RCP-14`, `FR-RCP-15`,
 `NFR-OPS-11`.
 
 ### P14 · Release 3 hardening and submission
-**25h · 8 Jul – 16 Jul 2027**
+**25h · 4 Jul – 12 Jul 2027**
 
 Beta, moderation dry-run against seeded reports, and submission.
 

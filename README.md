@@ -10,16 +10,17 @@ no build or test tooling yet. The documents below are complete and internally
 consistent, and the roadmap sequences the work that follows from them.
 
 Three releases: the private cookbook, then tagging and discovery, then the public
-showcase. Release 1 is the portfolio artifact and is published to both stores.
+showcase. Release 1 is the portfolio artifact and lists on Google Play; iOS follows at
+Release 2, with the Apple Developer Program bought then rather than a year early.
 Release 3 is conditional on there being sustained moderation capacity for it and
 may not happen; features beyond Release 2 are listed as planned rather than
 promised.
 
 | | Scope | Earliest |
 | --- | --- | --- |
-| **Release 1** | Everything a household does for itself — cookbook, calendar, pantry, grocery, nutrition | 10 Apr 2027 |
-| **Release 2** | The tag classifier, facet search, and recommendation | 3 Jun 2027 |
-| **Release 3** | Publishing, copying, and moderation — *conditional on moderation capacity* | 16 Jul 2027 |
+| **Release 1** | Everything a household does for itself — cookbook, calendar, pantry, grocery, nutrition | 6 Apr 2027 |
+| **Release 2** | The tag classifier, facet search, and recommendation | 30 May 2027 |
+| **Release 3** | Publishing, copying, and moderation — *conditional on moderation capacity* | 12 Jul 2027 |
 
 Those dates are derived rather than chosen: they fall out of a start date, a
 sustained 20h/week, and a planned holiday break applied to per-phase hour

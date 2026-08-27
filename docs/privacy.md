@@ -16,8 +16,9 @@ It is the internal record, and it has three consumers.
 
 The **public privacy policy** is written from it rather than independently, so
 that the policy cannot describe a system Rootloom does not have. The **app store
-disclosures** — Apple's App Privacy questionnaire and Google's Data Safety form
-— ask questions this inventory is built to answer. And **design review** uses it
+disclosures** — Google's Data Safety form at Release 1, and Apple's App Privacy
+questionnaire when iOS arrives at Release 2 — ask questions this inventory is
+built to answer. And **design review** uses it
 to notice when a new field quietly enlarges what Rootloom holds.
 
 It is not itself the public policy and it is not legal advice. Nobody involved
@@ -277,7 +278,7 @@ to name.
 | --- | --- | --- |
 | Supabase | Everything — database, authentication, storage, functions | The whole data tier, per [`data.md`](./data.md) |
 | Expo / EAS | Build and update infrastructure | No user data at rest |
-| Apple and Google | Store distribution and push notification transport | Also the recipients of the disclosure forms |
+| Google, and Apple from Release 2 | Store distribution and push notification transport | Also the recipients of the disclosure forms |
 | Breached-password lookup | Nothing | See below |
 | Crash reporting | Stack traces and device model, scrubbed of health data | See below |
 
@@ -322,7 +323,10 @@ rather than a qualified one.
 The disclosures that do apply are health and fitness data, contact information,
 user content, and identifiers. Each maps to a row in the inventory above. Apple
 additionally treats health data as a category requiring the purpose to be stated,
-which `FR-NUT-08` already forces the app itself to do at the point of collection.
+which `FR-NUT-08` already forces the app itself to do at the point of collection;
+that obligation arrives with iOS at Release 2 and is recorded now because the
+answer is already known and will not have to be worked out under submission
+pressure.
 
 An age rating and the handling of under-age users is an open question below, and
 it is a store-blocking one rather than a policy nicety.

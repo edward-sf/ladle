@@ -31,9 +31,13 @@ Rootloom loses almost nothing by having one. This is the single most useful
 consequence of the answer, and most of the decisions below fall out of it.
 
 **Release 1 is the artifact.** It is what gets demonstrated, and it is published
-to both stores rather than shown from a build — shipping is part of what is being
-demonstrated, and a listed app is a credential a TestFlight link is not. Release 2
-adds the classifier and is unconditional. Everything beyond it is *listed as
+to a store rather than shown from a build — shipping is part of what is being
+demonstrated, and a listed app is a credential an internal-track link is not. It
+lists on Play alone. The Apple Developer Program is an annual charge, and paying
+it a year before there is anything to submit buys nothing, so iOS moves to
+Release 2, where the money is spent at the same time as the commercialisation
+question is taken up. Release 2 adds the classifier, reaches both stores, and is
+unconditional. Everything beyond it is *listed as
 planned rather than promised*, which is a normal and honest thing for a portfolio
 piece to say.
 
@@ -60,7 +64,7 @@ discovery. Monetisation would add, at minimum:
 | A payment processor | A new row in the processor table, and a store disclosure |
 | Billing and purchase records | A new category in the data inventory, with its own retention |
 | Purchase, restore, and receipt flows | New surfaces in a finished feature set |
-| Store billing rules and review requirements | Scope in P10, which is already estimated |
+| Store billing rules and review requirements | Scope in P12, where the Apple account is bought and iOS is first submitted |
 | A free-tier boundary | A product decision touching almost every feature |
 
 The last is the expensive one, and it is expensive in design rather than in code.
@@ -134,7 +138,7 @@ upgrade to go.
 
 | | What sits here |
 | --- | --- |
-| **Committed**, whatever the usage | The Apple Developer Program annually, the one-off Google Play registration, the two domains, and now the database subscription — which includes enough compute credit for exactly one project |
+| **Committed**, whatever the usage | The one-off Google Play registration, the two domains, and the database subscription — which includes enough compute credit for exactly one project. The Apple Developer Program joins this row at Release 2, not before |
 | **Metered**, above included allowances | Storage, egress, branch hours — a small standing figure now that pull requests touching migrations open one — and the compute of any *second* permanently running project |
 
 **The ceiling used to be mostly headroom and is now mostly rent.** The committed
@@ -165,8 +169,8 @@ for. It keeps the name on the other obvious extension out of someone else's
 hands while there is still nothing shipped to defend it with, and it is
 deliberately given no work: serving the planning documents there is the candidate
 that suggests itself, and it is declined, because GitHub already renders them and
-a static site is unestimated hours against a schedule carrying no buffer. What reopens the
-question is the renewal rather than a milestone.
+a static site is unestimated hours against a schedule carrying no buffer. What
+reopens the question is the renewal rather than a milestone.
 
 ### The cap stays on
 
