@@ -348,7 +348,7 @@ Two client-side disciplines follow from the same problem:
 
 ## Observability
 
-Four requirements are marked `monitor`, meaning they are watched over time
+Five requirements are marked `monitor`, meaning they are watched over time
 rather than passed at a point. Each needs somewhere the measurement is actually
 taken, or the marker is decoration.
 
@@ -358,11 +358,20 @@ taken, or the marker is decoration.
 | `NFR-OPS-02` | Age of the oldest unresolved report, per tier | `reports` |
 | `NFR-OPS-03` | Labelling throughput against unmet tag floors and the release date | `tags.example_count` against per-facet floors |
 | `NFR-OPS-04` | Classifier accuracy per facet against a held-out set | the evaluation run |
+| `NFR-OPS-11` | Metered usage against the included allowance | the platform's usage API |
 
 These are reports, not a dashboard. The audience is one person, and a dashboard
 nobody has a reason to open measures nothing. Each is a query against data the
-system already holds, surfaced two ways: on an administrator screen, and as a
-scheduled digest that arrives whether or not anyone went looking.
+system already holds — `NFR-OPS-11` excepted, which is the one measure whose
+source is outside the database — surfaced two ways: on an administrator screen,
+and as a scheduled digest that arrives whether or not anyone went looking.
+
+`NFR-OPS-11` earns the digest for the same reason `NFR-OPS-02` does, and more
+sharply. The spend cap in [`operating-model.md`](./operating-model.md) is left
+on, so exceeding an allowance stops the app rather than raising the bill, and an
+enforced ceiling with nothing watching the approach to it fails silently and
+completely. The measure has to arrive unprompted because the moment it matters is
+the moment nobody thought to look.
 
 The digest is the important half. `NFR-OPS-02` exists because the queue's
 failure mode is an administrator who is away, and a measure that requires

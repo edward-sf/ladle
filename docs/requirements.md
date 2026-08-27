@@ -392,3 +392,4 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-OPS-09** `test` No demographic input, allergy, or other health data appears in a crash or error payload.
   - *Given* a crash raised while the nutrition screen holds a user's weight and date of birth, *when* the payload is captured, *then* neither value appears in it, in any frame, breadcrumb, or attached context.
 - **NFR-OPS-10** `test` Crash reporting captures no screenshot, session replay, or network request body.
+- **NFR-OPS-11** `monitor` Metered platform usage is reported against its included allowance while there is still headroom to act on it.

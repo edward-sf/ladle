@@ -346,7 +346,8 @@ recipe from the showcase by itself, and no volume of reports removes anything.
 
 Delivers `FR-RCP-06`, `FR-RCP-09`–`FR-RCP-12`, `FR-RCP-14`, `FR-RCP-15`,
 `FR-RCP-17`–`FR-RCP-19`, `FR-MOD-01`–`FR-MOD-13`, `FR-TAG-08`, `FR-TAG-31`,
-`FR-ACCT-03`, `FR-ACCT-05`, `FR-JRN-06`, `FR-MOD-14`, `NFR-OPS-02`.
+`FR-ACCT-03`, `FR-ACCT-05`, `FR-JRN-06`, `FR-MOD-14`, `NFR-OPS-02`,
+`NFR-OPS-11`.
 
 ### P14 · Release 3 hardening and submission
 **25h · 1 Jul – 9 Jul 2027**

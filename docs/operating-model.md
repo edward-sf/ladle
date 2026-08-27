@@ -73,15 +73,52 @@ means answering it against a feature set that was designed without it.
 
 **Under $50 a month, absorbed personally.**
 
-Roughly $10 of that is fixed and has nothing to do with usage — the Apple
-Developer Program annually, the one-off Google Play registration, a domain to
-serve the privacy policies from. The remainder covers a managed database tier and
-whatever storage and egress sit above its included allowances.
-
 **No vendor prices are stated here on purpose.** They move, and a figure asserted
 confidently in a planning document is a figure that quietly misleads a year
 later. What is stable is the *shape* of the spending, which is what the rest of
 this section is about. Confirm the numbers when P0 provisions anything.
+
+That shape changed when the database organisation moved to its paid tier, and
+the change is worth recording because it went in the direction nobody expects an
+upgrade to go.
+
+| | What sits here |
+| --- | --- |
+| **Committed**, whatever the usage | The Apple Developer Program annually, the one-off Google Play registration, a domain to serve the privacy policies from, and now the database subscription — which includes enough compute credit for exactly one project |
+| **Metered**, above included allowances | Storage, egress, branch hours, and the compute of any *second* permanently running project |
+
+**The ceiling used to be mostly headroom and is now mostly rent.** The committed
+row accounts for something close to two thirds of it before a single person uses
+the app. That one fact drives two decisions recorded elsewhere: the environment
+topology in [`data.md`](./data.md) keeps one permanent hosted project rather than
+two, because a second always-on database is a metered compute line that would
+push the committed share past three quarters, and the spend cap below stays on.
+
+What the paid tier bought in exchange is not headroom but *floor*: backups exist
+at all where the free tier took none, and projects no longer sleep when they go a
+week without traffic. Both were latent defects in documents already written —
+`NFR-DATA-13` replaces a retired requirement that had promised a backup window
+the account could not have delivered.
+
+### The cap stays on
+
+The platform's spend cap refuses usage past the included allowances rather than
+billing for it, and it is left enabled. That turns $50 from a promise to watch
+the invoice into a property of the account — the same move as bounding the
+moderation queue by construction rather than by goodwill.
+
+The cost of that choice should be stated plainly rather than discovered: **past
+an allowance the app stops serving, it does not start costing more.** The failure
+mode is an outage rather than a bill. For a free project with no revenue that is
+the right direction — an unexpected invoice for an app nobody pays for is the
+worse of the two, and there is no user whose money is being taken in exchange for
+availability.
+
+It does create an obligation, though. A ceiling enforced by the platform fails
+without warning unless something is watching the approach to it, and the ladder
+below is only useful if it is climbed *before* the wall rather than after. That
+is `NFR-OPS-11`, and it is the same argument that put a scheduled digest behind
+`NFR-OPS-02`: a measure nobody has a reason to open measures nothing.
 
 ## Cost drivers
 
@@ -157,9 +194,15 @@ showcase adds reach that a portfolio does not need and a bill that scales with
 people who are not evaluating the work.
 
 
-## If the ceiling is reached
+## If the ceiling is approached
 
-A ladder, in order, so that the first response to an invoice is not a panic:
+Approached, not reached. With the spend cap on, reaching it is not an invoice to
+respond to — it is the app refusing to serve. The whole ladder has to be climbed
+on the way up, which is the work `NFR-OPS-11` exists to make possible, and a rung
+taken late is taken during an outage.
+
+A ladder, in order, so that the first response to the measure moving is not a
+panic:
 
 1. **Thumbnails and image budgets**, if `NFR-PERF-06` has somehow not already
    settled it.
@@ -177,6 +220,13 @@ A ladder, in order, so that the first response to an invoice is not a panic:
 The ladder is ordered by cost to the project, not by cost to the invoice. A cap
 is cheaper than a payment processor, and the craft is demonstrated either way.
 
+Note that the first two rungs cost nothing and need no decision — which is the
+argument for taking them before the measure ever moves rather than in response to
+it. Step 2 is the *Whether Release 3 should launch with a cap already in place*
+question below, and the spend cap sharpens it: shipping without one means the
+first enforcement of a limit is the platform's, applied to everything at once,
+rather than Ladle's, applied to the surface that chose it.
+
 ## Open questions
 
 - **Classifier inference hosting is unpriced.** `FR-TAG-11` puts classification
@@ -187,3 +237,13 @@ is cheaper than a payment processor, and the craft is demonstrated either way.
   already needs.
 - **Whether Release 3 should launch with a cap already in place** rather than
   waiting to need one. Cheap to add before there is content, awkward afterwards.
+  The spend cap has sharpened this rather than settled it: with the platform's
+  limit enforced, shipping without a cap of Ladle's own means the first limit
+  anyone meets is applied to everything at once, by the platform, during an
+  outage. That is an argument for step 2 of the ladder rather than a decision, and
+  it stays open because the figure — recipes per household, or pagination depth —
+  is a product judgement nobody has made yet.
+- **Classifier inference is the one cost the paid tier did not absorb.** Worth
+  naming next to the question above, because the arithmetic in this document now
+  concerns a driver with room to spare while the unpriced one sits at Release 2,
+  before the gate, with no allowance covering it at all.
