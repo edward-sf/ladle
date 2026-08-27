@@ -11,8 +11,9 @@ building it is organised.
 
 It deliberately does not restate two things it would otherwise duplicate.
 [`data.md`](./data.md) owns the data tier, the environment partitioning, and the
-promotion of migrations from local through staging to production; this document
-describes the CI jobs that carry that promotion out, not the promotion itself.
+promotion of migrations from local through a preview branch to production; this
+document describes the CI jobs that carry that promotion out, not the promotion
+itself.
 [`user-interface.md`](./user-interface.md) owns the UI tooling and the token
 layers.
 

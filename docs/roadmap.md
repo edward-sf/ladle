@@ -94,14 +94,15 @@ are conditional.
 ### P0 · Foundations
 **82h · 25 Aug – 22 Sep 2026**
 
-Supabase local stack and both hosted projects, the migration chain, CI, EAS
-profiles, auth and session persistence, the typed client with TanStack Query and
-MMKV persistence, NativeWind with the token layers, the contrast check, and the
-navigation shell.
+Supabase local stack, the production project and scripted preview branching,
+the migration chain, CI, EAS profiles, auth and session persistence, the typed
+client with TanStack Query and MMKV persistence, NativeWind with the token
+layers, the contrast check, and the navigation shell.
 
 **Begins when** nothing — this is the first phase.
 **Done when** `supabase db reset` builds from empty, CI replays migrations and
-runs the suite, all three EAS profiles build, a user can sign up and return to a
+runs the suite, a preview branch provisions from the chain and is destroyed by
+script, all three EAS profiles build, a user can sign up and return to a
 persisted session, a breached password is refused at signup, a build below the
 published minimum version refuses to run, and the contrast check runs green
 against the default theme.
