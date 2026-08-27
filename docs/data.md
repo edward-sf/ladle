@@ -289,7 +289,15 @@ EXPO_PUBLIC_SUPABASE_ANON_KEY
 
 The active environment is surfaced in the app's debug screen and in the
 non-production app icon badge, so a tester reporting a bug can say which database
-they were pointed at.
+they were pointed at. For a preview build that has to name the branch rather than
+the environment class (`NFR-OPS-12`): `preview` identified exactly one database
+while staging was permanent, and identifies a different one every release
+candidate now.
+
+Branches are created without production data. The tooling offers to clone it and
+Ladle never takes the offer — `NFR-DATA-06` is the reason, and declining it at
+the point of provisioning is what keeps the invariant structural rather than
+remembered.
 
 ### Keys and secrets
 

@@ -393,3 +393,6 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
   - *Given* a crash raised while the nutrition screen holds a user's weight and date of birth, *when* the payload is captured, *then* neither value appears in it, in any frame, breadcrumb, or attached context.
 - **NFR-OPS-10** `test` Crash reporting captures no screenshot, session replay, or network request body.
 - **NFR-OPS-11** `monitor` Metered platform usage is reported against its included allowance while there is still headroom to act on it.
+- **NFR-OPS-12** `test` A preview build identifies the specific database it is pointed at, not merely that it is a preview.
+  - *Given* a preview build running against a newly created branch, *when* the debug screen is opened, *then* it names that branch, and two preview builds cut against different branches are distinguishable from the screen alone.
+- **NFR-OPS-13** `monitor` Preview branches in existence are reported with their age, so one outliving its release candidate is visible.
