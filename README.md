@@ -70,10 +70,11 @@ docs/check.sh          # all structural checks
 docs/check.sh -q       # failures and summary only
 ```
 
-Nine deterministic checks — link resolution, identifier sequencing, verification
-markers, citation resolution, roadmap placement, area mapping, emphasis balance,
-hard-wrap conformance, and mermaid fences. It exits non-zero on any failure and
-is the gate for a commit touching `docs/`.
+Eleven deterministic checks — link resolution, identifier sequencing,
+verification markers, citation resolution, roadmap placement, area mapping,
+emphasis balance, hard-wrap conformance, mermaid fences, schedule re-derivation,
+and criterion vocabulary. It exits non-zero on any failure and is the gate for
+a commit touching `docs/`.
 
 What it deliberately cannot check is whether a requirement genuinely covers the
 intent it claims to. That match is semantic, and `user-experience.md` carries no

@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Ladle is at the planning stage. This repository contains `docs/` and `.claude/skills/` and nothing else — there is no application code, no `package.json`, and no build or test tooling. Work here is currently the writing and refinement of design documentation, and the Supabase commands listed below describe the intended workflow rather than one that can be run today.
 
-The one thing that *does* run is `docs/check.sh`, which holds the structural checks over the documentation — link resolution, identifier sequencing, verification markers, citation resolution, roadmap placement, area mapping, emphasis balance, hard-wrap conformance, and mermaid fences. Run it before any commit touching `docs/`; it exits non-zero on failure. What it cannot check is whether a requirement genuinely covers the intent behind it, which is a reading task and belongs to the `coverage-audit` skill.
+The one thing that *does* run is `docs/check.sh`, which holds the structural checks over the documentation — link resolution, identifier sequencing, verification markers, citation resolution, roadmap placement, area mapping, emphasis balance, hard-wrap conformance, mermaid fences, schedule re-derivation, and criterion vocabulary. Run it before any commit touching `docs/`; it exits non-zero on failure. What it cannot check is whether a requirement genuinely covers the intent behind it, which is a reading task and belongs to the `coverage-audit` skill.
 
 ## What Ladle is
 
