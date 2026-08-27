@@ -30,7 +30,7 @@ WRAP_MAX = int(os.environ["WRAP_MAX"])
 WRAPPED = os.environ["WRAPPED"].split()
 
 DOCS = sorted(glob.glob("docs/*.md"))
-ALL = ["CLAUDE.md", "README.md"] + DOCS
+ALL = ["CLAUDE.md", "README.md", "SECURITY.md"] + DOCS
 AUTHORITATIVE = [d for d in DOCS if not d.endswith("notes.md")]
 
 def read(p):
@@ -73,6 +73,12 @@ for ln, l in req_lines:
     order.append((rid, ln, l))
     defined.add(rid)
 
+# A retirement leaves a tombstone: `- ~~**NFR-DATA-08**~~ *Retired, superseded...`
+# It is not a requirement - no marker, no phase, and citing it is an error - but
+# it is what makes the gap it leaves in the sequence deliberate rather than lost.
+retired = set(re.findall(r'^- ~~\*\*((?:FR|NFR)-[A-Z0-9]+-\d+)\*\*~~',
+                         req_src, flags=re.M))
+
 # --- 2. identifiers unique and sequential ------------------------------------
 problems = []
 seen = collections.Counter(r for r, _, _ in order)
@@ -87,9 +93,13 @@ for area, nums in by_area.items():
         problems.append(f"{area} is not in ascending order: {seq}")
     expected = list(range(1, len(seq) + 1))
     missing = sorted(set(expected) - set(seq))
-    if missing:
-        problems.append(f"{area} has gaps at {missing} (retired IDs are fine - confirm deliberate)")
-check("req-ids", problems, f"{len(defined)} requirements, {len(by_area)} areas, no duplicates or gaps")
+    unaccounted = [n for n in missing if f"{area}-{n:02d}" not in retired]
+    if unaccounted:
+        problems.append(f"{area} has gaps at {unaccounted} with no retirement tombstone")
+problems += [f"{r} is both retired and defined" for r in sorted(retired & defined)]
+check("req-ids", problems,
+      f"{len(defined)} requirements, {len(by_area)} areas, no duplicates, "
+      f"{len(retired)} retired and every gap accounted for")
 
 # --- 3. every requirement carries a verification marker -----------------------
 MARKERS = {"test", "ci", "manual", "monitor", "policy"}
@@ -111,7 +121,9 @@ problems = []
 for f in ["CLAUDE.md", "README.md"] + [d for d in AUTHORITATIVE
                                        if not d.endswith("requirements.md")]:
     for rid in sorted(set(re.findall(r'(?:FR|NFR)-[A-Z0-9]+-\d+', read(f)))):
-        if rid not in defined:
+        if rid in retired:
+            problems.append(f"{f} cites retired {rid}")
+        elif rid not in defined:
             problems.append(f"{f} cites undefined {rid}")
 cited = set()
 for f in AUTHORITATIVE + ["CLAUDE.md"]:

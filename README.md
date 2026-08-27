@@ -4,21 +4,22 @@ Ladle is a cross-platform mobile application, providing seamless meal planning, 
 
 ## Status
 
-**Planning.** This repository currently holds design documentation and nothing
-else — there is no application code, no `package.json`, and no build or test
-tooling yet. The documents below are complete and internally consistent, and the
-roadmap sequences the work that follows from them.
+**Planning.** This repository currently holds design documentation, a licence,
+and the checking script — there is no application code, no `package.json`, and
+no build or test tooling yet. The documents below are complete and internally
+consistent, and the roadmap sequences the work that follows from them.
 
 Three releases: the private cookbook, then tagging and discovery, then the public
 showcase. Release 1 is the portfolio artifact and is published to both stores.
-Release 3 is conditional on funding being allocated for its running costs and may
-not happen; features beyond Release 2 are listed as planned rather than promised.
+Release 3 is conditional on there being sustained moderation capacity for it and
+may not happen; features beyond Release 2 are listed as planned rather than
+promised.
 
 | | Scope | Earliest |
 | --- | --- | --- |
-| **Release 1** | Everything a household does for itself — cookbook, calendar, pantry, grocery, nutrition | 3 Apr 2027 |
-| **Release 2** | The tag classifier, facet search, and recommendation | 27 May 2027 |
-| **Release 3** | Publishing, copying, and moderation — *conditional on funding* | 9 Jul 2027 |
+| **Release 1** | Everything a household does for itself — cookbook, calendar, pantry, grocery, nutrition | 6 Apr 2027 |
+| **Release 2** | The tag classifier, facet search, and recommendation | 30 May 2027 |
+| **Release 3** | Publishing, copying, and moderation — *conditional on moderation capacity* | 12 Jul 2027 |
 
 Those dates are derived rather than chosen: they fall out of a start date, a
 sustained 20h/week, and a planned holiday break applied to per-phase hour
@@ -69,10 +70,11 @@ docs/check.sh          # all structural checks
 docs/check.sh -q       # failures and summary only
 ```
 
-Nine deterministic checks — link resolution, identifier sequencing, verification
-markers, citation resolution, roadmap placement, area mapping, emphasis balance,
-hard-wrap conformance, and mermaid fences. It exits non-zero on any failure and
-is the gate for a commit touching `docs/`.
+Eleven deterministic checks — link resolution, identifier sequencing,
+verification markers, citation resolution, roadmap placement, area mapping,
+emphasis balance, hard-wrap conformance, mermaid fences, schedule re-derivation,
+and criterion vocabulary. It exits non-zero on any failure and is the gate for
+a commit touching `docs/`.
 
 What it deliberately cannot check is whether a requirement genuinely covers the
 intent it claims to. That match is semantic, and `user-experience.md` carries no
@@ -94,9 +96,34 @@ None of these run yet; they are the intended workflow, described in
 supabase start                    # full local stack in Docker
 supabase db reset                 # drop, replay every migration, apply seed.sql
 supabase migration new <name>     # scaffold a timestamped SQL migration
+supabase branches create <name>   # provision a preview branch from the chain
+supabase branches list            # what is running, and for how long
+supabase branches delete <name>   # destroy it when the candidate ships
 supabase gen types typescript     # regenerate client types from the live schema
 supabase functions deploy         # deploy Edge Functions
 ```
+
+## Licence
+
+[PolyForm Noncommercial 1.0.0](LICENSE). Read it, run it, change it, share it —
+for any noncommercial purpose. Commercial rights are reserved.
+
+The choice follows from what this repository is for. Ladle is a portfolio and
+craft project, and the documents are as much the artifact as the code will be, so
+being readable is most of the point. Reserving the commercial side costs a reader
+nothing and keeps a door open that would be expensive to reopen later.
+
+One boundary is planned and does not exist yet: the classifier's labelled corpus
+and training pipeline will live in a separate private repository from P11, for
+reasons set out in
+[`docs/engineering.md`](docs/engineering.md#the-corpus-repository). Everything
+that runs on a phone or in the database is here.
+
+## Security
+
+Reporting is described in [`SECURITY.md`](SECURITY.md). There is nothing
+deployed yet, so the useful reports right now are about the design rather than a
+running system.
 
 ## Contributing
 

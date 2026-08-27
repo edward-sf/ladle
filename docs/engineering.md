@@ -11,8 +11,9 @@ building it is organised.
 
 It deliberately does not restate two things it would otherwise duplicate.
 [`data.md`](./data.md) owns the data tier, the environment partitioning, and the
-promotion of migrations from local through staging to production; this document
-describes the CI jobs that carry that promotion out, not the promotion itself.
+promotion of migrations from local through a preview branch to production; this
+document describes the CI jobs that carry that promotion out, not the promotion
+itself.
 [`user-interface.md`](./user-interface.md) owns the UI tooling and the token
 layers.
 
@@ -25,6 +26,12 @@ that exists.
 One application and one internal tool, not a monorepo. There is exactly one
 consumer of the application code and no shared library, so a workspace tool would
 be indirection bought against a need that has not arrived.
+
+That repository is **public**, under a noncommercial source-available licence, and
+it holds everything below including the planning documents — which are part of
+what is being demonstrated rather than support material for it. A second, private
+repository arrives at P11 and holds the classifier corpus. Why that boundary
+exists, and why it is the only one, is in *The corpus repository* below.
 
 The internal tool is the Application Administrator's surface, and it is
 deliberately not part of the app. It is **local-only** — run on the
@@ -58,7 +65,7 @@ admin/                  the Application Administrator's tool - local only
   catalog/              ingredient curation and approval
   labelling/            the corpus labelling surface
   moderation/           the report queue
-scripts/                one-off import and export, spreadsheet round-trips
+scripts/                branch provisioning and teardown; import and export
 docs/
 .claude/skills/
 ```
@@ -105,6 +112,142 @@ wrong for ruling.
 It grows one section per phase rather than arriving whole, and the scaffold is
 built in P11 with the labelling surface that first needs it.
 
+### The corpus repository
+
+The labelled corpus and the training pipeline live in a second, private
+repository created at P11. It is the only boundary of its kind in the project,
+and the case for it does not rest on privacy.
+
+**It would earn a repository even if everything were public.** The toolchain is
+different — training and evaluation are not React Native. The cadence is
+different: the model is retrained on its own schedule, and `FR-TAG-11` puts
+classification server-side precisely so it can be swapped without an app release.
+The trained weights are large binaries that version control handles badly - the
+corpus text is not, and the boundary was never about size. And the inputs carry
+licence terms that need their own provenance records, which is a filing
+obligation the application repository has no reason to take on. A boundary
+justified only by secrecy erodes, because every individual exception to it looks
+harmless; this one stands on grounds that do not depend on who is looking.
+
+**It is not a service.** The private repository produces an artifact on a slow
+cadence and nothing calls it at request time — it is closer to a compiler than to
+a component of the running system. Ladle has no application tier to decompose:
+the client queries PostgREST directly and RLS is the authorization model, so any
+process holding elevated rights and re-implementing authorization would create a
+second one, and the policy tests in `tests/rls/` would then prove only half of
+what they claim to. The runtime topology does not change when the second
+repository appears.
+
+**The seam is narrow and the vocabulary is the contract.** Recipe text goes to
+inference and facet tags come back, drawn from the closed vocabulary in
+[`taxonomy.md`](./taxonomy.md), which stays canonical in the public repository.
+An Edge Function makes the call; the app never talks to inference directly.
+
+**Dormancy is filtered at serving time, not trained in.** A dormant tag is one
+below its per-facet floor, and the model must never emit one. That rule is
+enforced in the Edge Function against the activation state the database already
+holds, rather than by training a model that knows which tags are dormant. Two
+reasons: activation is retroactive, so a tag qualifying must take effect without
+a retraining pass, and the state belongs to the same table the labelling
+throughput measure reads. A model that encoded dormancy would make every
+activation a training job.
+
+**Requirement identifiers stay global.** The register in
+[`requirements.md`](./requirements.md) is not split — the private repository
+implements requirements it does not own, and a commit there cites `FR-TAG-11` the
+same way a commit here would. This is what keeps `git log --grep` meaningful
+across the boundary, and it is why the split costs the traceability convention
+nothing.
+
+**The corpus is files, not rows.** One file per recipe, plus a manifest carrying
+the source each was drawn from, the licence that source carries, and when it was
+retrieved (`FR-TAG-33`). It is a few megabytes of text, so the question was never
+storage; it was which properties the store gives away for free.
+
+Three of them decide it. Training pins to a revision, so every model traces to
+the exact corpus that produced it (`NFR-OPS-14`) - the same reproducibility
+`NFR-DATA-04` demands of the schema, applied to the other input that determines
+what ships. The licence obligation in `FR-TAG-25` is a filing obligation, and a
+misread licence has to become a reviewable deletion with history rather than an
+`UPDATE` nobody sees. And a label correction is a judgement worth reading, which
+a diff shows and a row does not.
+
+Against that, a database would buy ad-hoc querying the labelling surface does not
+need at this size - it loads the corpus and indexes it in memory - and would cost
+either a second database to run or, if it went in the Ladle schema, a table under
+RLS, in the migration chain, and owed a policy test, for data no user will ever
+read.
+
+**One thing crosses from the corpus to the product, and it is a number.** Per-tag
+example counts and per-facet floors are published into `tags.example_count` and
+`tag_facet_floors`, where `tags.is_active` is generated from them
+(`FR-TAG-15`). Dormancy is therefore derived from the corpus without the corpus
+being reachable from the application at all.
+
+**The labelling surface stays in `admin/labelling/`** and reads the corpus from a
+configured path rather than moving to the private repository with it. It is
+local-only, so a sibling checkout is unremarkable, and it already holds the
+authenticated path to production that publishing those counts needs. Labelling
+itself needs no session: it edits files.
+
+**Backfill runs here; online classification does not.** A retraining pass
+reclassifies every existing recipe (`FR-TAG-18`) and activates whatever has
+reached its floor (`FR-TAG-19`), and both run as a batch from this repository on
+the administrator's machine, writing through the administrator's authenticated
+path. Classifying a recipe as it is saved is the other half and runs in an Edge
+Function (`FR-TAG-11`), so the model can be replaced without shipping an app.
+[`operating-model.md`](./operating-model.md) records why the split falls there,
+and it is a cost argument rather than an architectural one.
+
+**It is created at P11, not before.** There is no corpus yet, and an empty
+repository is the same indirection the top of this section already declined.
+
+
+## Toolchain
+
+A pin nobody can name is not a pin. [`data.md`](./data.md) lists version pinning
+as the first mitigation for local/hosted drift; this is where the versions
+actually live.
+
+| What | Version | Where the pin lives |
+| --- | --- | --- |
+| Expo SDK | 57 | the `expo` dependency in `package.json` |
+| React Native | 0.86 | implied by the SDK, never set independently |
+| Node | 22.13 or later | `.nvmrc`, `engines`, and the CI setup step |
+| Supabase CLI | 2.116.0 | a devDependency, so CI and local run the same binary |
+| TypeScript | whatever the SDK 57 template ships | recorded here once P0 instantiates it |
+| Package manager | npm | the lockfile is committed |
+| Python | 3.12 | the CI workflow; `check.sh` needs it and nothing else does |
+
+**React Native is not a choice.** It follows the Expo SDK, and the row above
+states what SDK 57 implies rather than a second decision. Upgrading it on its own
+is one of the more reliable ways to break an Expo project.
+
+TypeScript is left unpinned until P0 rather than guessed at. The current release
+is a major version ahead of what the SDK 57 template is likely to target, and
+recording a number here that the template then contradicts would be worse than
+recording none.
+
+### One SDK for all of Release 1
+
+Expo ships roughly three SDKs a year and React Native six, so one or two SDKs
+will land between P0 and submission. They are deliberately skipped. Upgrades
+happen at phase boundaries, never inside one, and Release 1 runs start to finish
+on SDK 57.
+
+The reason is the schedule rather than caution. It carries no buffer, so an
+upgrade dropped into a phase is unestimated work in a plan with nowhere to absorb
+it. And P10 measures every P95 latency target on reference devices rather than
+assuming it — a measurement worth taking on the toolchain that ships, not on one
+the next SDK has since replaced.
+
+**The stores are the one thing that can override this.** Apple and Google both
+raise the platform requirements a submitted build has to meet, on their schedule
+rather than Ladle's, and an SDK upgrade is usually how an Expo app meets them.
+No date is stated here because it moves; the point is that it is checked before
+P10 plans its work rather than discovered in a rejection notice. `NFR-OPS-15`
+keeps the pins honest in the meantime, because a pin that only exists in prose
+drifts the first time somebody's machine disagrees with it.
 
 ## Code conventions
 
@@ -263,8 +406,10 @@ Thirty recipes with photographs means thirty photographs from somewhere. Either
 the author took them, or they are openly licensed and their terms were confirmed
 first. This is the same failure mode the training corpus carries — discovering a
 licence problem after the work is done — arriving eight months earlier and on
-Release 1's critical path rather than Release 3's. It is already implicitly in
-P10's scope, because store listing screenshots need populated data too.
+Release 1's critical path rather than Release 3's. It is scoped explicitly in
+P10, with its own entry criterion, on the same reasoning that gates P11 on the
+corpus licence: the question is answerable long before the phase, and answering
+it late is answering it after the work is done.
 
 
 ## Continuous integration
@@ -272,9 +417,17 @@ P10's scope, because store listing screenshots need populated data too.
 GitHub Actions. Every job below runs on a pull request; the deployment jobs run
 only on `main`.
 
+**Only `docs` exists today**, because it is the only one that can run against a
+repository holding no application code. The rest arrive in the phase that builds
+what they check, and each becomes a required status check on `main` at that
+point rather than in advance. That ordering is not fussiness: a required check
+with no workflow to report it does not fail, it waits indefinitely, and a branch
+protected by seven of them is a branch nothing can merge into.
+
 | Job | Does | Discharges |
 | --- | --- | --- |
 | `docs` | Runs `docs/check.sh` | — |
+| `toolchain` | Asserts the running versions match the pins | `NFR-OPS-15` |
 | `lint` | ESLint, Prettier, `tsc --noEmit` | — |
 | `types` | Regenerates database types, fails on any diff | `NFR-DATA-05` |
 | `schema` | `supabase db reset` from empty, then pgTAP | `NFR-DATA-04` |
@@ -283,6 +436,14 @@ only on `main`.
 | `secrets` | Scans bundle and repository for the `service_role` key | `NFR-SEC-02`, `NFR-SEC-03` |
 | `contrast` | Token contrast pairs, per theme, per mode | `NFR-A11Y-02` |
 | `journey` | Maestro flows against an EAS build | `FR-JRN-01`–`FR-JRN-06` |
+
+**Supabase Preview** also reports on a pull request, and is not one of these
+jobs. It is the Supabase GitHub integration rather than a workflow: it opens a
+hosted branch for a pull request that touches `supabase/`, applies the migration
+chain to it, and destroys it when the pull request closes. It is deliberately not
+a required status check, because it reports nothing at all on the many pull
+requests that touch no migration, and a branch protection rule waiting on a check
+that will never arrive is the failure this file already describes once.
 
 `FR-TAG-21` — retiring a tag remaps every recipe carrying it within the same
 migration — is checked by the `schema` job, since the remap and the retirement
@@ -347,7 +508,7 @@ Two client-side disciplines follow from the same problem:
 
 ## Observability
 
-Four requirements are marked `monitor`, meaning they are watched over time
+Six requirements are marked `monitor`, meaning they are watched over time
 rather than passed at a point. Each needs somewhere the measurement is actually
 taken, or the marker is decoration.
 
@@ -357,11 +518,21 @@ taken, or the marker is decoration.
 | `NFR-OPS-02` | Age of the oldest unresolved report, per tier | `reports` |
 | `NFR-OPS-03` | Labelling throughput against unmet tag floors and the release date | `tags.example_count` against per-facet floors |
 | `NFR-OPS-04` | Classifier accuracy per facet against a held-out set | the evaluation run |
+| `NFR-OPS-11` | Metered usage against the included allowance | the platform's usage API |
+| `NFR-OPS-13` | Preview branches in existence, and their age | `supabase branches list` |
 
 These are reports, not a dashboard. The audience is one person, and a dashboard
 nobody has a reason to open measures nothing. Each is a query against data the
-system already holds, surfaced two ways: on an administrator screen, and as a
-scheduled digest that arrives whether or not anyone went looking.
+system already holds — `NFR-OPS-11` excepted, which is the one measure whose
+source is outside the database — surfaced two ways: on an administrator screen,
+and as a scheduled digest that arrives whether or not anyone went looking.
+
+`NFR-OPS-11` earns the digest for the same reason `NFR-OPS-02` does, and more
+sharply. The spend cap in [`operating-model.md`](./operating-model.md) is left
+on, so exceeding an allowance stops the app rather than raising the bill, and an
+enforced ceiling with nothing watching the approach to it fails silently and
+completely. The measure has to arrive unprompted because the moment it matters is
+the moment nobody thought to look.
 
 The digest is the important half. `NFR-OPS-02` exists because the queue's
 failure mode is an administrator who is away, and a measure that requires

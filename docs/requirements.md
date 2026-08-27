@@ -11,6 +11,7 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **Identifiers** are `FR-<AREA>-<NN>` for functional requirements and `NFR-<ATTRIBUTE>-<NN>` for non-functional ones. Each functional area maps to exactly one feature in [`user-experience.md`](./user-experience.md), except `JRN`, which maps to its user experience paths.
 - **Identifiers are stable.** A withdrawn requirement's number is retired rather than reused, and a new requirement is appended to the end of its area rather than inserted, so a reference in a test or a commit message never silently comes to mean something else.
 - **A material change issues a new identifier.** If a requirement changes such that a test currently passing against it could now be wrong, the old identifier is retired and a new one issued. Edits to wording, clarity, or formatting keep theirs. The judgement is whether the claim moved, not whether the sentence did.
+- **A retirement leaves a tombstone.** The retired identifier stays where it was, struck through, naming what superseded it and why. It is no longer a requirement - it carries no verification marker, takes no roadmap phase, and must not be cited - but the gap it leaves in the sequence is accounted for rather than merely tolerated, which is what lets [`check.sh`](./check.sh) fail an accidental gap while passing a deliberate one.
 - **Stability binds from first external citation.** Until an identifier is cited outside this document - by a test, by `roadmap.md`, or in a commit - it may be amended in place, because there is nothing yet to mislead.
 - **One requirement, one claim.** Each is a single declarative statement that is either satisfied or not. A statement needing the word "and" to join two independent claims is two requirements.
 - **Criteria appear where they earn their place** - where the statement alone does not determine the test - as indented *Given / when / then* lines beneath it. Their absence means the statement is its own test, not that the requirement matters less.
@@ -125,6 +126,8 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-RCP-19** `test` When an Author's account is deleted, attribution on every copy of their `Recipe`s degrades to a non-identifying placeholder, and the copied content is unchanged.
   - *Given* a copied `Recipe` attributed to an Author, *when* that Author deletes their account, *then* the copy retains its content and shows an attribution naming no one.
 - **FR-RCP-20** `test` A `Recipe` without a photo displays no image area and no generated stand-in imagery.
+- **FR-RCP-21** `test` A `Household` holds no more than fifty published `Recipe`s at once.
+  - *Given* a `Household` already holding fifty published `Recipe`s, *when* a member publishes another, *then* the action is refused with a reason naming the limit, and unpublishing any one of them frees a place.
 
 ### Pantry and Grocery
 
@@ -249,6 +252,7 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-TAG-31** `test` Searching the `Household`'s `Cookbook` and searching the showcase are separate scopes, and a result set never mixes them.
 - **FR-TAG-32** `test` A search by ingredient returns `Recipe`s using that `Ingredient`, including where the query used a recorded synonym.
   - *Given* a `Recipe` using spring onion, *when* a user searches the showcase for "scallion", *then* that `Recipe` is returned.
+- **FR-TAG-33** `ci` Every training corpus entry records the source it was drawn from and the licence that source carries.
 
 ### Notifications and Reminders
 
@@ -370,12 +374,13 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-DATA-05** `ci` TypeScript types are generated from the live schema and committed, so a schema change that breaks the app fails at compile time.
 - **NFR-DATA-06** `policy` Production data is never restored, seeded, or copied into any other environment.
 - **NFR-DATA-07** `test` Nutrition figures are stored as estimates, with the basis of each recorded alongside it.
-- **NFR-DATA-08** `policy` Backups are retained for 30 days, after which deleted data is unrecoverable from them.
+- ~~**NFR-DATA-08**~~ *Retired, superseded by `NFR-DATA-13`.* It claimed a 30-day backup window that no plan Ladle runs on offers: the managed tier keeps daily backups for seven days, and a longer window is a paid add-on costing several times the whole monthly ceiling in [`operating-model.md`](./operating-model.md). The claim had also been made against a plan carrying no backups at all, so it was never true rather than newly false.
 - **NFR-DATA-09** `ci` A migration dropping or renaming a column, table, or enum value fails the build unless it carries an explicit annotation recording that no supported client version references it.
 - **NFR-DATA-10** `test` The client refuses to operate below the server-published minimum supported version, showing a blocking prompt to update.
 - **NFR-DATA-11** `test` The client renders an enum value it does not recognise without erroring.
 - **NFR-DATA-12** `test` A minimum-version check that cannot reach the server does not block the client.
   - *Given* a device with no connectivity and a populated cache, *when* the app is opened, *then* the client is not blocked, no update prompt is shown, and the `Cookbook` and `GroceryList` are readable.
+- **NFR-DATA-13** `policy` Backups are retained for 7 days, after which deleted data is unrecoverable from them.
 
 ### Operability
 
@@ -390,3 +395,9 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-OPS-09** `test` No demographic input, allergy, or other health data appears in a crash or error payload.
   - *Given* a crash raised while the nutrition screen holds a user's weight and date of birth, *when* the payload is captured, *then* neither value appears in it, in any frame, breadcrumb, or attached context.
 - **NFR-OPS-10** `test` Crash reporting captures no screenshot, session replay, or network request body.
+- **NFR-OPS-11** `monitor` Metered platform usage is reported against its included allowance while there is still headroom to act on it.
+- **NFR-OPS-12** `test` A preview build identifies the specific database it is pointed at, not merely that it is a preview.
+  - *Given* a preview build running against a newly created branch, *when* the debug screen is opened, *then* it names that branch, and two preview builds cut against different branches are distinguishable from the screen alone.
+- **NFR-OPS-13** `monitor` Preview branches in existence are reported with their age, so one outliving its release candidate is visible.
+- **NFR-OPS-14** `ci` A trained classifier records the corpus revision it was trained from.
+- **NFR-OPS-15** `ci` The build fails when the toolchain in use does not match the versions pinned in the repository.

@@ -44,27 +44,35 @@ recommendation. All of it improves a private cookbook, and none of it needs a
 public surface to be worth having.
 
 **Release 3 is the showcase** — publishing, copying, attribution, and moderation.
-**It is conditional on funding being allocated for it**, and it may not happen.
-Features beyond Release 2 are listed as planned rather than promised.
+**It is conditional on there being sustained moderation capacity for it**, and it
+may not happen. Features beyond Release 2 are listed as planned rather than
+promised.
 
 The gate sits between Releases 2 and 3 rather than before both, because the two
 cost different currencies. Release 2 costs time — 120 hours, roughly 40 of them
-hand-labelling — and almost no recurring money. Release 3 is where money starts:
-public photos are the one cost that scales with strangers browsing rather than
-with anything under control, and the moderation queue spends the other scarce
-resource, which is one person's attention. Putting the gate before both would
-place the most technically interesting work behind a door that may never open.
+hand-labelling — and almost no recurring money. Release 3 is where the costs
+start that do not stop: public photos scale with strangers browsing rather than
+with anything under control, and the moderation queue spends the scarcer resource
+still, which is one person's attention. Putting the gate before both would place
+the most technically interesting work behind a door that may never open.
+
+The gate was originally written as a funding decision. It is not one any more:
+the paid database tier is committed for Release 1's sake, and its allowances
+cover a thumbnailed showcase with room to spare, so building Release 3 adds no
+recurring line to the bill. What is left is the obligation to work a queue for as
+long as the showcase is open — see [`operating-model.md`](./operating-model.md),
+where the reasoning and the ladder that follows from it are recorded.
 
 This supersedes an earlier two-release split. The reasoning that produced it
 still holds — the classifier gate, the corpus licence, and the moderation queue
 are all consequences of a public corpus, and none is load-bearing for a household
 cooking its own food, which is why none of them sits on Release 1's critical
-path. What changed is that funding, rather than sequence, now separates the
-showcase from everything else.
+path. What changed is that a standing obligation, rather than sequence, now
+separates the showcase from everything else.
 
-Dates past Release 1 assume the work continues without pause. A gap at the
-funding gate moves Release 3 by the length of the gap; nothing about the
-arithmetic accounts for a decision taking time.
+Dates past Release 1 assume the work continues without pause. A gap at the gate
+moves Release 3 by the length of the gap; nothing about the arithmetic accounts
+for a decision taking time.
 
 | Phase | Hours | Starts | Ends |
 | --- | --- | --- | --- |
@@ -78,13 +86,13 @@ arithmetic accounts for a decision taking time.
 | P7 · Nutrition | 46 | 29 Jan 2027 | 14 Feb 2027 |
 | P8 · Cookbook search | 20 | 14 Feb 2027 | 21 Feb 2027 |
 | P9 · Profile, preferences, notifications, accessibility | 60 | 21 Feb 2027 | 14 Mar 2027 |
-| P10 · Release 1 hardening and submission | 58 | 14 Mar 2027 | **3 Apr 2027** |
-| P11 · Taxonomy and classifier | 135 | 3 Apr 2027 | 20 May 2027 |
-| P12 · Release 2 hardening and submission | 20 | 20 May 2027 | **27 May 2027** |
-| P13 · Showcase and moderation | 102 | 27 May 2027 | 1 Jul 2027 |
-| P14 · Release 3 hardening and submission | 25 | 1 Jul 2027 | **9 Jul 2027** |
+| P10 · Release 1 hardening and submission | 66 | 14 Mar 2027 | **6 Apr 2027** |
+| P11 · Taxonomy and classifier | 135 | 6 Apr 2027 | 23 May 2027 |
+| P12 · Release 2 hardening and submission | 20 | 23 May 2027 | **30 May 2027** |
+| P13 · Showcase and moderation | 102 | 30 May 2027 | 4 Jul 2027 |
+| P14 · Release 3 hardening and submission | 25 | 4 Jul 2027 | **12 Jul 2027** |
 
-881 hours; 44.05 working weeks plus the holiday. The last 127 of those hours
+889 hours; 44.45 working weeks plus the holiday. The last 127 of those hours
 are conditional.
 
 ---
@@ -94,23 +102,25 @@ are conditional.
 ### P0 · Foundations
 **82h · 25 Aug – 22 Sep 2026**
 
-Supabase local stack and both hosted projects, the migration chain, CI, EAS
-profiles, auth and session persistence, the typed client with TanStack Query and
-MMKV persistence, NativeWind with the token layers, the contrast check, and the
-navigation shell.
+Supabase local stack, the production project and scripted preview branching,
+the migration chain, CI, EAS profiles, auth and session persistence, the typed
+client with TanStack Query and MMKV persistence, NativeWind with the token
+layers, the contrast check, and the navigation shell.
 
 **Begins when** nothing — this is the first phase.
 **Done when** `supabase db reset` builds from empty, CI replays migrations and
-runs the suite, all three EAS profiles build, a user can sign up and return to a
+runs the suite, a preview branch provisions from the chain and is destroyed by
+script, all three EAS profiles build, a user can sign up and return to a
 persisted session, a breached password is refused at signup, a build below the
 published minimum version refuses to run, and the contrast check runs green
 against the default theme.
 
 Delivers `FR-ACCT-01`, `FR-ACCT-02`, `FR-ACCT-06`–`FR-ACCT-08`, `FR-PREF-07`,
 `NFR-SEC-01`–`NFR-SEC-05`, `NFR-SEC-08`, `NFR-SEC-09`, `NFR-OFF-01`–`NFR-OFF-05`,
-`NFR-DATA-01`, `NFR-DATA-04`–`NFR-DATA-06`, `NFR-DATA-08`–`NFR-DATA-12`,
+`NFR-DATA-01`, `NFR-DATA-04`–`NFR-DATA-06`, `NFR-DATA-09`–`NFR-DATA-13`,
 `NFR-OPS-01`,
-`NFR-OPS-06`, `NFR-OPS-08`–`NFR-OPS-10`,
+`NFR-OPS-06`, `NFR-OPS-08`–`NFR-OPS-10`, `NFR-OPS-12`, `NFR-OPS-13`,
+`NFR-OPS-15`,
 `NFR-A11Y-02`.
 
 ### P1 · Ingredient catalog
@@ -258,17 +268,31 @@ Delivers `FR-PROF-01`–`FR-PROF-03`, `FR-PREF-01`–`FR-PREF-06`, `FR-ACCT-09`�
 `NFR-A11Y-06`–`NFR-A11Y-08`.
 
 ### P10 · Release 1 hardening and submission
-**58h · 14 Mar – 3 Apr 2027**
+**66h · 14 Mar – 6 Apr 2027**
 
 Beta through TestFlight and the internal track, performance measured against the
-reference devices, store listing, and **the app icon and mark** — the design
-phase deferred in [`user-interface.md`](./user-interface.md), which becomes
-blocking here because a store submission needs an icon.
+reference devices, store listing, **the app icon and mark** — the design phase
+deferred in [`user-interface.md`](./user-interface.md), which becomes blocking
+here because a store submission needs an icon — and **the demo household**,
+thirty recipes entered by hand through the app as
+[`engineering.md`](./engineering.md) describes.
 
-**Begins when** P9 is done.
+Eight of the hours are that content work: roughly half sourcing photographs and
+confirming their licences, half entering the recipes. It is named rather than
+folded into the hardening estimate because it is the one part of this phase that
+is neither verification nor paperwork, and because entering thirty recipes is
+also the last honest acceptance test of the recipe editor — if it is tedious,
+that is a finding, and this is the last phase where the finding is actionable.
+
+**Begins when** P9 is done **and** the demo photograph licence question is
+answered. That second criterion is the corpus licence question in miniature and
+carries the same logic: it can be resolved at any time before this phase, and
+resolving it early is free insurance against choosing thirty photographs and
+then discovering they cannot be used.
 **Done when** a build is on both stores' review queues, every P95 latency target
 has been measured rather than assumed, both privacy policies are published and
-linked, and the `manual` release checklist has been worked through once end to
+linked, the demo household is populated and every photograph in it has a recorded
+licence, and the `manual` release checklist has been worked through once end to
 end.
 
 Delivers `NFR-SEC-12` and `NFR-OPS-07` — the consumer health data privacy
@@ -281,10 +305,13 @@ previous ten phases built.
 ## Release 2 — tagging and discovery
 
 ### P11 · Taxonomy and classifier
-**135h · 3 Apr – 20 May 2027**
+**135h · 6 Apr – 23 May 2027**
 
 The full tag vocabulary, corpus licence verification, corpus assembly,
 hand-labelling, training, evaluation, and the activation and backfill machinery.
+The corpus and its training pipeline move into the separate private repository
+described in [`engineering.md`](./engineering.md) at the start of this phase,
+which is the first point at which there is anything to put in it.
 Includes building the administrator tool that the labelling runs through — the
 ~40 hours below is a rate that assumes one, and labelling 1,250 recipes through
 Supabase Studio would cost considerably more and produce worse labels.
@@ -294,19 +321,21 @@ entry criterion and it can be resolved at any time before then — it does not n
 Release 1 to be finished, and resolving it early is free insurance against
 discovering the corpus is unusable after the labelling is done.
 
-**Done when** per-facet floors are set from the evaluation curve rather than
-guessed, dormant tags are searchable and manually applicable, an author's removal
-survives a retraining pass, and a backfill applies newly active tags retroactively.
+**Done when** every corpus entry names its source and that source's licence,
+per-facet floors are set from the evaluation curve rather than guessed, a trained
+model names the corpus revision behind it, dormant tags are searchable and
+manually applicable, an author's removal survives a retraining pass, and a
+backfill applies newly active tags retroactively.
 
 The ~40 hours of hand-labelling inside this estimate is content work at a fixed
 rate and does not compress with practice. It is the largest single uninterrupted
 task in the plan.
 
-Delivers `FR-TAG-03`–`FR-TAG-05`, `FR-TAG-09`–`FR-TAG-29`, `NFR-PERF-04`,
-`NFR-OPS-03`–`NFR-OPS-05`.
+Delivers `FR-TAG-03`–`FR-TAG-05`, `FR-TAG-09`–`FR-TAG-29`, `FR-TAG-33`,
+`NFR-PERF-04`, `NFR-OPS-03`–`NFR-OPS-05`, `NFR-OPS-14`.
 
 ### P12 · Release 2 hardening and submission
-**20h · 20 May – 27 May 2027**
+**20h · 23 May – 30 May 2027**
 
 Regression across the tagging surfaces, a store update, and review. Lighter than
 P10 because the listing, the icon, and both privacy policies already exist — this
@@ -322,33 +351,36 @@ Delivers no new requirements.
 
 ## Release 3 — the showcase
 
-**Conditional on funding.** Everything below happens only if the running costs of
-a public showcase are allocated for — see
-[`operating-model.md`](./operating-model.md), where the escalation ladder makes
-clear that not building this is a real option rather than a failure. Release 1
-remains the portfolio artifact whether or not any of it is built, and Release 2
-remains the last unconditional phase.
+**Conditional on moderation capacity.** Everything below happens only if there is
+an administrator committed to working a report queue for as long as the showcase
+stays open — see [`operating-model.md`](./operating-model.md), where the gate's
+narrowing from money to attention is recorded, and where the escalation ladder
+makes clear that not building this is a real option rather than a failure.
+Release 1 remains the portfolio artifact whether or not any of it is built, and
+Release 2 remains the last unconditional phase.
 
 ### P13 · Showcase and moderation
-**102h · 27 May – 1 Jul 2027**
+**102h · 30 May – 4 Jul 2027**
 
 Publishing, copying with snapshots, upstream notices, attribution degradation,
 the administrator table, reports with automatic suppression, the escalation
 sweep, rate limits, and the search scope control. The moderation queue is a
 section added to the administrator tool built in P11, not a new surface.
 
-**Begins when** P12 is done **and** the funding decision has been made.
+**Begins when** P12 is done **and** the capacity decision has been made.
 **Done when** a copy is unchanged by an edit to its original until accepted, a
 deleted author's name leaves every copy while the content stays, a reported
 dietary claim suppresses on filing, an unreviewed urgent report withdraws its
 recipe from the showcase by itself, and no volume of reports removes anything.
 
 Delivers `FR-RCP-06`, `FR-RCP-09`–`FR-RCP-12`, `FR-RCP-14`, `FR-RCP-15`,
-`FR-RCP-17`–`FR-RCP-19`, `FR-MOD-01`–`FR-MOD-13`, `FR-TAG-08`, `FR-TAG-31`,
-`FR-ACCT-03`, `FR-ACCT-05`, `FR-JRN-06`, `FR-MOD-14`, `NFR-OPS-02`.
+`FR-RCP-17`–`FR-RCP-19`, `FR-RCP-21`, `FR-MOD-01`–`FR-MOD-13`, `FR-TAG-08`,
+`FR-TAG-31`,
+`FR-ACCT-03`, `FR-ACCT-05`, `FR-JRN-06`, `FR-MOD-14`, `NFR-OPS-02`,
+`NFR-OPS-11`.
 
 ### P14 · Release 3 hardening and submission
-**25h · 1 Jul – 9 Jul 2027**
+**25h · 4 Jul – 12 Jul 2027**
 
 Beta, moderation dry-run against seeded reports, and submission.
 

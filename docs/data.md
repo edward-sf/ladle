@@ -144,7 +144,9 @@ The workflow:
    hand — policies live in the same migration as the table they protect.
 3. `supabase db reset` replays every migration against the local Docker Postgres,
    proving the migration chain builds from empty.
-4. CI applies migrations to the target environment with `supabase db push`.
+4. Migrations reach a hosted database twice: replayed from empty when a preview
+   branch is created, and applied to production with `supabase db push` behind
+   the approval gate described in *Migration promotion*.
 
 TypeScript types for the client are generated from the live schema with
 `supabase gen types typescript` and committed, so a schema change that breaks the
@@ -175,21 +177,28 @@ surface, rather than to rework the screens.
 
 ## Environment partitioning
 
-Ladle runs three environments. Only two of them are hosted: development happens
-against a local Supabase stack on the developer's machine, and **staging** and
-**production** are separate Supabase Cloud projects.
+Ladle runs three environments, and only one of them is permanently hosted.
+Development happens against a local Supabase stack on the developer's machine,
+**production** is a Supabase Cloud project, and the environment between them is
+a **preview branch** — a hosted database provisioned from the migration chain
+for as long as a release candidate is being tested, then destroyed.
 
-| Environment | Postgres | Data | Consumed by |
-| --- | --- | --- | --- |
-| Local | Docker, via `supabase start` | Synthetic seed | Expo dev client on the LAN |
-| Staging | Hosted project `ladle-staging` | Synthetic seed + QA data | EAS `preview` builds (internal distribution) |
-| Production | Hosted project `ladle-prod` | Real user data | EAS `production` builds (App Store / Play) |
+| Environment | Postgres | Data | Consumed by | Lifetime |
+| --- | --- | --- | --- | --- |
+| Local | Docker, via `supabase start` | Synthetic seed | Expo dev client on the LAN | The working session |
+| Preview | Supabase branch off `ladle-prod` | Synthetic seed + QA data | EAS `preview` builds (internal distribution) | The release candidate |
+| Production | Hosted project `ladle-prod` | Real user data | EAS `production` builds (App Store / Play) | Permanent |
 
-The boundary that matters is between staging and production: they are distinct
-Supabase projects with their own URLs, API keys, databases, storage buckets, and
-Auth user pools. Nothing is shared between them — a staging account does not
-exist in production, and a staging bucket policy cannot expose a production
-object.
+The boundary that matters is between preview and production. A branch is a
+distinct database with its own URL, API keys, storage buckets, and Auth user
+pool. Nothing is shared — a preview account does not exist in production, and a
+preview bucket policy cannot expose a production object.
+
+A branch is built from the migration chain and `seed.sql`, never from a copy of
+production. That is worth stating as a property rather than a practice: where a
+long-lived staging project *could* in principle be restored from a production
+dump, there is no version of provisioning a branch that reaches production data
+at all. `NFR-DATA-06` holds by construction here rather than by discipline.
 
 ### Local
 
@@ -203,22 +212,58 @@ and applies `supabase/seed.sql`. That single command is the definition of a
 clean environment, and running it is how a developer confirms their migration
 chain builds from empty before opening a pull request.
 
-Because there is no per-branch hosted database, pull requests are validated in CI
-by doing the same thing: standing up the Supabase stack in the runner, replaying
-migrations and seed, and running the test suite against it.
+Pull requests are validated in CI by doing the same thing: standing up the
+Supabase stack in the runner, replaying migrations and seed, and running the test
+suite against it. **The suite stays in the runner.** A container is faster, costs
+nothing, and is the environment `NFR-DATA-04` is actually a claim about; running
+those same assertions against the network would buy fidelity the tests do not
+exercise.
 
-### Staging
+**A pull request touching `supabase/` additionally gets a hosted branch**, opened
+and destroyed by the Supabase GitHub integration. That is a different claim
+rather than the same one twice. The runner proves the chain builds from empty in
+Docker; the branch proves it applies on Supabase Cloud, where extensions, roles
+and managed schemas can differ from the local image. It runs no tests, costs
+branch-hours rather than a standing charge, and is the cheapest available
+mitigation for the drift recorded at the end of this section — which is a risk
+this document names and, until now, answered only by waiting for a release
+candidate.
 
-A hosted Supabase project that mirrors production's configuration — same
-extensions, same Auth providers, same bucket layout, same Edge Functions — but
-holds no real user data.
+### Preview
 
-Staging exists to answer questions local development cannot. It is where hosted-
+A Supabase branch off `ladle-prod`, inheriting its configuration — same
+extensions, same Auth providers, same bucket layout, same Edge Functions — and
+none of its data.
+
+Preview exists to answer questions local development cannot. It is where hosted-
 only behavior is exercised for the first time: third-party OAuth redirects,
 outbound email through the real SMTP provider, Storage image transformation,
 Edge Functions running on the edge network rather than in a local container, and
 `pg_cron` schedules actually firing. It is also where a release build is
 smoke-tested end to end before it is promoted.
+
+**It is ephemeral, and that is the point twice over.** Branch compute is billed
+by the hour it exists, so a permanent one would spend most of the monthly ceiling
+in [`operating-model.md`](./operating-model.md) sitting idle overnight. But the
+cost is only what made the question worth asking. A long-lived staging project
+accumulates QA data and hand-applied fixes until it is no longer a faithful
+statement of what the migration chain builds, and it drifts silently, because
+nothing about a working staging environment announces that it stopped being
+reproducible. A branch is replayed from empty every time it is created, which
+makes every release candidate an execution of `NFR-DATA-04` on hosted
+infrastructure rather than only in a container.
+
+**What it costs is a stable address.** A preview build carries the branch URL and
+key inlined at build time, so it stops working when the branch is destroyed. That
+is accepted rather than mitigated: a preview build is a release candidate under
+test, not a distribution channel, and one that outlives its database is testing
+nothing. The branch is created before the build is cut and destroyed after the
+candidate ships or is abandoned.
+
+**The residual risk is per-branch configuration.** Anything holding an allow-list
+of URLs — OAuth redirect targets above all — has to admit each new branch, and a
+branch that is forgotten there fails in a way local development never shows. The
+provisioning is scripted for that reason rather than done by hand.
 
 ### Production
 
@@ -227,10 +272,10 @@ The live project. Two properties distinguish it from everything upstream:
 - **Migrations are gated.** No pipeline applies schema changes to production
   without a human approval step.
 - **Data flows out, never in.** Production is never restored, seeded, or reset
-  from another environment, and its data is never copied down to staging or a
-  developer machine. Since non-production data is entirely synthetic, this is a
-  clean invariant rather than a policy that needs an anonymization pipeline to
-  enforce.
+  from another environment, and its data is never copied down to a preview branch
+  or a developer machine. Since non-production data is entirely synthetic, this
+  is a clean invariant rather than a policy that needs an anonymization pipeline
+  to enforce.
 
 ### Environment selection in the client
 
@@ -242,7 +287,7 @@ have all three variants installed side by side on one device.
 | EAS profile | Points at | Bundle ID | Distribution |
 | --- | --- | --- | --- |
 | `development` | Local stack (LAN IP) | `com.ladle.app.dev` | Dev client |
-| `preview` | `ladle-staging` | `com.ladle.app.preview` | Internal (TestFlight / internal track) |
+| `preview` | The current preview branch | `com.ladle.app.preview` | Internal (TestFlight / internal track) |
 | `production` | `ladle-prod` | `com.ladle.app` | App Store / Play Store |
 
 Variables consumed by the client carry the `EXPO_PUBLIC_` prefix so Expo inlines
@@ -255,7 +300,15 @@ EXPO_PUBLIC_SUPABASE_ANON_KEY
 
 The active environment is surfaced in the app's debug screen and in the
 non-production app icon badge, so a tester reporting a bug can say which database
-they were pointed at.
+they were pointed at. For a preview build that has to name the branch rather than
+the environment class (`NFR-OPS-12`): `preview` identified exactly one database
+while staging was permanent, and identifies a different one every release
+candidate now.
+
+Branches are created without production data. The tooling offers to clone it and
+Ladle never takes the offer — `NFR-DATA-06` is the reason, and declining it at
+the point of provisioning is what keeps the invariant structural rather than
+remembered.
 
 ### Keys and secrets
 
@@ -266,8 +319,10 @@ they were pointed at.
 | Supabase access token | GitHub Actions secrets | CI authentication to the Supabase API |
 | Third-party API keys | Supabase Edge Function secrets, per project | Server-side only |
 
-Every one of these is issued per project, so staging credentials are inert
-against production.
+Every one of these is issued per project, and a branch is issued its own, so
+preview credentials are inert against production. A branch's keys are minted when
+it is created, which means they are read from the branch rather than stored: there
+is no long-lived preview secret to leak or to leave behind in a build profile.
 
 ### Migration promotion
 
@@ -279,15 +334,17 @@ SQL files run at every stage:
 2. **Pull request.** CI stands up a fresh Supabase stack, replays all migrations
    plus seed, and runs the test suite. A migration that does not build from empty
    fails here.
-3. **Merge to `main`.** CI applies migrations to `ladle-staging` automatically
-   and regenerates the TypeScript types. Staging is expected to be a faithful
-   preview of the next release at all times.
+3. **Merge to `main`.** CI regenerates the TypeScript types. There is no
+   always-on environment at this step: the migration is proven against a clean
+   replay in CI, and the next hosted execution of it is the branch cut for the
+   release candidate.
 4. **Release.** The same commit is promoted to `ladle-prod` behind a protected
    GitHub Environment requiring explicit approval. Approval is the gate; the
-   command that runs afterward is identical to the staging one.
+   command that runs afterward is identical to the one the branch ran.
 
-Because approval happens on a commit that has already been applied to staging,
-the production step is a rehearsed operation rather than a first attempt.
+Because approval happens on a commit whose migrations have already been applied
+to a hosted branch from empty, the production step is a rehearsed operation
+rather than a first attempt.
 
 Promotion says nothing about whether the schema is *safe* for the clients already
 installed, which is a separate constraint and a stricter one. A destructive
@@ -305,9 +362,10 @@ the awkward ones: an empty pantry, an item past its expiry date, a recipe with n
 photo.
 
 It is applied to local on every `supabase db reset` and to CI on every run.
-Staging is seeded from the same file when it is rebuilt, then accumulates QA data
-on top. Because the fixtures are synthetic and reviewed like any other code, no
-environment below production ever contains real user data.
+A preview branch is seeded from the same file when it is created, then
+accumulates QA data on top for as long as it lives. Because the fixtures are
+synthetic and reviewed like any other code, no environment below production ever
+contains real user data.
 
 ### Known risk: local/hosted drift
 
@@ -316,14 +374,20 @@ for cost and speed, and the failure mode is a change that works locally and
 breaks on Supabase Cloud. Three practices contain it:
 
 - **The CLI version is pinned** in the repository and in CI, so every developer's
-  local stack is the same version, and it is upgraded deliberately.
+  local stack is the same version, and it is upgraded deliberately. The version
+  itself, and the rest of the toolchain it belongs to, are recorded in
+  [`engineering.md`](./engineering.md).
 - **`supabase/config.toml` is committed**, keeping Auth settings, extensions, and
   bucket configuration under version control rather than clicked into a
   dashboard.
-- **Anything hosted-only is verified in staging, not locally.** Work touching
+- **Every migration reaches Supabase Cloud before it is merged.** The per-pull-request
+  branch described under *Local* applies the chain on the real platform, so a
+  migration that builds in Docker and fails on Supabase fails in review rather
+  than at a release.
+- **Anything hosted-only is verified on a branch, not locally.** Work touching
   OAuth providers, email delivery, Storage transformations, Edge Function
   deployment, or scheduled jobs is not considered done until it has run in
-  staging — local success is not evidence for those paths.
+  a preview branch — local success is not evidence for those paths.
 
 ## Data Model & ERD
 
@@ -913,6 +977,12 @@ erDiagram
 | `example_count` | maintained per retraining pass |
 | `is_active` | **generated** — `example_count >= floor for this facet` (`FR-TAG-15`) |
 | `retired_at` | nullable (`FR-TAG-21`) |
+
+`example_count` is published from the training corpus, which lives outside this
+database entirely — see [`engineering.md`](./engineering.md). It and the facet
+floors are the only things that cross that boundary, which is what lets dormancy
+be derived from the corpus without the corpus being reachable from the
+application.
 
 Dormancy is derived rather than set, so no code path can mark a tag active
 without the examples that justify it. The vocabulary is closed to users and to
