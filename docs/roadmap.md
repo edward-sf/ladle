@@ -86,13 +86,13 @@ for a decision taking time.
 | P7 · Nutrition | 46 | 29 Jan 2027 | 14 Feb 2027 |
 | P8 · Cookbook search | 20 | 14 Feb 2027 | 21 Feb 2027 |
 | P9 · Profile, preferences, notifications, accessibility | 60 | 21 Feb 2027 | 14 Mar 2027 |
-| P10 · Release 1 hardening and submission | 58 | 14 Mar 2027 | **3 Apr 2027** |
-| P11 · Taxonomy and classifier | 135 | 3 Apr 2027 | 20 May 2027 |
-| P12 · Release 2 hardening and submission | 20 | 20 May 2027 | **27 May 2027** |
-| P13 · Showcase and moderation | 102 | 27 May 2027 | 1 Jul 2027 |
-| P14 · Release 3 hardening and submission | 25 | 1 Jul 2027 | **9 Jul 2027** |
+| P10 · Release 1 hardening and submission | 66 | 14 Mar 2027 | **6 Apr 2027** |
+| P11 · Taxonomy and classifier | 135 | 6 Apr 2027 | 23 May 2027 |
+| P12 · Release 2 hardening and submission | 20 | 23 May 2027 | **30 May 2027** |
+| P13 · Showcase and moderation | 102 | 30 May 2027 | 4 Jul 2027 |
+| P14 · Release 3 hardening and submission | 25 | 4 Jul 2027 | **12 Jul 2027** |
 
-881 hours; 44.05 working weeks plus the holiday. The last 127 of those hours
+889 hours; 44.45 working weeks plus the holiday. The last 127 of those hours
 are conditional.
 
 ---
@@ -268,17 +268,31 @@ Delivers `FR-PROF-01`–`FR-PROF-03`, `FR-PREF-01`–`FR-PREF-06`, `FR-ACCT-09`�
 `NFR-A11Y-06`–`NFR-A11Y-08`.
 
 ### P10 · Release 1 hardening and submission
-**58h · 14 Mar – 3 Apr 2027**
+**66h · 14 Mar – 6 Apr 2027**
 
 Beta through TestFlight and the internal track, performance measured against the
-reference devices, store listing, and **the app icon and mark** — the design
-phase deferred in [`user-interface.md`](./user-interface.md), which becomes
-blocking here because a store submission needs an icon.
+reference devices, store listing, **the app icon and mark** — the design phase
+deferred in [`user-interface.md`](./user-interface.md), which becomes blocking
+here because a store submission needs an icon — and **the demo household**,
+thirty recipes entered by hand through the app as
+[`engineering.md`](./engineering.md) describes.
 
-**Begins when** P9 is done.
+Eight of the hours are that content work: roughly half sourcing photographs and
+confirming their licences, half entering the recipes. It is named rather than
+folded into the hardening estimate because it is the one part of this phase that
+is neither verification nor paperwork, and because entering thirty recipes is
+also the last honest acceptance test of the recipe editor — if it is tedious,
+that is a finding, and this is the last phase where the finding is actionable.
+
+**Begins when** P9 is done **and** the demo photograph licence question is
+answered. That second criterion is the corpus licence question in miniature and
+carries the same logic: it can be resolved at any time before this phase, and
+resolving it early is free insurance against choosing thirty photographs and
+then discovering they cannot be used.
 **Done when** a build is on both stores' review queues, every P95 latency target
 has been measured rather than assumed, both privacy policies are published and
-linked, and the `manual` release checklist has been worked through once end to
+linked, the demo household is populated and every photograph in it has a recorded
+licence, and the `manual` release checklist has been worked through once end to
 end.
 
 Delivers `NFR-SEC-12` and `NFR-OPS-07` — the consumer health data privacy
@@ -291,7 +305,7 @@ previous ten phases built.
 ## Release 2 — tagging and discovery
 
 ### P11 · Taxonomy and classifier
-**135h · 3 Apr – 20 May 2027**
+**135h · 6 Apr – 23 May 2027**
 
 The full tag vocabulary, corpus licence verification, corpus assembly,
 hand-labelling, training, evaluation, and the activation and backfill machinery.
@@ -321,7 +335,7 @@ Delivers `FR-TAG-03`–`FR-TAG-05`, `FR-TAG-09`–`FR-TAG-29`, `FR-TAG-33`,
 `NFR-PERF-04`, `NFR-OPS-03`–`NFR-OPS-05`, `NFR-OPS-14`.
 
 ### P12 · Release 2 hardening and submission
-**20h · 20 May – 27 May 2027**
+**20h · 23 May – 30 May 2027**
 
 Regression across the tagging surfaces, a store update, and review. Lighter than
 P10 because the listing, the icon, and both privacy policies already exist — this
@@ -346,7 +360,7 @@ Release 1 remains the portfolio artifact whether or not any of it is built, and
 Release 2 remains the last unconditional phase.
 
 ### P13 · Showcase and moderation
-**102h · 27 May – 1 Jul 2027**
+**102h · 30 May – 4 Jul 2027**
 
 Publishing, copying with snapshots, upstream notices, attribution degradation,
 the administrator table, reports with automatic suppression, the escalation
@@ -365,7 +379,7 @@ Delivers `FR-RCP-06`, `FR-RCP-09`–`FR-RCP-12`, `FR-RCP-14`, `FR-RCP-15`,
 `NFR-OPS-11`.
 
 ### P14 · Release 3 hardening and submission
-**25h · 1 Jul – 9 Jul 2027**
+**25h · 4 Jul – 12 Jul 2027**
 
 Beta, moderation dry-run against seeded reports, and submission.
 

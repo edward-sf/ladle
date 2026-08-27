@@ -396,8 +396,10 @@ Thirty recipes with photographs means thirty photographs from somewhere. Either
 the author took them, or they are openly licensed and their terms were confirmed
 first. This is the same failure mode the training corpus carries — discovering a
 licence problem after the work is done — arriving eight months earlier and on
-Release 1's critical path rather than Release 3's. It is already implicitly in
-P10's scope, because store listing screenshots need populated data too.
+Release 1's critical path rather than Release 3's. It is scoped explicitly in
+P10, with its own entry criterion, on the same reasoning that gates P11 on the
+corpus licence: the question is answerable long before the phase, and answering
+it late is answering it after the work is done.
 
 
 ## Continuous integration
