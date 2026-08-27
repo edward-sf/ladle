@@ -398,3 +398,4 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
   - *Given* a preview build running against a newly created branch, *when* the debug screen is opened, *then* it names that branch, and two preview builds cut against different branches are distinguishable from the screen alone.
 - **NFR-OPS-13** `monitor` Preview branches in existence are reported with their age, so one outliving its release candidate is visible.
 - **NFR-OPS-14** `ci` A trained classifier records the corpus revision it was trained from.
+- **NFR-OPS-15** `ci` The build fails when the toolchain in use does not match the versions pinned in the repository.

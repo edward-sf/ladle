@@ -365,7 +365,9 @@ for cost and speed, and the failure mode is a change that works locally and
 breaks on Supabase Cloud. Three practices contain it:
 
 - **The CLI version is pinned** in the repository and in CI, so every developer's
-  local stack is the same version, and it is upgraded deliberately.
+  local stack is the same version, and it is upgraded deliberately. The version
+  itself, and the rest of the toolchain it belongs to, are recorded in
+  [`engineering.md`](./engineering.md).
 - **`supabase/config.toml` is committed**, keeping Auth settings, extensions, and
   bucket configuration under version control rather than clicked into a
   dashboard.

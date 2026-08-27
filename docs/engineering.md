@@ -194,6 +194,51 @@ itself needs no session: it edits files.
 repository is the same indirection the top of this section already declined.
 
 
+## Toolchain
+
+A pin nobody can name is not a pin. [`data.md`](./data.md) lists version pinning
+as the first mitigation for local/hosted drift; this is where the versions
+actually live.
+
+| What | Version | Where the pin lives |
+| --- | --- | --- |
+| Expo SDK | 57 | the `expo` dependency in `package.json` |
+| React Native | 0.86 | implied by the SDK, never set independently |
+| Node | 22.13 or later | `.nvmrc`, `engines`, and the CI setup step |
+| Supabase CLI | 2.116.0 | a devDependency, so CI and local run the same binary |
+| TypeScript | whatever the SDK 57 template ships | recorded here once P0 instantiates it |
+| Package manager | npm | the lockfile is committed |
+
+**React Native is not a choice.** It follows the Expo SDK, and the row above
+states what SDK 57 implies rather than a second decision. Upgrading it on its own
+is one of the more reliable ways to break an Expo project.
+
+TypeScript is left unpinned until P0 rather than guessed at. The current release
+is a major version ahead of what the SDK 57 template is likely to target, and
+recording a number here that the template then contradicts would be worse than
+recording none.
+
+### One SDK for all of Release 1
+
+Expo ships roughly three SDKs a year and React Native six, so one or two SDKs
+will land between P0 and submission. They are deliberately skipped. Upgrades
+happen at phase boundaries, never inside one, and Release 1 runs start to finish
+on SDK 57.
+
+The reason is the schedule rather than caution. It carries no buffer, so an
+upgrade dropped into a phase is unestimated work in a plan with nowhere to absorb
+it. And P10 measures every P95 latency target on reference devices rather than
+assuming it — a measurement worth taking on the toolchain that ships, not on one
+the next SDK has since replaced.
+
+**The stores are the one thing that can override this.** Apple and Google both
+raise the platform requirements a submitted build has to meet, on their schedule
+rather than Ladle's, and an SDK upgrade is usually how an Expo app meets them.
+No date is stated here because it moves; the point is that it is checked before
+P10 plans its work rather than discovered in a rejection notice. `NFR-OPS-15`
+keeps the pins honest in the meantime, because a pin that only exists in prose
+drifts the first time somebody's machine disagrees with it.
+
 ## Code conventions
 
 TypeScript in `strict` mode, with `any` disallowed rather than discouraged. The
@@ -363,6 +408,7 @@ only on `main`.
 | Job | Does | Discharges |
 | --- | --- | --- |
 | `docs` | Runs `docs/check.sh` | — |
+| `toolchain` | Asserts the running versions match the pins | `NFR-OPS-15` |
 | `lint` | ESLint, Prettier, `tsc --noEmit` | — |
 | `types` | Regenerates database types, fails on any diff | `NFR-DATA-05` |
 | `schema` | `supabase db reset` from empty, then pgTAP | `NFR-DATA-04` |
