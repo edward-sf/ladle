@@ -119,6 +119,12 @@ reasons set out in
 [`docs/engineering.md`](docs/engineering.md#the-corpus-repository). Everything
 that runs on a phone or in the database is here.
 
+## Security
+
+Reporting is described in [`SECURITY.md`](SECURITY.md). There is nothing
+deployed yet, so the useful reports right now are about the design rather than a
+running system.
+
 ## Contributing
 
 Commit conventions, cadence, and branching are in

@@ -30,7 +30,7 @@ WRAP_MAX = int(os.environ["WRAP_MAX"])
 WRAPPED = os.environ["WRAPPED"].split()
 
 DOCS = sorted(glob.glob("docs/*.md"))
-ALL = ["CLAUDE.md", "README.md"] + DOCS
+ALL = ["CLAUDE.md", "README.md", "SECURITY.md"] + DOCS
 AUTHORITATIVE = [d for d in DOCS if not d.endswith("notes.md")]
 
 def read(p):
