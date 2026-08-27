@@ -320,6 +320,34 @@ if not QUIET:
     print(f"      requirements  : {len(defined)} across {len(by_area)} areas")
     print("      (the intent-to-requirement match is semantic - run the coverage-audit skill)")
 
+# --- 13. entity first use against phase order (informational) ----------------
+# A requirement placed in a phase that cannot yet build it is a real and
+# recurring defect - FR-JRN-01, FR-HH-18 and NFR-PERF-03 were each found this
+# way. It is deliberately not a gate: NFR-OFF-01 names four entities that do not
+# exist yet and is correct to, FR-JRN-01 names `Invitation` to assert one never
+# appears, and the worst instance so far was a table, which carries no phase at
+# all. The judgement belongs to the phase-audit skill; this only shows the map
+# it starts from.
+if not QUIET:
+    ent_use = collections.defaultdict(set)
+    for m in re.finditer(r'^- \*\*((?:FR|NFR)-[A-Z0-9]+-\d+)\*\* `\w+` (.+)$',
+                         req_src, flags=re.M):
+        rid, text = m.groups()
+        if len(where[rid]) != 1:
+            continue
+        n = int(re.match(r'P(\d+)', where[rid][0]).group(1))
+        for ent in set(re.findall(r'`([A-Z][A-Za-z]+)`', text)):
+            ent_use[ent].add(n)
+    if ent_use:
+        print()
+        print("      entity first appears in a requirement placed at:")
+        for ent, phs in sorted(ent_use.items(), key=lambda kv: (min(kv[1]), kv[0])):
+            rest = sorted(phs)[1:]
+            tail = f"  then {', '.join('P%d' % p for p in rest)}" if rest else ""
+            print(f"        P{min(phs):<3} {ent:<20}{tail}".rstrip())
+        print("      (whether a phase can build what it was given is semantic -")
+        print("       run the phase-audit skill)")
+
 print()
 if failures:
     print(f"FAILED: {', '.join(failures)}")
