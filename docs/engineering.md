@@ -190,6 +190,15 @@ local-only, so a sibling checkout is unremarkable, and it already holds the
 authenticated path to production that publishing those counts needs. Labelling
 itself needs no session: it edits files.
 
+**Backfill runs here; online classification does not.** A retraining pass
+reclassifies every existing recipe (`FR-TAG-18`) and activates whatever has
+reached its floor (`FR-TAG-19`), and both run as a batch from this repository on
+the administrator's machine, writing through the administrator's authenticated
+path. Classifying a recipe as it is saved is the other half and runs in an Edge
+Function (`FR-TAG-11`), so the model can be replaced without shipping an app.
+[`operating-model.md`](./operating-model.md) records why the split falls there,
+and it is a cost argument rather than an architectural one.
+
 **It is created at P11, not before.** There is no corpus yet, and an empty
 repository is the same indirection the top of this section already declined.
 

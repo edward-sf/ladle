@@ -179,7 +179,7 @@ is `NFR-OPS-11`, and it is the same argument that put a scheduled digest behind
 | Photo **storage** | Recipes that carry a photo | Release 3, slowly |
 | Photo **egress** | People *browsing*, not people storing | Release 3, quickly |
 | Edge Function invocations | Notification sweeps, classification | Modest at both releases |
-| Classifier inference | Recipe creates, updates, backfills | Release 2, depends on hosting |
+| Classifier inference | Recipe creates, updates, backfills | Never — see *Where classification runs* |
 | Push delivery | Notifications sent | Free at the transport layer |
 
 **Releases 1 and 2 are structurally bounded and Release 3 is not**, and that is
@@ -225,6 +225,44 @@ then and expensive to revisit once there are photos in the bucket, because
 fixing it later means re-deriving every image already stored.
 
 `NFR-PERF-06` makes it a requirement rather than an intention.
+
+### Where classification runs
+
+This was carried as an open question on the grounds that a model inside an Edge
+Function and a hosted inference endpoint differ by orders of magnitude per call,
+with `FR-TAG-18` committing to a backfill across every existing recipe. The
+framing was the mistake. Orders of magnitude per call only matter when the calls
+are numerous, and Ladle has decided not to have many.
+
+Count them. Online classification happens on a recipe create or update, which is
+a household writing its own cookbook. A backfill runs on a retraining pass, which
+is a deliberate act a few times a year at most, across a corpus the showcase cap
+already holds to a few hundred recipes. That is thousands of inferences a year,
+not millions. **The expensive shape is only expensive at a scale this project
+has decided not to reach** — which is *Growth is not a goal* paying out again, in
+the place it was least expected.
+
+So per-call cost is not the selection criterion. What actually separates the
+options is whether one adds a **standing monthly charge**, because that is what a
+$50 ceiling with two thirds already committed cannot absorb. A hosted endpoint
+frequently bills for being available rather than for being used.
+
+The decision follows from that:
+
+- **Online classification runs as a small model inside an Edge Function.** It
+  satisfies `FR-TAG-11`, keeps the model swappable without an app release, and
+  its cost falls inside the function-invocation line above, which is modest at
+  both releases.
+- **Backfill runs where retraining already runs** — as a batch on the
+  administrator's machine, from the private corpus repository, writing results
+  through the administrator's authenticated path. `FR-TAG-11` constrains the
+  online path so the model can be replaced without shipping an app; it does not
+  require a periodic bulk job to take the same route.
+
+The risk worth naming is accuracy rather than cost. If evaluation at P11 shows
+that no model small enough for an Edge Function clears the per-facet bar
+`NFR-OPS-04` measures, the fallback is a hosted endpoint — and the number to
+price then is its standing charge, not its per-call rate.
 
 ### What is deliberately not optimised
 
@@ -308,12 +346,6 @@ rather than Ladle's, applied to the surface that chose it.
 
 ## Open questions
 
-- **Classifier inference hosting is unpriced.** `FR-TAG-11` puts classification
-  server-side, and whether that is a small model inside an Edge Function or a
-  hosted inference endpoint is a difference of orders of magnitude per call —
-  with `FR-TAG-18` committing to backfills across every existing recipe, which is
-  the expensive shape. Belongs with the classifier engineering plan that P11
-  already needs.
 - **Whether Release 3 should launch with a cap already in place** rather than
   waiting to need one. Cheap to add before there is content, awkward afterwards.
   The spend cap has sharpened this rather than settled it: with the platform's
@@ -322,7 +354,3 @@ rather than Ladle's, applied to the surface that chose it.
   outage. That is an argument for step 2 of the ladder rather than a decision, and
   it stays open because the figure — recipes per household, or pagination depth —
   is a product judgement nobody has made yet.
-- **Classifier inference is the one cost the paid tier did not absorb.** Worth
-  naming next to the question above, because the arithmetic in this document now
-  concerns a driver with room to spare while the unpriced one sits at Release 2,
-  before the gate, with no allowance covering it at all.
