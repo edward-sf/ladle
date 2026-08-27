@@ -96,6 +96,9 @@ None of these run yet; they are the intended workflow, described in
 supabase start                    # full local stack in Docker
 supabase db reset                 # drop, replay every migration, apply seed.sql
 supabase migration new <name>     # scaffold a timestamped SQL migration
+supabase branches create <name>   # provision a preview branch from the chain
+supabase branches list            # what is running, and for how long
+supabase branches delete <name>   # destroy it when the candidate ships
 supabase gen types typescript     # regenerate client types from the live schema
 supabase functions deploy         # deploy Edge Functions
 ```

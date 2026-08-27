@@ -144,7 +144,9 @@ The workflow:
    hand — policies live in the same migration as the table they protect.
 3. `supabase db reset` replays every migration against the local Docker Postgres,
    proving the migration chain builds from empty.
-4. CI applies migrations to the target environment with `supabase db push`.
+4. Migrations reach a hosted database twice: replayed from empty when a preview
+   branch is created, and applied to production with `supabase db push` behind
+   the approval gate described in *Migration promotion*.
 
 TypeScript types for the client are generated from the live schema with
 `supabase gen types typescript` and committed, so a schema change that breaks the

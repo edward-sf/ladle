@@ -193,12 +193,17 @@ Described in `data.md`; none are runnable until the application exists.
 supabase start                    # full local stack in Docker
 supabase db reset                 # drop, replay every migration, apply seed.sql
 supabase migration new <name>     # scaffold a timestamped SQL migration
-supabase db push                  # apply migrations to a hosted project (CI)
+supabase db push                  # apply migrations to production (CI, gated)
+supabase branches create <name>   # provision a preview branch from the chain
+supabase branches list            # what is running, and for how long
+supabase branches delete <name>   # destroy it when the candidate ships
 supabase gen types typescript     # regenerate client types from the live schema
 supabase functions deploy         # deploy Edge Functions
 ```
 
 `supabase db reset` is the definition of a clean environment: a migration that does not build from empty fails there before it fails in CI.
+
+`supabase branches create` takes a `--with-data` flag that clones production. Ladle never passes it: `NFR-DATA-06` says production data flows out and never in, and declining the clone at provisioning time is what makes that structural rather than remembered.
 
 ## Architectural invariants
 

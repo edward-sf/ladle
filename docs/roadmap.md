@@ -294,6 +294,9 @@ previous ten phases built.
 
 The full tag vocabulary, corpus licence verification, corpus assembly,
 hand-labelling, training, evaluation, and the activation and backfill machinery.
+The corpus and its training pipeline move into the separate private repository
+described in [`engineering.md`](./engineering.md) at the start of this phase,
+which is the first point at which there is anything to put in it.
 Includes building the administrator tool that the labelling runs through — the
 ~40 hours below is a rate that assumes one, and labelling 1,250 recipes through
 Supabase Studio would cost considerably more and produce worse labels.

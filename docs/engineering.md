@@ -65,7 +65,7 @@ admin/                  the Application Administrator's tool - local only
   catalog/              ingredient curation and approval
   labelling/            the corpus labelling surface
   moderation/           the report queue
-scripts/                one-off import and export, spreadsheet round-trips
+scripts/                branch provisioning and teardown; import and export
 docs/
 .claude/skills/
 ```
