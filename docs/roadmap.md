@@ -87,8 +87,8 @@ for a decision taking time.
 | P1 · Ingredient catalog | 61 | 22 Sep 2026 | 13 Oct 2026 |
 | P2 · Cookbook and recipes | 70 | 13 Oct 2026 | 6 Nov 2026 |
 | P3 · Calendar, meals and cooking | 60 | 6 Nov 2026 | 27 Nov 2026 |
-| P4 · Pantry and grocery | 45 | 27 Nov 2026 | 12 Dec 2026 |
-| P5 · Household collaboration | 60 | 12 Dec 2026 | 16 Jan 2027 |
+| P4 · Pantry and grocery | 41 | 27 Nov 2026 | 11 Dec 2026 |
+| P5 · Household collaboration | 64 | 11 Dec 2026 | 16 Jan 2027 |
 | P6 · Dietary and allergy | 43 | 16 Jan 2027 | 31 Jan 2027 |
 | P7 · Nutrition | 46 | 31 Jan 2027 | 16 Feb 2027 |
 | P8 · Cookbook search | 20 | 16 Feb 2027 | 23 Feb 2027 |
@@ -177,8 +177,8 @@ recoverable draft, an unreconciled ingredient persists as typed and can be match
 later, and a recipe sits in several collections without duplication.
 
 Delivers `FR-HH-01`, `FR-HH-02`, `FR-RCP-01`–`FR-RCP-05`, `FR-RCP-07`,
-`FR-RCP-08`, `FR-RCP-16`, `FR-RCP-20`, `FR-ING-03`, `FR-ING-08`, `FR-JRN-01`,
-`NFR-DATA-03`, `NFR-PERF-03`, `NFR-PERF-06`.
+`FR-RCP-16`, `FR-RCP-20`, `FR-ING-03`, `FR-ING-08`, `NFR-DATA-03`,
+`NFR-PERF-03`, `NFR-PERF-06`.
 
 ### P3 · Calendar, meals and cooking
 **60h · 6 Nov – 27 Nov 2026**
@@ -186,35 +186,57 @@ Delivers `FR-HH-01`, `FR-HH-02`, `FR-RCP-01`–`FR-RCP-05`, `FR-RCP-07`,
 Meals with the generated start time, week and month views, participants and
 servings held apart, the cooked state, and the cooking view.
 
+What a meal does to a grocery list is not claimed here. The serving-count
+arithmetic, the reshaping, and the withdrawal of one meal's contributions are all
+assertions about a list that does not exist until P4, and P4's own exit criteria
+already test them. Nutrition apportionment waits for P7 on the same grounds.
+
 **Begins when** P2 is done.
 **Done when** a block is drawn from preparation start to serving time, servings
 seed from participants and diverge on edit, marking cooked records every
 participant as having eaten, and the cooking view holds a multi-recipe meal in
 one scroll with the screen awake.
 
-Delivers `FR-MEAL-01`–`FR-MEAL-15`, `FR-JRN-03`, `FR-JRN-05`, `NFR-PERF-01`,
+Delivers `FR-MEAL-01`–`FR-MEAL-04`, `FR-MEAL-09`–`FR-MEAL-15`, `NFR-PERF-01`,
 `NFR-A11Y-05`.
 
 ### P4 · Pantry and grocery
-**45h · 27 Nov – 12 Dec 2026**
+**41h · 27 Nov – 11 Dec 2026**
 
 Grocery items with per-contribution provenance, the pantry, check-off, and
 household category ordering.
+
+Who may reorder categories and who may add an item outright are not settled here.
+Both are role claims, and until a second person joins there is one person holding
+every role, so a test of them at this point passes without exercising anything.
+They move to P5 with the rest of the role machinery.
+
+In exchange this phase takes the meal-to-grocery claims that P3 could not test —
+quantities from the serving count, reshaping, and the withdrawal of one meal's
+contributions — along with the two journeys that end at a populated list. No
+hours move with them: the work was always in the estimate above, only the claims
+were filed elsewhere.
 
 **Begins when** P3 is done — there are no contributions without meals.
 **Done when** deleting one of two meals needing garlic leaves garlic on the list,
 a hand-added item survives every meal deletion, check-off stocks the pantry
 without a dialog, and the whole list works through a loss of signal.
 
-Delivers `FR-PAN-01`–`FR-PAN-13`, `FR-JRN-04`, `NFR-DATA-02`, `NFR-OFF-06`,
+Delivers `FR-PAN-01`–`FR-PAN-06`, `FR-PAN-08`, `FR-PAN-09`,
+`FR-PAN-11`–`FR-PAN-13`, `FR-MEAL-05`, `FR-MEAL-07`, `FR-MEAL-08`,
+`FR-JRN-01`, `FR-JRN-03`, `FR-JRN-04`, `NFR-DATA-02`, `NFR-OFF-06`,
 `NFR-PERF-02`, `NFR-A11Y-01`.
 
 ### P5 · Household collaboration
-**60h · 12 Dec 2026 – 16 Jan 2027**
+**64h · 11 Dec 2026 – 16 Jan 2027**
 
 Members and roles, the single-owner index, invitations through a `security
 definer` accept, requests and approvals, dissolution with its grace period, and
 Realtime on the shared tables.
+
+Four of these hours came from P4, with the two grocery claims that turn on a role
+— who may reorder categories, and who may add an item outright rather than
+request one. Both belong to the phase that first makes a role mean something.
 
 **Begins when** P4 is done — approvals need something to approve.
 **Done when** a second member cannot create a second owner, an invitee lands in a
@@ -224,8 +246,8 @@ window.
 
 This phase spans the holiday break; the dates already account for it.
 
-Delivers `FR-HH-03`–`FR-HH-17`, `FR-HH-19`–`FR-HH-24`, `FR-ACCT-04`,
-`FR-JRN-02`, `NFR-SEC-06`.
+Delivers `FR-HH-03`–`FR-HH-17`, `FR-HH-19`, `FR-HH-21`–`FR-HH-24`,
+`FR-RCP-08`, `FR-PAN-07`, `FR-PAN-10`, `FR-JRN-02`, `NFR-SEC-06`.
 
 ### P6 · Dietary and allergy
 **43h · 16 Jan – 31 Jan 2027**
@@ -233,13 +255,19 @@ Delivers `FR-HH-03`–`FR-HH-17`, `FR-HH-19`–`FR-HH-24`, `FR-ACCT-04`,
 Allergy and dietary profiles, derivation from curated ingredient tags, and the
 warning and incomplete-check treatments everywhere a recipe appears.
 
+Two dietary claims are not settled here. Exclusion from recommendation and
+ranking by dietary model are both claims about a recommender that arrives in P12,
+and the nutrition-derived tags need figures P7 has not computed yet. What remains
+is the part that rests on curated ingredient tags, which is the half that matters
+for safety.
+
 **Begins when** P5 is done — conflicts between participants need participants.
 **Done when** an allergen match warns wherever a recipe is shown, a cashew
 allergy does not warn on almond, and a recipe holding one unreconciled ingredient
 reports its check as incomplete rather than clean.
 
-Delivers `FR-DIET-01`–`FR-DIET-12`, `FR-RCP-13`, `FR-TAG-06`, `FR-TAG-07`,
-`NFR-SEC-11` — the health-data consent gate, which must exist before the first
+Delivers `FR-DIET-01`, `FR-DIET-03`, `FR-DIET-04`, `FR-DIET-06`–`FR-DIET-12`,
+`FR-RCP-13`, `FR-TAG-06`, `NFR-SEC-11` — the health-data consent gate, which must exist before the first
 allergy is stored.
 
 ### P7 · Nutrition
@@ -248,12 +276,18 @@ allergy is stored.
 Demographics, Mifflin-St Jeor targets with overrides, the tracked six, and the
 Today rings.
 
+It also takes the three claims elsewhere that turn on a computed figure: a meal's
+contribution apportioned across its participants, the dietary tags derived from
+nutrition rather than from ingredients, and the cooking journey that ends by
+crediting a ledger.
+
 **Begins when** P6 is done.
 **Done when** targets compute and a manual override survives recomputation, a
 user who declines every demographic question can still use the app, and no ring
 changes colour on reaching or exceeding a target.
 
-Delivers `FR-NUT-01`–`FR-NUT-19`, `NFR-SEC-07`.
+Delivers `FR-NUT-01`–`FR-NUT-19`, `FR-MEAL-06`, `FR-TAG-07`, `FR-JRN-05`,
+`NFR-SEC-07`.
 
 ### P8 · Cookbook search
 **20h · 16 Feb – 23 Feb 2027**
@@ -300,6 +334,13 @@ years before it was needed. It also removes the licence question entirely, which
 is the trap that has already caught the training corpus and the demo
 photographs.
 
+Two claims that look like they belong here do not. Attribution degrading to a
+placeholder needs an account deletion to degrade it, which is P10; a claim shown
+as its author's needs author-declared dietary tags, which is P12. The library
+therefore launches carrying derived dietary tags only and no unverifiable claim
+at all, which is a better first release than the alternative rather than a
+consolation for it.
+
 Browse only, no search. Thirty recipes do not need it, and searching across two
 scopes at once is a question that belongs with the showcase, where it bites.
 
@@ -320,9 +361,10 @@ copy a recipe, and plan it without authoring anything; an edit to a published
 original surfaces on its copies without altering them; and the library is
 non-empty in production.
 
-Delivers `FR-RCP-06`, `FR-RCP-09`–`FR-RCP-12`, `FR-RCP-14`, `FR-RCP-15`,
-`FR-RCP-17`, `FR-RCP-19`, `FR-RCP-21`, `FR-RCP-22`, `FR-HH-18`, `FR-ACCT-03`,
-`FR-ACCT-05`, `FR-JRN-06`, `FR-JRN-07`, `NFR-OPS-11`.
+Delivers `FR-RCP-06`, `FR-RCP-09`–`FR-RCP-12`, `FR-RCP-15`, `FR-RCP-17`,
+`FR-RCP-21`, `FR-RCP-22`, `FR-HH-18`, `FR-HH-20`, `FR-ACCT-03`, `FR-ACCT-05`,
+`FR-JRN-06`,
+`FR-JRN-07`, `NFR-OPS-11`.
 
 ### P10 · Profile, preferences, notifications, accessibility
 **74h · 11 Mar – 5 Apr 2027**
@@ -342,8 +384,8 @@ moves the day boundary, every notification category switches off independently,
 a user who enrolled a factor is challenged for it and a user who did not is not,
 and every `manual` accessibility requirement has been walked through.
 
-Delivers `FR-PROF-01`–`FR-PROF-03`, `FR-PREF-01`–`FR-PREF-06`, `FR-ACCT-09`–
-`FR-ACCT-16`, `FR-NOTIF-06`,
+Delivers `FR-PROF-01`–`FR-PROF-03`, `FR-PREF-01`–`FR-PREF-06`, `FR-RCP-19`,
+`FR-ACCT-04`, `FR-ACCT-09`–`FR-ACCT-16`, `FR-NOTIF-06`,
 `FR-NOTIF-01`–`FR-NOTIF-05`, `NFR-SEC-10`, `NFR-A11Y-03`, `NFR-A11Y-04`,
 `NFR-A11Y-06`–`NFR-A11Y-08`.
 
@@ -401,6 +443,12 @@ hand-labelling, training, evaluation, and the activation and backfill machinery.
 The corpus and its training pipeline move into the separate private repository
 described in [`engineering.md`](./engineering.md) at the start of this phase,
 which is the first point at which there is anything to put in it.
+It also takes four claims that were waiting on it: exclusion from recommendation
+and ranking by dietary model, which needed a recommender; author-declared dietary
+tags, which had been filed with moderation though nothing about them is
+moderation; and the display of a claim as its author's, which needed those tags
+to exist.
+
 Includes building the administrator tool that the labelling runs through — the
 ~40 hours below is a rate that assumes one, and labelling 1,250 recipes through
 Supabase Studio would cost considerably more and produce worse labels.
@@ -420,7 +468,8 @@ The ~40 hours of hand-labelling inside this estimate is content work at a fixed
 rate and does not compress with practice. It is the largest single uninterrupted
 task in the plan.
 
-Delivers `FR-TAG-03`–`FR-TAG-05`, `FR-TAG-09`–`FR-TAG-29`, `FR-TAG-33`,
+Delivers `FR-TAG-03`–`FR-TAG-05`, `FR-TAG-08`–`FR-TAG-29`, `FR-TAG-33`,
+`FR-DIET-02`, `FR-DIET-05`, `FR-RCP-14`,
 `NFR-PERF-04`, `NFR-OPS-03`–`NFR-OPS-05`, `NFR-OPS-14`.
 
 ### P13 · iOS launch and parallel-provider auth
@@ -521,8 +570,7 @@ unpublish, a reported dietary claim suppresses on filing, an unreviewed urgent
 report withdraws its recipe from the showcase by itself, and no volume of reports
 removes anything.
 
-Delivers `FR-RCP-18`, `FR-MOD-01`–`FR-MOD-15`, `FR-TAG-08`, `FR-TAG-31`,
-`NFR-OPS-02`.
+Delivers `FR-RCP-18`, `FR-MOD-01`–`FR-MOD-15`, `FR-TAG-31`, `NFR-OPS-02`.
 
 ### P16 · Release 3 hardening and submission
 **25h · 31 Jul – 8 Aug 2027**
