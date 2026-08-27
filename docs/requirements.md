@@ -126,6 +126,8 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-RCP-19** `test` When an Author's account is deleted, attribution on every copy of their `Recipe`s degrades to a non-identifying placeholder, and the copied content is unchanged.
   - *Given* a copied `Recipe` attributed to an Author, *when* that Author deletes their account, *then* the copy retains its content and shows an attribution naming no one.
 - **FR-RCP-20** `test` A `Recipe` without a photo displays no image area and no generated stand-in imagery.
+- **FR-RCP-21** `test` A `Household` holds no more than fifty published `Recipe`s at once.
+  - *Given* a `Household` already holding fifty published `Recipe`s, *when* a member publishes another, *then* the action is refused with a reason naming the limit, and unpublishing any one of them frees a place.
 
 ### Pantry and Grocery
 

@@ -310,6 +310,25 @@ funding gate can be reopened by deciding to spend more; an attention gate cannot
 be reopened by deciding to try harder, which is why the honest form of the
 decision is a commitment to keep going rather than a willingness to start.
 
+**The showcase therefore ships capped.** A `Household` holds at most fifty
+published recipes at once (`FR-RCP-21`). That question was inherited from when
+this gate was about money, and the answer changed when the gate did. As an egress
+control a cap is unnecessary — thumbnails put the included allowance far past any
+traffic this project expects. As a moderation control it is the missing half: the
+report queue is bounded by construction, but nothing bounded the number of things
+that can be reported, and every published recipe is a permanent target for the
+one person who reads them.
+
+Fifty sits above a full cookbook rather than shaping behaviour. The demo
+household is thirty recipes and represents using Ladle well, so an ordinary
+household never meets the limit while the pathological case stays bounded. It is
+one configured figure rather than a per-household allowance, because a household
+record would be a second place to establish something a single setting already
+establishes. Pagination depth was the other candidate on the ladder and is
+declined: it bounds egress only weakly and moderation not at all, and it degrades
+the browsable discovery `FR-RCP-17` requires, which is the showcase's entire
+purpose.
+
 
 ## If the ceiling is approached
 
@@ -323,8 +342,10 @@ panic:
 
 1. **Thumbnails and image budgets**, if `NFR-PERF-06` has somehow not already
    settled it.
-2. **Caps on the public surface** — published recipes per household, or showcase
-   pagination depth. Nearly free here, for the reason in *What Ladle is for*.
+2. **Caps on the public surface.** The per-household publishing cap is in place
+   from Release 3's first day — see *The Release 3 gate* — so this rung tightens
+   a figure rather than introducing a mechanism. Pagination depth stays available
+   and stays a last resort, because it degrades discovery.
 3. **A CDN or transform layer**, if egress is genuinely the binding constraint
    and the content warrants it.
 4. **Monetisation**, opening the door described above with its costs already
@@ -337,20 +358,13 @@ panic:
 The ladder is ordered by cost to the project, not by cost to the invoice. A cap
 is cheaper than a payment processor, and the craft is demonstrated either way.
 
-Note that the first two rungs cost nothing and need no decision — which is the
-argument for taking them before the measure ever moves rather than in response to
-it. Step 2 is the *Whether Release 3 should launch with a cap already in place*
-question below, and the spend cap sharpens it: shipping without one means the
-first enforcement of a limit is the platform's, applied to everything at once,
-rather than Ladle's, applied to the surface that chose it.
+Note that the first two rungs cost nothing, and both are taken before the measure
+ever moves rather than in response to it — `NFR-PERF-06` settles the first at P2,
+and the publishing cap settles the second at P13. That is the whole argument for
+deciding them early: with the platform's limit enforced, a showcase shipped
+without a cap of Ladle's own would find that the first limit anyone meets is the
+platform's, applied to everything at once, during an outage.
 
 ## Open questions
 
-- **Whether Release 3 should launch with a cap already in place** rather than
-  waiting to need one. Cheap to add before there is content, awkward afterwards.
-  The spend cap has sharpened this rather than settled it: with the platform's
-  limit enforced, shipping without a cap of Ladle's own means the first limit
-  anyone meets is applied to everything at once, by the platform, during an
-  outage. That is an argument for step 2 of the ladder rather than a decision, and
-  it stays open because the figure — recipes per household, or pagination depth —
-  is a product judgement nobody has made yet.
+None outstanding.
