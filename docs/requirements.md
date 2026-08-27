@@ -303,6 +303,11 @@ This file is the canonical, testable statement of what Rootloom must do. [`user-
 - **FR-ACCT-14** `test` A `User` who has enrolled a factor is challenged for it at sign-in, and a `User` who has not is signed in without one.
 - **FR-ACCT-15** `test` Removing an enrolled factor requires satisfying that factor first.
 - **FR-ACCT-16** `policy` No authentication factor is delivered by SMS.
+- **FR-ACCT-17** `test` A `User` may create an account and sign in through a third-party provider, and an account so created differs from a password account in no respect other than how it is authenticated.
+- **FR-ACCT-18** `test` Wherever a third-party sign-in provider is offered, at least one provider offered alongside it collects no more than name and email address and allows the email address to be withheld.
+  - *Given* a sign-in screen offering any third-party provider, *when* the offered providers are enumerated, *then* at least one of them collects no more than a name and an email address and permits the email address to be withheld.
+- **FR-ACCT-19** `test` A `User` may register a passkey and subsequently sign in with it alone.
+- **FR-ACCT-20** `test` A `User` may hold several sign-in methods at once and remove any of them, except the last remaining one.
 
 ### User Experience Paths
 
@@ -359,6 +364,7 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-SEC-11** `test` No health data — a demographic input or a recorded allergy — is stored before the `User` has given an explicit opt-in consent presented separately from any other consent.
   - *Given* a `User` who has not consented, *when* they open the dietary or nutrition screens, *then* consent is requested before any field accepts a value, and declining leaves the rest of Rootloom fully usable.
 - **NFR-SEC-12** `policy` Rootloom publishes a consumer health data privacy policy as a document distinct from, and separately linked to, its general privacy policy.
+- **NFR-SEC-13** `ci` The domain association files that passkeys depend on are served over HTTPS from the relying-party domain and name only bundle identifiers Rootloom ships.
 
 ### Accessibility
 

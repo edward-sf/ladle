@@ -87,7 +87,7 @@ because they belong to a requirement rather than to a file.
 
 The Application Administrator has work in three phases, and only the last of them
 is moderation. P1 curates the ingredient catalog, P11 labels roughly 1,250
-recipes across 150 tags, and P13 works the report queue. The first is bulk
+recipes across 150 tags, and P14 works the report queue. The first is bulk
 one-time work and runs through `scripts/` and a spreadsheet; the other two need
 an interface.
 

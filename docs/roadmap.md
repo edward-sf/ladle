@@ -45,7 +45,9 @@ built without it.
 
 **Release 2 is tagging and discovery** — the classifier, facet search, and
 recommendation. All of it improves a private cookbook, and none of it needs a
-public surface to be worth having.
+public surface to be worth having. It is also where iOS arrives, so Release 2 is
+the first version listed on both stores, and where sign-in stops being a password
+alone.
 
 **Release 3 is the showcase** — publishing, copying, attribution, and moderation.
 **It is conditional on there being sustained moderation capacity for it**, and it
@@ -92,11 +94,12 @@ for a decision taking time.
 | P9 · Profile, preferences, notifications, accessibility | 74 | 21 Feb 2027 | 18 Mar 2027 |
 | P10 · Release 1 hardening and Play submission | 56 | 18 Mar 2027 | **6 Apr 2027** |
 | P11 · Taxonomy and classifier | 135 | 6 Apr 2027 | 23 May 2027 |
-| P12 · Release 2 hardening and submission | 20 | 23 May 2027 | **30 May 2027** |
-| P13 · Showcase and moderation | 102 | 30 May 2027 | 4 Jul 2027 |
-| P14 · Release 3 hardening and submission | 25 | 4 Jul 2027 | **12 Jul 2027** |
+| P12 · iOS launch and parallel-provider auth | 68 | 23 May 2027 | 15 Jun 2027 |
+| P13 · Release 2 hardening and submission | 28 | 15 Jun 2027 | **24 Jun 2027** |
+| P14 · Showcase and moderation | 102 | 24 Jun 2027 | 29 Jul 2027 |
+| P15 · Release 3 hardening and submission | 25 | 29 Jul 2027 | **6 Aug 2027** |
 
-893 hours; 44.65 working weeks plus the holiday. The last 127 of those hours
+969 hours; 48.45 working weeks plus the holiday. The last 127 of those hours
 are conditional.
 
 ---
@@ -356,15 +359,59 @@ task in the plan.
 Delivers `FR-TAG-03`–`FR-TAG-05`, `FR-TAG-09`–`FR-TAG-29`, `FR-TAG-33`,
 `NFR-PERF-04`, `NFR-OPS-03`–`NFR-OPS-05`, `NFR-OPS-14`.
 
-### P12 · Release 2 hardening and submission
-**20h · 23 May – 30 May 2027**
+### P12 · iOS launch and parallel-provider auth
+**68h · 23 May – 15 Jun 2027**
 
-Regression across the tagging surfaces, a store update, and review. Lighter than
-P10 because the listing, the icon, and both privacy policies already exist — this
-is an update to a published app rather than a first submission.
+The Apple Developer Program, the first iOS build to reach a device, and the
+sign-in methods that were waiting for an Apple team to exist: a third-party
+provider on both platforms, a second provider alongside it collecting no more
+than a name and a withholdable email address, and passkeys. `rootloom.app` begins
+serving the two domain association files passkeys depend on, which is the first
+time anything in this project is web-facing at all.
 
-**Begins when** P11 is done.
-**Done when** an update is on both stores' review queues and the `manual`
+The hours are enrolment and credentials 6, the iOS build and TestFlight 10, the
+two providers 14, passkeys 24, the association files and their hosting 6, and an
+iOS-only interface and accessibility pass 8. The second provider is an App Store
+rule (`FR-ACCT-18`) before it is a preference, which is why it is a requirement
+rather than something for the submission to discover.
+
+**Passkeys carry the widest uncertainty in this document, and their 24 hours are
+its least trustworthy number.** Supabase shipped them to beta in May 2026 and
+still documents them as experimental. More awkwardly, the documented client
+support is JavaScript, Swift and Dart, and none of those is React Native —
+`supabase-js` drives a browser API this runtime does not have, so the work is
+wiring a native module to Supabase's WebAuthn endpoints with no reference
+implementation to follow. **The fallback is to ship this phase without them**:
+third-party sign-in and the optional second factor from P9 each stand alone,
+`FR-ACCT-19` and `NFR-SEC-13` move to a later phase, and nothing else here
+depends on either. That is the same shape as the classifier's accuracy risk — a
+named alternative chosen when the phase opens, rather than a discovery made
+halfway through it.
+
+**Begins when** P11 is done **and** the Apple Developer Program enrolment has
+completed. That second criterion is not a formality: enrolment takes as long as
+it takes, and it is the one item in this phase that working harder does not
+shorten.
+**Done when** an iOS build has run on a device, a user can sign in by each
+offered method and remove any but their last, and both association files resolve
+over HTTPS from the relying-party domain.
+
+Delivers `FR-ACCT-17`–`FR-ACCT-20` and `NFR-SEC-13`.
+
+### P13 · Release 2 hardening and submission
+**28h · 15 Jun – 24 Jun 2027**
+
+Regression across the tagging surfaces, submission, and review. Play is an update
+and is light, because the listing, the icon and both privacy policies already
+exist. iOS is not: it is a first submission, with its own listing, its own
+screenshots, its own App Privacy questionnaire and the review latitude that
+attaches to a first-time app. The eight hours over the original estimate are
+that, and they are the part of this plan most likely to be wrong, because a first
+submission is where the store gets to disagree with assumptions nobody has tested
+yet.
+
+**Begins when** P12 is done.
+**Done when** a build is on both stores' review queues and the `manual`
 checklist has been walked for anything tagging touched.
 
 Delivers no new requirements.
@@ -381,15 +428,15 @@ makes clear that not building this is a real option rather than a failure.
 Release 1 remains the portfolio artifact whether or not any of it is built, and
 Release 2 remains the last unconditional phase.
 
-### P13 · Showcase and moderation
-**102h · 30 May – 4 Jul 2027**
+### P14 · Showcase and moderation
+**102h · 24 Jun – 29 Jul 2027**
 
 Publishing, copying with snapshots, upstream notices, attribution degradation,
 the administrator table, reports with automatic suppression, the escalation
 sweep, rate limits, and the search scope control. The moderation queue is a
 section added to the administrator tool built in P11, not a new surface.
 
-**Begins when** P12 is done **and** the capacity decision has been made.
+**Begins when** P13 is done **and** the capacity decision has been made.
 **Done when** a copy is unchanged by an edit to its original until accepted, a
 deleted author's name leaves every copy while the content stays, a reported
 dietary claim suppresses on filing, an unreviewed urgent report withdraws its
@@ -401,12 +448,12 @@ Delivers `FR-RCP-06`, `FR-RCP-09`–`FR-RCP-12`, `FR-RCP-14`, `FR-RCP-15`,
 `FR-ACCT-03`, `FR-ACCT-05`, `FR-JRN-06`, `FR-MOD-14`, `NFR-OPS-02`,
 `NFR-OPS-11`.
 
-### P14 · Release 3 hardening and submission
-**25h · 4 Jul – 12 Jul 2027**
+### P15 · Release 3 hardening and submission
+**25h · 29 Jul – 6 Aug 2027**
 
 Beta, moderation dry-run against seeded reports, and submission.
 
-**Begins when** P13 is done.
+**Begins when** P14 is done.
 **Done when** the escalation sweep has been observed firing on a real unattended
 report, and a build is submitted.
 

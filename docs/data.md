@@ -264,6 +264,13 @@ of URLs — OAuth redirect targets above all — has to admit each new branch, a
 branch that is forgotten there fails in a way local development never shows. The
 provisioning is scripted for that reason rather than done by hand.
 
+From Release 2 that list stops being merely tedious. Passkey relying-party
+origins are capped rather than unbounded — the documented limit is five — and the
+production and preview variants of two platforms plus the development build come
+to exactly that. It is recorded here because a cap reached is a different failure
+from an entry forgotten, and it wants confirming against the platform when P12
+plans its work rather than when a preview build cannot enrol a passkey.
+
 ### Production
 
 The live project. Two properties distinguish it from everything upstream:

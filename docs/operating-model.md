@@ -158,16 +158,21 @@ The two domains are `rootloom.app` and `rootloom.dev`, both registered through
 Cloudflare Registrar, and only the first has a job. The general privacy policy
 and the separate consumer health data policy `NFR-SEC-12` requires each need a
 stable address of their own, and both stores ask for a policy URL and a support
-URL at submission; a store listing page is not an answer to either. Nothing else
-in the design is web-facing — the showcase is reached in the app, the
-administrator's tooling is local-only by decision, and the only deep links are
-OAuth redirects on the app's own scheme.
+URL at submission; a store listing page is not an answer to either. Almost
+nothing else is web-facing: the showcase is reached in the app and the
+administrator's tooling is local-only by decision. The one exception arrives at
+Release 2, when passkeys require two domain association files served from the
+relying-party domain (`NFR-SEC-13`) — the first thing this project publishes to
+the web that is not a policy document.
 
 **`rootloom.dev` is held defensively and does nothing.** That is written down
 rather than left to be rediscovered later as a committed line nobody can account
 for. It keeps the name on the other obvious extension out of someone else's
 hands while there is still nothing shipped to defend it with, and it is
-deliberately given no work: serving the planning documents there is the candidate
+deliberately given no work. Passkeys looked like they might supply some and do
+not: a WebAuthn relying party is one bare domain, so the association files belong
+to `rootloom.app` and a second domain cannot share the job. Serving the planning
+documents there is the other candidate
 that suggests itself, and it is declined, because GitHub already renders them and
 a static site is unestimated hours against a schedule carrying no buffer. What
 reopens the question is the renewal rather than a milestone.
@@ -381,7 +386,7 @@ is cheaper than a payment processor, and the craft is demonstrated either way.
 
 Note that the first two rungs cost nothing, and both are taken before the
 measure ever moves rather than in response to it — `NFR-PERF-06` settles the
-first at P2, and the publishing cap settles the second at P13. That is the whole
+first at P2, and the publishing cap settles the second at P14. That is the whole
 argument for deciding them early: with the platform's limit enforced, a showcase
 shipped without a cap of Rootloom's own would find that the first limit anyone
 meets is the platform's, applied to everything at once, during an outage.
