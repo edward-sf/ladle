@@ -437,6 +437,14 @@ protected by seven of them is a branch nothing can merge into.
 | `contrast` | Token contrast pairs, per theme, per mode | `NFR-A11Y-02` |
 | `journey` | Maestro flows against an EAS build | `FR-JRN-01`–`FR-JRN-06` |
 
+**Supabase Preview** also reports on a pull request, and is not one of these
+jobs. It is the Supabase GitHub integration rather than a workflow: it opens a
+hosted branch for a pull request that touches `supabase/`, applies the migration
+chain to it, and destroys it when the pull request closes. It is deliberately not
+a required status check, because it reports nothing at all on the many pull
+requests that touch no migration, and a branch protection rule waiting on a check
+that will never arrive is the failure this file already describes once.
+
 `FR-TAG-21` — retiring a tag remaps every recipe carrying it within the same
 migration — is checked by the `schema` job, since the remap and the retirement
 are the same migration and a reset proves they run together.

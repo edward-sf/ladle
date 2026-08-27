@@ -136,7 +136,7 @@ upgrade to go.
 | | What sits here |
 | --- | --- |
 | **Committed**, whatever the usage | The Apple Developer Program annually, the one-off Google Play registration, a domain to serve the privacy policies from, and now the database subscription — which includes enough compute credit for exactly one project |
-| **Metered**, above included allowances | Storage, egress, branch hours, and the compute of any *second* permanently running project |
+| **Metered**, above included allowances | Storage, egress, branch hours — a small standing figure now that pull requests touching migrations open one — and the compute of any *second* permanently running project |
 
 **The ceiling used to be mostly headroom and is now mostly rent.** The committed
 row accounts for something close to two thirds of it before a single person uses

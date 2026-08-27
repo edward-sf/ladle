@@ -214,11 +214,20 @@ chain builds from empty before opening a pull request.
 
 Pull requests are validated in CI by doing the same thing: standing up the
 Supabase stack in the runner, replaying migrations and seed, and running the test
-suite against it. Hosted branches exist and are deliberately *not* used for this.
-A container in the runner is faster, costs nothing, and is the environment
-`NFR-DATA-04` is actually a claim about; paying per hour to run the same
-assertions against the network would buy fidelity the test suite does not
+suite against it. **The suite stays in the runner.** A container is faster, costs
+nothing, and is the environment `NFR-DATA-04` is actually a claim about; running
+those same assertions against the network would buy fidelity the tests do not
 exercise.
+
+**A pull request touching `supabase/` additionally gets a hosted branch**, opened
+and destroyed by the Supabase GitHub integration. That is a different claim
+rather than the same one twice. The runner proves the chain builds from empty in
+Docker; the branch proves it applies on Supabase Cloud, where extensions, roles
+and managed schemas can differ from the local image. It runs no tests, costs
+branch-hours rather than a standing charge, and is the cheapest available
+mitigation for the drift recorded at the end of this section — which is a risk
+this document names and, until now, answered only by waiting for a release
+candidate.
 
 ### Preview
 
@@ -371,6 +380,10 @@ breaks on Supabase Cloud. Three practices contain it:
 - **`supabase/config.toml` is committed**, keeping Auth settings, extensions, and
   bucket configuration under version control rather than clicked into a
   dashboard.
+- **Every migration reaches Supabase Cloud before it is merged.** The per-pull-request
+  branch described under *Local* applies the chain on the real platform, so a
+  migration that builds in Docker and fails on Supabase fails in review rather
+  than at a release.
 - **Anything hosted-only is verified on a branch, not locally.** Work touching
   OAuth providers, email delivery, Storage transformations, Edge Function
   deployment, or scheduled jobs is not considered done until it has run in
