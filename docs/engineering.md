@@ -1,13 +1,12 @@
----
-name: engineering.md
-description: This file describes the repository structure, code conventions, testing strategy, continuous integration, and observability for the Ladle application.
----
+--- name: engineering.md description: This file describes the repository
+structure, code conventions, testing strategy, continuous integration, and
+observability for the Rootloom application. ---
 # Engineering
 
 This document covers how the code is laid out, how it is tested, what runs in
 CI, and how the operational measures are taken. It is the counterpart to the
-product documents: they say what Ladle does and why, this says how the work of
-building it is organised.
+product documents: they say what Rootloom does and why, this says how the work
+of building it is organised.
 
 It deliberately does not restate two things it would otherwise duplicate.
 [`data.md`](./data.md) owns the data tier, the environment partitioning, and the
@@ -17,9 +16,9 @@ itself.
 [`user-interface.md`](./user-interface.md) owns the UI tooling and the token
 layers.
 
-Nothing here is running yet. Ladle is at the planning stage, and this document
-is a set of decisions to build against rather than a description of something
-that exists.
+Nothing here is running yet. Rootloom is at the planning stage, and this
+document is a set of decisions to build against rather than a description of
+something that exists.
 
 ## Repository structure
 
@@ -130,13 +129,13 @@ justified only by secrecy erodes, because every individual exception to it looks
 harmless; this one stands on grounds that do not depend on who is looking.
 
 **It is not a service.** The private repository produces an artifact on a slow
-cadence and nothing calls it at request time — it is closer to a compiler than to
-a component of the running system. Ladle has no application tier to decompose:
-the client queries PostgREST directly and RLS is the authorization model, so any
-process holding elevated rights and re-implementing authorization would create a
-second one, and the policy tests in `tests/rls/` would then prove only half of
-what they claim to. The runtime topology does not change when the second
-repository appears.
+cadence and nothing calls it at request time — it is closer to a compiler than
+to a component of the running system. Rootloom has no application tier to
+decompose: the client queries PostgREST directly and RLS is the authorization
+model, so any process holding elevated rights and re-implementing authorization
+would create a second one, and the policy tests in `tests/rls/` would then prove
+only half of what they claim to. The runtime topology does not change when the
+second repository appears.
 
 **The seam is narrow and the vocabulary is the contract.** Recipe text goes to
 inference and facet tags come back, drawn from the closed vocabulary in
@@ -172,11 +171,11 @@ misread licence has to become a reviewable deletion with history rather than an
 `UPDATE` nobody sees. And a label correction is a judgement worth reading, which
 a diff shows and a row does not.
 
-Against that, a database would buy ad-hoc querying the labelling surface does not
-need at this size - it loads the corpus and indexes it in memory - and would cost
-either a second database to run or, if it went in the Ladle schema, a table under
-RLS, in the migration chain, and owed a policy test, for data no user will ever
-read.
+Against that, a database would buy ad-hoc querying the labelling surface does
+not need at this size - it loads the corpus and indexes it in memory - and would
+cost either a second database to run or, if it went in the Rootloom schema, a
+table under RLS, in the migration chain, and owed a policy test, for data no
+user will ever read.
 
 **One thing crosses from the corpus to the product, and it is a number.** Per-tag
 example counts and per-facet floors are published into `tags.example_count` and
@@ -243,11 +242,11 @@ the next SDK has since replaced.
 
 **The stores are the one thing that can override this.** Apple and Google both
 raise the platform requirements a submitted build has to meet, on their schedule
-rather than Ladle's, and an SDK upgrade is usually how an Expo app meets them.
-No date is stated here because it moves; the point is that it is checked before
-P10 plans its work rather than discovered in a rejection notice. `NFR-OPS-15`
-keeps the pins honest in the meantime, because a pin that only exists in prose
-drifts the first time somebody's machine disagrees with it.
+rather than Rootloom's, and an SDK upgrade is usually how an Expo app meets
+them. No date is stated here because it moves; the point is that it is checked
+before P10 plans its work rather than discovered in a rejection notice.
+`NFR-OPS-15` keeps the pins honest in the meantime, because a pin that only
+exists in prose drifts the first time somebody's machine disagrees with it.
 
 ## Code conventions
 
@@ -391,10 +390,10 @@ down after. The seed's stability is then a convenience rather than a contract.
 
 **Demo content is a real account, populated by hand, in production.** Release 1
 is the portfolio artifact and an empty cookbook demonstrates nothing, so there
-has to be a household that looks like a household using Ladle well. That is not
-a seeding exercise — `NFR-DATA-06` says production is never seeded and it stays
-true, because entering thirty recipes through the app is *using* the app rather
-than loading a fixture into it.
+has to be a household that looks like a household using Rootloom well. That is
+not a seeding exercise — `NFR-DATA-06` says production is never seeded and it
+stays true, because entering thirty recipes through the app is *using* the app
+rather than loading a fixture into it.
 
 Doing it by hand is deliberate and has a second payoff: it is the last honest
 acceptance test before submission. If entering thirty recipes is tedious, that is

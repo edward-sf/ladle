@@ -1,13 +1,12 @@
----
-name: taxonomy.md
-description: This file defines Ladle's curated vocabularies - the faceted `Tag` set applied to recipes and ingredients, and the retail `IngredientCategory` set that orders a grocery list.
----
+--- name: taxonomy.md description: This file defines Rootloom's curated
+vocabularies - the faceted `Tag` set applied to recipes and ingredients, and the
+retail `IngredientCategory` set that orders a grocery list. ---
 # Taxonomy
 
-Ladle's search, recommendation, allergy checking, and grocery ordering all rest
-on two curated vocabularies. This file defines them.
+Rootloom's search, recommendation, allergy checking, and grocery ordering all
+rest on two curated vocabularies. This file defines them.
 
-Both are **closed**: Ladle authors every term, and neither households nor the
+Both are **closed**: Rootloom authors every term, and neither households nor the
 classifier may coin a new one. That constraint is what makes the surfaces built
 on top of them reliable - search, recommendation, and incompatibility rules can
 only be trusted when "weeknight", "week-night", and "quick" cannot become three
@@ -168,16 +167,16 @@ completely. These drive ranking rather than blocking: a household observing a
 framework sees compliant recipes first, not exclusively.
 
 Dietary tags are never assigned by the classifier. A compliance claim that a
-model guessed is a promise Ladle cannot keep, and almost all of these can be
+model guessed is a promise Rootloom cannot keep, and almost all of these can be
 worked out exactly.
 
 **Derived from ingredient tags.** `dietary:vegan`, `dietary:vegetarian`,
 `dietary:pescatarian`, `dietary:dairy-free`, `dietary:gluten-free`.
 
-**Derived from computed nutrition.** Each of these is a numeric test against
-the figures Ladle already computes for a recipe. Where a nutrition-claim
-regulation defines the term, Ladle adopts its figure rather than inventing one,
-so that a tag means what the packaging in someone's hand means.
+**Derived from computed nutrition.** Each of these is a numeric test against the
+figures Rootloom already computes for a recipe. Where a nutrition-claim
+regulation defines the term, Rootloom adopts its figure rather than inventing
+one, so that a tag means what the packaging in someone's hand means.
 
 | Tag | Threshold | Basis |
 | --- | --- | --- |
@@ -189,30 +188,30 @@ so that a tag means what the packaging in someone's hand means.
 Three caveats attach to that table.
 
 **US and EU claims use different bases** - the US expresses them per serving,
-the EU per 100g - and Ladle computes per serving, so it follows the per-serving
-form wherever the two diverge.
+the EU per 100g - and Rootloom computes per serving, so it follows the
+per-serving form wherever the two diverge.
 
 **The citations are for traceability, not authority.** Claim regulations are
 amended, so the figures should be checked against current text before they ship.
 
 **Two of the four rest on convention and say so.** No regulator defines keto or
-low-carb, so Ladle chose those figures itself, and the app labels them as
+low-carb, so Rootloom chose those figures itself, and the app labels them as
 convention where they are used rather than presenting all four as equivalent.
 Professional review of these thresholds - and of the target equation, which is
 the larger claim - is deliberately deferred past the first release. What ends
 the deferral is the claim rather than the calendar: review is required before
-Ladle says anything about health outside the app, in marketing, store copy, or
-any comparative or outcome claim, and before these figures stop being labelled
-as convention or stop being overridable. The deferral is affordable exactly as
-long as Ladle claims nothing more for them than that they are common
-convention.
+Rootloom says anything about health outside the app, in marketing, store copy,
+or any comparative or outcome claim, and before these figures stop being
+labelled as convention or stop being overridable. The deferral is affordable
+exactly as long as Rootloom claims nothing more for them than that they are
+common convention.
 
 **Declared by the author, never inferred.** `dietary:kosher`, `dietary:halal`,
 `dietary:paleo`, `dietary:whole-food`, `dietary:low-fodmap`. Kosher and halal
 depend on sourcing, certification, and preparation rather than on which
 ingredients appear in a list, and the others rest on contested definitions.
 These are surfaced as the author's claim, attributed to them, and never
-presented as something Ladle verified.
+presented as something Rootloom verified.
 
 Frameworks combine rather than compete: a recipe may be both `dietary:kosher`
 and `dietary:vegetarian`, and a `User` may observe both.
@@ -278,7 +277,7 @@ tag food that came from somewhere and was cooked somewhere else.
 **The set above is the launch vocabulary and it grows on evidence.** A region is
 added when there is a concrete case for it - recipes that do not sit properly in
 any existing term, or a request from someone who cooks that food - and the case
-is recorded alongside the addition. Ladle does not go looking for regions to
+is recorded alongside the addition. Rootloom does not go looking for regions to
 add, because the cuisine facet is the largest part of the vocabulary and every
 term added to it enlarges the corpus that has to be labelled before the
 classifier can be trained.
@@ -316,9 +315,9 @@ Incompatibility rules are expressed as pairs of tags that make an odd meal when
 they appear together in one `Meal` - two `course:dessert` recipes, or a
 `cuisine:japanese` main beside a `cuisine:mexican` side.
 
-Every such rule is **advisory**. Ladle can say two recipes make an unusual meal;
-it never prevents the cook from disagreeing, because the cook is frequently
-right and the rule is a generalization.
+Every such rule is **advisory**. Rootloom can say two recipes make an unusual
+meal; it never prevents the cook from disagreeing, because the cook is
+frequently right and the rule is a generalization.
 
 ## Ingredient categories
 

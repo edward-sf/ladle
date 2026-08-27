@@ -1,10 +1,10 @@
 ---
 name: requirements.md
-description: This file describes the functional and non-functional requirements of the Ladle application, which should be used to guide test-driven development.
+description: This file describes the functional and non-functional requirements of the Rootloom application, which should be used to guide test-driven development.
 ---
 # Requirements
 
-This file is the canonical, testable statement of what Ladle must do. [`user-experience.md`](./user-experience.md) states requirements as intent, in prose, beneath the feature they shape; this document turns that intent into numbered claims a test can pass or fail.
+This file is the canonical, testable statement of what Rootloom must do. [`user-experience.md`](./user-experience.md) states requirements as intent, in prose, beneath the feature they shape; this document turns that intent into numbered claims a test can pass or fail.
 
 ## Conventions
 
@@ -156,7 +156,7 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-NUT-06** `test` Demographic inputs are deletable without deleting the account.
 - **FR-NUT-07** `test` No feature outside Nutrition Tracking requires a demographic input.
 - **FR-NUT-08** `test` The sex input is a distinct field from pronouns, collected in the nutrition context with its purpose stated.
-- **FR-NUT-09** `test` Ladle tracks energy, protein, carbohydrate, fat, fibre, and sodium, and no other nutrient.
+- **FR-NUT-09** `test` Rootloom tracks energy, protein, carbohydrate, fat, fibre, and sodium, and no other nutrient.
 - **FR-NUT-10** `test` Nutrition figures are rounded on display - energy to the nearest 5 kcal, macronutrients and fibre to the nearest gram, sodium to the nearest 10 mg - and never carry a decimal place.
 - **FR-NUT-11** `test` The `Today` tab shows the day's planned meals against targets before any of them is cooked.
 - **FR-NUT-12** `test` Only a participant's own `ate` state contributes to their nutrition ledger; a `Meal`'s cooked state does not.
@@ -165,7 +165,7 @@ This file is the canonical, testable statement of what Ladle must do. [`user-exp
 - **FR-NUT-14** `manual` The app presents no health claim, no outcome claim, and no medical advice.
 - **FR-NUT-15** `manual` Nutrition surfaces use neutral, reporting language, offering no congratulation, warning, or evaluative judgement.
 - **FR-NUT-16** `test` The nutrition display presents no colour change or other state change on a target being reached or exceeded.
-- **FR-NUT-17** `manual` Ladle makes no health claim, outcome claim, or comparative nutritional claim outside the app - in store listings, marketing, or any other external material - before the thresholds and target equation have been reviewed by a qualified dietitian.
+- **FR-NUT-17** `manual` Rootloom makes no health claim, outcome claim, or comparative nutritional claim outside the app - in store listings, marketing, or any other external material - before the thresholds and target equation have been reviewed by a qualified dietitian.
 - **FR-NUT-18** `policy` A threshold resting on convention keeps its stated-as-convention labelling and remains overridable until that review has taken place.
 - **FR-NUT-19** `test` Nutrition tracking is not offered to a `User` under 18.
 
@@ -351,8 +351,8 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-SEC-09** `manual` An Edge Function acts as its caller by default; escalation to `service_role` is explicit and commented at each call site.
 - **NFR-SEC-10** `test` Signing out removes that device's push notification token.
 - **NFR-SEC-11** `test` No health data — a demographic input or a recorded allergy — is stored before the `User` has given an explicit opt-in consent presented separately from any other consent.
-  - *Given* a `User` who has not consented, *when* they open the dietary or nutrition screens, *then* consent is requested before any field accepts a value, and declining leaves the rest of Ladle fully usable.
-- **NFR-SEC-12** `policy` Ladle publishes a consumer health data privacy policy as a document distinct from, and separately linked to, its general privacy policy.
+  - *Given* a `User` who has not consented, *when* they open the dietary or nutrition screens, *then* consent is requested before any field accepts a value, and declining leaves the rest of Rootloom fully usable.
+- **NFR-SEC-12** `policy` Rootloom publishes a consumer health data privacy policy as a document distinct from, and separately linked to, its general privacy policy.
 
 ### Accessibility
 
@@ -374,7 +374,7 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-DATA-05** `ci` TypeScript types are generated from the live schema and committed, so a schema change that breaks the app fails at compile time.
 - **NFR-DATA-06** `policy` Production data is never restored, seeded, or copied into any other environment.
 - **NFR-DATA-07** `test` Nutrition figures are stored as estimates, with the basis of each recorded alongside it.
-- ~~**NFR-DATA-08**~~ *Retired, superseded by `NFR-DATA-13`.* It claimed a 30-day backup window that no plan Ladle runs on offers: the managed tier keeps daily backups for seven days, and a longer window is a paid add-on costing several times the whole monthly ceiling in [`operating-model.md`](./operating-model.md). The claim had also been made against a plan carrying no backups at all, so it was never true rather than newly false.
+- ~~**NFR-DATA-08**~~ *Retired, superseded by `NFR-DATA-13`.* It claimed a 30-day backup window that no plan Rootloom runs on offers: the managed tier keeps daily backups for seven days, and a longer window is a paid add-on costing several times the whole monthly ceiling in [`operating-model.md`](./operating-model.md). The claim had also been made against a plan carrying no backups at all, so it was never true rather than newly false.
 - **NFR-DATA-09** `ci` A migration dropping or renaming a column, table, or enum value fails the build unless it carries an explicit annotation recording that no supported client version references it.
 - **NFR-DATA-10** `test` The client refuses to operate below the server-published minimum supported version, showing a blocking prompt to update.
 - **NFR-DATA-11** `test` The client renders an enum value it does not recognise without erroring.

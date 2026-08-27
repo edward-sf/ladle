@@ -1,22 +1,22 @@
 ---
 name: user-experience.md
-description: This file describes the target audience(s), major and minor features, and intended user experience paths for the Ladle application.
+description: This file describes the target audience(s), major and minor features, and intended user experience paths for the Rootloom application.
 ---
 # User Experience
 
 ## Who is this for?
 
-The primary audience for Ladle is the **household cook**, providing them tools to plan meals on their household calendar, manage their household membership and cookbook, and keep their household pantry stocked. This work requires regular, often unseen mental labor that could be reduced by the more integrated tooling that Ladle provides.
+The primary audience for Rootloom is the **household cook**, providing them tools to plan meals on their household calendar, manage their household membership and cookbook, and keep their household pantry stocked. This work requires regular, often unseen mental labor that could be reduced by the more integrated tooling that Rootloom provides.
 
-Another audience for Ladle is the **nutrient tracker** - the health-conscious person who wants to understand what they're consuming and whether they are hitting their health goals. Meal planning is more than deciding what to cook; it's a strategy for health and diet. Ladle's `Today` tab provides an overview of the current day's planned meals and how that plan satisfies their recommended daily values.
+Another audience for Rootloom is the **nutrient tracker** - the health-conscious person who wants to understand what they're consuming and whether they are hitting their health goals. Meal planning is more than deciding what to cook; it's a strategy for health and diet. Rootloom's `Today` tab provides an overview of the current day's planned meals and how that plan satisfies their recommended daily values.
 
-A third audience for Ladle is the **recipe collector** who wants to create, share, and discover recipes.
+A third audience for Rootloom is the **recipe collector** who wants to create, share, and discover recipes.
 
-These audiences are not separate users. The same person is usually all three at different moments of the same week, which is the argument for one application rather than three. Ladle's job is to let each of those moments happen without dragging the other two along.
+These audiences are not separate users. The same person is usually all three at different moments of the same week, which is the argument for one application rather than three. Rootloom's job is to let each of those moments happen without dragging the other two along.
 
 ## Features
 
-Features are sorted by the role they play in the product rather than by the order they will be built - sequencing belongs to [`roadmap.md`](./roadmap.md). A **major feature** is a pillar: something a person would name as their reason for using Ladle. A **minor feature** is supporting capability that serves one or more pillars and would mostly be noticed by its absence.
+Features are sorted by the role they play in the product rather than by the order they will be built - sequencing belongs to [`roadmap.md`](./roadmap.md). A **major feature** is a pillar: something a person would name as their reason for using Rootloom. A **minor feature** is supporting capability that serves one or more pillars and would mostly be noticed by its absence.
 
 This document describes behavior. Entities are named (`Household`, `Meal`, `Recipe`) but never specified - fields, keys, and relationships live in [`data.md`](./data.md). Requirements here are stated as intent; the numbered, testable requirements that drive development live in [`requirements.md`](./requirements.md) and trace back to the features below.
 
@@ -24,7 +24,7 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 
 #### Households
 
-*A `Household` is Ladle's unit of collaboration. Every `Calendar`, `Cookbook`, `Pantry`, and `GroceryList` belongs to exactly one `Household`, and a `User` may belong to several - a home, a partner's home, a shared apartment. Within a `Household`, an Owner holds full control, Admins share day-to-day management, and Members participate by request.*
+*A `Household` is Rootloom's unit of collaboration. Every `Calendar`, `Cookbook`, `Pantry`, and `GroceryList` belongs to exactly one `Household`, and a `User` may belong to several - a home, a partner's home, a shared apartment. Within a `Household`, an Owner holds full control, Admins share day-to-day management, and Members participate by request.*
 
 ##### Requirements
 - A `Household` is created silently at signup with the new user as its Owner. Someone cooking alone must be able to plan, shop, and cook without ever meeting an approval queue, an invitation flow, or a permissions screen.
@@ -33,7 +33,7 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 - Roles must be legible from the household screen. A *Member* who cannot add a meal directly should understand why before they try, not after they are refused.
 - A denial must never be silent. When a request is declined, the person who made it is told, and ideally told why.
 - No exit orphans data. Ownership can be transferred, and a departing *Owner* is required to transfer it before leaving.
-- A household is everyone who eats there, and not everyone who eats there has an app. An infant, an elderly parent, a housemate who will not install anything - each is a person the plan has to account for, and requiring an account for them would mean the household Ladle models is smaller than the household that sits down to dinner. People without accounts hold no role and take no actions; they are recorded by an Owner or Admin, and they can be linked to a real account later when a twelve year old becomes a thirteen year old. This matters most for allergies. A child's allergy is the one least likely to be spoken up about and most likely to matter, and a model that cannot hold it turns a safety feature into one that quietly works for adults only.
+- A household is everyone who eats there, and not everyone who eats there has an app. An infant, an elderly parent, a housemate who will not install anything - each is a person the plan has to account for, and requiring an account for them would mean the household Rootloom models is smaller than the household that sits down to dinner. People without accounts hold no role and take no actions; they are recorded by an Owner or Admin, and they can be linked to a real account later when a twelve year old becomes a thirteen year old. This matters most for allergies. A child's allergy is the one least likely to be spoken up about and most likely to matter, and a model that cannot hold it turns a safety feature into one that quietly works for adults only.
 - Dissolving a household is a destructive act and is treated as one. What will be destroyed is listed before it happens, published recipes are withdrawn from the showcase, and the household stays recoverable for a period afterwards - because the person confirming it may be in the middle of an argument rather than at the end of a decision. Copies other households already took are snapshots and are untouched.
 
 ##### User Stories
@@ -68,7 +68,7 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 
 #### Recipes and Cookbooks
 
-*A `Household` keeps one `Cookbook` holding all of its `Recipe`s. Organization within it comes from collections, which are saved views rather than containers, so a recipe can sit in several at once without being copied or moved. The creator of a `Recipe` is its default Author, and further Authors may be added to share write access. A `Recipe` is Private by default - visible only within its `Household` - or Public, which lists it in Ladle's app-wide showcase where any user can find it and copy it into their own cookbook.*
+*A `Household` keeps one `Cookbook` holding all of its `Recipe`s. Organization within it comes from collections, which are saved views rather than containers, so a recipe can sit in several at once without being copied or moved. The creator of a `Recipe` is its default Author, and further Authors may be added to share write access. A `Recipe` is Private by default - visible only within its `Household` - or Public, which lists it in Rootloom's app-wide showcase where any user can find it and copy it into their own cookbook.*
 
 ##### Requirements
 - Recipe entry must be forgiving. A recipe with no photo, three steps, and "a knob of butter" is a legitimate recipe and must be saveable as one. Drafts persist; nothing is lost because a field was left empty. A recipe without a photo is shown without one rather than behind a generated stand-in, because a cookbook of handwritten family recipes is mostly photoless and a grid of identical placeholders reads as a failed load.
@@ -78,8 +78,8 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 - When an author later edits a published recipe, every copy of it surfaces a quiet notice that the original has changed, showing what changed and offering the choice to take it or leave it. Nothing is ever applied without that household accepting it: an author's correction must not rewrite someone else's dinner while they are cooking it.
 - An author who deletes their account leaves the recipes they published in other people's cookbooks, because those copies are snapshots the copying household owns. What goes is their name: attribution degrades to a placeholder identifying nobody. Erasure should not rewrite someone else's cookbook, and it should not let a copier appear to have written what they copied.
 - Recipes belong to the cookbook and collections are views over it. Removing a recipe from a collection never deletes it, and no recipe is ever filed in the wrong place, because it can be filed in every place it belongs.
-- A published recipe carrying a claim Ladle cannot verify - kosher, halal, and the frameworks resting on contested definitions - shows that claim as the author's, under their name. Any reader can report one they believe is wrong. While it waits for review the claim is suppressed and the recipe stays published, because a suppressed claim costs its author a label while a wrong one left standing costs a household its observance.
-- There is deliberately no verification badge. A badge would imply a check Ladle does not perform and cannot perform, and the households most likely to rely on one are the households least able to afford its being wrong.
+- A published recipe carrying a claim Rootloom cannot verify - kosher, halal, and the frameworks resting on contested definitions - shows that claim as the author's, under their name. Any reader can report one they believe is wrong. While it waits for review the claim is suppressed and the recipe stays published, because a suppressed claim costs its author a label while a wrong one left standing costs a household its observance.
+- There is deliberately no verification badge. A badge would imply a check Rootloom does not perform and cannot perform, and the households most likely to rely on one are the households least able to afford its being wrong.
 - The showcase must be browsable by someone with no idea what they want to cook. Discovery is the entry point for the recipe collector, not search.
 - Recipes that conflict with a household member's allergies must be visibly marked wherever they appear, including in the showcase.
 
@@ -92,7 +92,7 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 6. *As a household cook*, I want to enter my grandmother's handwritten recipe exactly as she wrote it, imprecision included.
 7. *As an Author*, I want to add the person I cook with as a second author so that either of us can fix the recipe after we find the mistake.
 8. *As a household cook*, I want to see immediately that a recipe contains an ingredient someone here is allergic to.
-9. *As a household cook who keeps kosher*, I want to know whether a recipe's kosher label is Ladle's finding or the author's word, so that I can judge how much to lean on it.
+9. *As a household cook who keeps kosher*, I want to know whether a recipe's kosher label is Rootloom's finding or the author's word, so that I can judge how much to lean on it.
 10. *As a recipe collector*, I want to report a published recipe whose dietary claim is wrong, and have someone act on it.
 
 #### Pantry and Grocery
@@ -100,7 +100,7 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 *Each `Household` has one `Pantry` - an inventory of `Ingredient`s on hand - and one `GroceryList` of `Ingredient`s to buy. The two are linked: adding a `Meal` to the `Calendar` populates the `GroceryList` with what that meal needs, and items acquired from the `GroceryList` flow into the `Pantry`. Owners and Admins manage both directly; Members request additions for approval.*
 
 ##### Requirements
-- The list must build itself from the week's plan. A cook who plans meals in Ladle and still writes a separate shopping list has been given a second chore rather than relief from the first.
+- The list must build itself from the week's plan. A cook who plans meals in Rootloom and still writes a separate shopping list has been given a second chore rather than relief from the first.
 - Removing a meal removes only what that meal contributed. An ingredient that was added by hand, or that a second meal still needs, stays on the list. Getting this wrong deletes groceries people needed, so it is the sharpest correctness constraint in this feature.
 - Quantities follow each meal's serving count rather than its participant headcount, so a meal cooked deliberately large is shopped for at the size it will actually be cooked.
 - The list must be usable one-handed, in a shop, with a basket in the other hand: large targets, no confirmation dialogs, and grouping by `IngredientCategory`, which is a retail taxonomy for precisely this reason. The list is ordered by where things sit in a shop, not by which recipe asked for them, and the sequence those groups appear in is the household's own, seeded from a shipped default and rearranged by dragging, because what varies is the shop rather than the country.
@@ -118,36 +118,36 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 
 #### Nutrition Tracking
 
-*The `Today` tab shows the current day's planned meals and what they contribute against the user's recommended daily values. Targets are computed from the demographic profile - date of birth, height, weight, sex, and activity level - against a stated goal, and every one of them can be overridden by hand. Ladle tracks energy, protein, carbohydrate, fat, fibre, and sodium. The figures are derived from the `IngredientNutrition` estimates attached to the generic `Ingredient` catalog, aggregated up through recipes and meals, and apportioned across the participants named on each meal.*
+*The `Today` tab shows the current day's planned meals and what they contribute against the user's recommended daily values. Targets are computed from the demographic profile - date of birth, height, weight, sex, and activity level - against a stated goal, and every one of them can be overridden by hand. Rootloom tracks energy, protein, carbohydrate, fat, fibre, and sodium. The figures are derived from the `IngredientNutrition` estimates attached to the generic `Ingredient` catalog, aggregated up through recipes and meals, and apportioned across the participants named on each meal.*
 
 ##### Requirements
 - Targets are computed with a standard published equation - Mifflin-St Jeor for the basal rate, scaled by an activity factor and adjusted toward the user's goal - so that someone who does not know their own numbers is given usable ones immediately. Every computed value is overridable and the feature as a whole is dismissible: nutrition is one audience's reason for being here and another's distraction.
-- The demographic inputs are health data and are handled as such. They are private to the user, never visible to other household members, never required by any other part of Ladle, and deletable without deleting the account.
-- Nothing health-related is stored until the person has said yes to it specifically. The ask comes at the point of collection rather than buried in whatever was agreed at signup, it says plainly what is collected and who can see it, and declining is a supported answer that leaves the rest of Ladle working. Turning it off later and deleting what was stored are the same two actions that already exist; there is no separate revoke to find.
+- The demographic inputs are health data and are handled as such. They are private to the user, never visible to other household members, never required by any other part of Rootloom, and deletable without deleting the account.
+- Nothing health-related is stored until the person has said yes to it specifically. The ask comes at the point of collection rather than buried in whatever was agreed at signup, it says plainly what is collected and who can see it, and declining is a supported answer that leaves the rest of Rootloom working. Turning it off later and deleting what was stored are the same two actions that already exist; there is no separate revoke to find.
 - The sex input the equation requires is a separate field from pronouns and from display identity. It is asked once, in the nutrition context, with its purpose stated. Conflating the two would be bad arithmetic and a worse experience.
-- Ladle is not a clinical tool. Targets are presented as general estimates; the app makes no health claims and gives no medical advice.
+- Rootloom is not a clinical tool. Targets are presented as general estimates; the app makes no health claims and gives no medical advice.
 - Nutrition tracking is not offered to anyone under eighteen. The equation behind the targets was validated on adults, calorie targets put in front of adolescents carry a risk this app is not equipped to manage, and none of these figures has been reviewed by anyone qualified. The deferred professional review is what would reopen the question.
-- Where a figure rests on convention rather than on regulation, the app says so where the figure is used, not in a policy document nobody opens. Low sodium and high protein follow published nutrition-claim rules; keto and low-carb follow common convention, because no regulator defines them, and a user reading either deserves to know which they are looking at. Professional review of these figures is deferred, and what ends the deferral is the claim rather than the calendar: it is required before Ladle says anything about health outside the app, and before any of these figures stops being labelled as convention or stops being overridable.
+- Where a figure rests on convention rather than on regulation, the app says so where the figure is used, not in a policy document nobody opens. Low sodium and high protein follow published nutrition-claim rules; keto and low-carb follow common convention, because no regulator defines them, and a user reading either deserves to know which they are looking at. Professional review of these figures is deferred, and what ends the deferral is the claim rather than the calendar: it is required before Rootloom says anything about health outside the app, and before any of these figures stops being labelled as convention or stops being overridable.
 - The tracked set stops at energy, macronutrients, fibre, and sodium: the figures people commonly hold targets for, each reliably present in food data, and few enough that `Today` stays a glance rather than a table. Micronutrients are excluded deliberately, because generic catalog estimates for them are far weaker than for macros and would be presented with a confidence the data cannot support.
 - Numbers are estimates and must read as estimates. A generic catalog cannot know the fat content of the specific chicken in someone's fridge, and a figure carried to a tenth of a gram invites a trust the data cannot support. Figures are rounded to steps coarse enough that the rounding itself conveys the uncertainty, and no nutrition figure carries a decimal place.
 - The value of the `Today` tab is that it looks forward. Telling someone their plan is short on protein while there is still time to add something is worth more than telling them afterwards.
 - Planned and eaten are different states, and the difference must be one tap to record and never a demand. Eaten belongs to the person, not to the meal: a participant can say they did not eat what the household cooked, and only their own day changes when they do.
-- The tone is neutral throughout. Ladle reports; it does not congratulate, warn, or judge. Health features are unusually easy to make shaming, and a meal planner that makes people feel bad about dinner will not be opened.
+- The tone is neutral throughout. Rootloom reports; it does not congratulate, warn, or judge. Health features are unusually easy to make shaming, and a meal planner that makes people feel bad about dinner will not be opened.
 
 ##### User Stories
 1. *As a nutrient tracker*, I want to see today's plan measured against my targets so that I can adjust before I cook rather than regret afterwards.
 2. *As a nutrient tracker*, I want to know a day is light on protein while there is still time to add something to it.
 3. *As a nutrient tracker*, I want to confirm what I actually ate, including the meal I replaced with toast.
-4. *As a nutrient tracker*, I want targets worked out for me from what I tell Ladle about myself, so that I do not have to arrive knowing them.
-5. *As a nutrient tracker*, I want to overwrite any target Ladle calculated when I disagree with it, and have my figure stick.
-6. *As a user who finds those questions intrusive*, I want to decline every one of them and still use the rest of Ladle.
+4. *As a nutrient tracker*, I want targets worked out for me from what I tell Rootloom about myself, so that I do not have to arrive knowing them.
+5. *As a nutrient tracker*, I want to overwrite any target Rootloom calculated when I disagree with it, and have my figure stick.
+6. *As a user who finds those questions intrusive*, I want to decline every one of them and still use the rest of Rootloom.
 7. *As a household cook who does not track nutrition*, I want none of this in my way.
 
 ### Minor Features
 
 #### Ingredient Catalog
 
-*Ladle maintains an app-wide catalog of generic `Ingredient`s used by recipes, pantries, and grocery lists. Each carries an `IngredientNutrition` estimate and belongs to exactly one `IngredientCategory` - a retail taxonomy of produce, dairy, meat, tinned goods, dry goods and the like, whose job is to order a grocery list the way a shop is laid out. Groupings along any other axis, whether botanical like nightshades or dietary like animal products, are `Tag`s rather than categories, because an ingredient sits in exactly one shop aisle but in many of everything else. Both vocabularies are defined in [`taxonomy.md`](./taxonomy.md). The catalog is what makes the pillars interoperate: it is the reason a recipe's ingredient can be matched against a pantry's stock and totalled into a day's nutrition.*
+*Rootloom maintains an app-wide catalog of generic `Ingredient`s used by recipes, pantries, and grocery lists. Each carries an `IngredientNutrition` estimate and belongs to exactly one `IngredientCategory` - a retail taxonomy of produce, dairy, meat, tinned goods, dry goods and the like, whose job is to order a grocery list the way a shop is laid out. Groupings along any other axis, whether botanical like nightshades or dietary like animal products, are `Tag`s rather than categories, because an ingredient sits in exactly one shop aisle but in many of everything else. Both vocabularies are defined in [`taxonomy.md`](./taxonomy.md). The catalog is what makes the pillars interoperate: it is the reason a recipe's ingredient can be matched against a pantry's stock and totalled into a day's nutrition.*
 
 ##### Requirements
 - Searching for an ingredient must tolerate the words people actually use - "spring onion" and "scallion" must reach the same entry.
@@ -168,10 +168,10 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 ##### Requirements
 - Allergies are a safety feature, not a preference. They are enforced absolutely in recommendation and surfaced as a warning everywhere a recipe is displayed, never quietly filtered in a way that could be mistaken for absence.
 - Dietary models are preferences and shape ranking rather than blocking. Models combine, so someone can be both Kosher and vegetarian without the app choosing one.
-- A compliance claim is either derived or attributed, never inferred. Where Ladle can work a framework out from ingredients or nutrition it does so; where it cannot - kosher and halal turn on sourcing, certification, and preparation rather than on an ingredient list - the claim is the author's, shown as theirs, and a household observing that framework is told which kind of claim it is looking at. On a published recipe an attributed claim can be reported and reviewed, which is the only recourse Ladle offers and is offered honestly as such.
+- A compliance claim is either derived or attributed, never inferred. Where Rootloom can work a framework out from ingredients or nutrition it does so; where it cannot - kosher and halal turn on sourcing, certification, and preparation rather than on an ingredient list - the claim is the author's, shown as theirs, and a household observing that framework is told which kind of claim it is looking at. On a published recipe an attributed claim can be reported and reviewed, which is the only recourse Rootloom offers and is offered honestly as such.
 - A household plans for everyone at the table. Where the members of a meal conflict, the conflict is shown rather than resolved automatically.
-- Allergies and dietary requirements are recorded for everyone at the table, including the people who have no account. What is recorded about them stops there: a name and their tags, and no date of birth, no measurements, and no nutrition. That is what the features need and it is the whole of it, which means Ladle holds no health measurements about any child.
-- Allergen groups are tags rather than categories, so a single ingredient can carry every group it belongs to. A group that no tag expresses is an allergy Ladle cannot protect anyone from, which leaves the allergen facet with the least room for gaps of anything in the product.
+- Allergies and dietary requirements are recorded for everyone at the table, including the people who have no account. What is recorded about them stops there: a name and their tags, and no date of birth, no measurements, and no nutrition. That is what the features need and it is the whole of it, which means Rootloom holds no health measurements about any child.
+- Allergen groups are tags rather than categories, so a single ingredient can carry every group it belongs to. A group that no tag expresses is an allergy Rootloom cannot protect anyone from, which leaves the allergen facet with the least room for gaps of anything in the product.
 - Group and specific tags coexist. A cashew carries both the tree-nut group and its own term, so that someone allergic to cashews alone is not made to avoid every nut in the catalog.
 - An allergen tag asserts presence; a dietary tag asserts compliance. They are opposite claims and neither implies the other, so the absence of an allergen tag is never treated as evidence of safety - an untagged ingredient and a verified-safe one look identical, and only one of them is.
 
@@ -186,7 +186,7 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 ##### Requirements
 - The line between public and private must be stated on the screen where the data is entered, not buried in a policy document.
 - Pronouns are optional, self-selected, and used wherever the app refers to a person in the third person.
-- A profile with nothing but a display name is complete. Nothing beyond that is required to use Ladle.
+- A profile with nothing but a display name is complete. Nothing beyond that is required to use Rootloom.
 
 ##### User Stories
 1. *As a user*, I want to know exactly which parts of my profile the other people in my household can see.
@@ -214,16 +214,16 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 - Cuisine tags are hierarchical and every applicable level is applied, so a Sichuan braise is tagged both Chinese and Sichuan and a search for the broad tradition finds its regional cooking. Regions exist only where the cooking genuinely differs.
 - The vocabulary is closed so that everything built on it stays reliable. Search, recommendation, and incompatibility rules can only be trusted when "weeknight", "week-night", and "quick" cannot become three unrelated concepts.
 - Facets are what make a tag more than a label. Search can offer "filter by cuisine" without knowing which terms are cuisines, and the allergen rule can be written against a facet rather than a hardcoded list, so adding an allergen never means revisiting the code that protects people from one.
-- Automatic tagging is what makes a closed vocabulary bearable. Nobody should have to learn Ladle's tag list to have their recipe found, and a recipe typed in at speed with no tags at all must still be discoverable.
+- Automatic tagging is what makes a closed vocabulary bearable. Nobody should have to learn Rootloom's tag list to have their recipe found, and a recipe typed in at speed with no tags at all must still be discoverable.
 - The classifier decides only the five discovery facets. Every tag that carries a safety claim or a promise of compliance is curated by a person or derived deterministically, so the accuracy bar is a question about search quality rather than about trust.
-- Dietary compliance is worked out, not guessed. Vegan, vegetarian, pescatarian, dairy-free, and gluten-free follow from the curated tags on a recipe's ingredients; keto, low-carb, high-protein, and low-sodium follow from the nutrition Ladle already computes; kosher, halal, and the frameworks resting on contested definitions are the author's own claim, shown as theirs and never as a Ladle verification.
+- Dietary compliance is worked out, not guessed. Vegan, vegetarian, pescatarian, dairy-free, and gluten-free follow from the curated tags on a recipe's ingredients; keto, low-carb, high-protein, and low-sodium follow from the nutrition Rootloom already computes; kosher, halal, and the frameworks resting on contested definitions are the author's own claim, shown as theirs and never as a Rootloom verification.
 - Derivation depends on every ingredient being reconciled with the catalog, because only a reviewed ingredient's missing allergen tag means anything. A recipe still holding an unreconciled ingredient carries no derived dietary tag and reports its allergy check as incomplete rather than as clean.
 - Manual tagging exists independently of the classifier and is never removed by it. An author frequently knows something about their own recipe that no model will recover from its ingredient list.
 - Classification runs server-side on create and update, so that the model can be retrained and swapped without shipping an app release. Tagging is never on the path between a cook and a saved recipe: the recipe saves immediately and is classified behind it.
 - The corpus is built only from public-domain and permissively licensed open sources, confirmed before any labelling begins. A licence that forbids commercial training would invalidate the corpus after the work was done, which is the most expensive moment to discover it.
 - That constraint bites unevenly. Openly licensed recipe text skews old and Anglophone, and the tags least likely to be represented in it are exactly the long-tail cuisines the vocabulary was expanded to honour.
 - A tag the corpus cannot support ships dormant rather than being cut from the vocabulary or applied badly. The classifier emits only tags that reached their floor; the rest can still be searched and applied by hand, and a model guessing at a term it has barely seen produces confident nonsense that is worse than an absent tag.
-- Dormancy is invisible to the people using Ladle and resolves itself through use. An author applying a dormant tag by hand produces exactly the labelled example it needs, corrections are durable so the label survives, and the backfill after a retraining pass activates the tag across every recipe that should carry it. The full vocabulary therefore ships on day one without the corpus having covered all of it first.
+- Dormancy is invisible to the people using Rootloom and resolves itself through use. An author applying a dormant tag by hand produces exactly the labelled example it needs, corrections are durable so the label survives, and the backfill after a retraining pass activates the tag across every recipe that should carry it. The full vocabulary therefore ships on day one without the corpus having covered all of it first.
 - The training corpus is sized by the vocabulary, not by the recipe count. A classifier needs a floor of examples for every tag it decides, so the corpus is a stratified sample built to that floor rather than a flat random draw - which would leave the rare cuisines with a handful of examples each and reveal it only at evaluation.
 - The floor is measured per facet rather than picked, because a facet of five coarse terms and a facet of ninety-four fine ones do not need the same evidence. A first tranche is labelled at a working figure, the accuracy curve is fitted from it, and each facet's floor is set where its curve flattens.
 - Every term added to the vocabulary enlarges that corpus. Roughly two thirds of the classifier's tags are cuisines, so the cuisine facet grows on evidence rather than ambition: a region is added when recipes do not fit the existing terms or someone who cooks that food asks for it.
@@ -232,8 +232,8 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 - Classification is a suggestion everywhere except allergens. An allergen tag is a safety claim, so allergy checking is grounded in ingredient-level matches against the curated catalog rather than in anything a model inferred, and an absent tag is never treated as evidence of absence.
 - Search finds a recipe by its title, by an ingredient it uses, or by its tags, and treats the household's cookbook and the showcase as separate places. Discovery is the way into the showcase, but a cookbook of two hundred recipes still has to be searchable - and searching by ingredient is the query people actually have, because it is the one that starts at the fridge.
 - Recommendation must be explainable. "Because you have most of this already" and "because you cooked this last month" are reasons a person can act on; an unexplained ranked list is not.
-- What the household already has in the `Pantry` is a first-class input to recommendation. Suggesting meals that shorten the shopping list is the most useful thing Ladle can suggest.
-- Incompatibility is advisory. Ladle can say two recipes make an odd meal; it does not prevent the cook from disagreeing.
+- What the household already has in the `Pantry` is a first-class input to recommendation. Suggesting meals that shorten the shopping list is the most useful thing Rootloom can suggest.
+- Incompatibility is advisory. Rootloom can say two recipes make an odd meal; it does not prevent the cook from disagreeing.
 
 ##### User Stories
 1. *As a household cook*, I want suggestions weighted toward what is already in my pantry, so that planning reduces shopping.
@@ -249,7 +249,7 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 ##### Requirements
 - Every notification must be worth the interruption, and every category must be independently switchable off.
 - The same warning is not repeated. Hearing once that the spinach is about to turn is worth an interruption; hearing it every morning until the spinach is dealt with is what makes someone switch the category off - and switching it off is how they stop hearing about the next thing too.
-- Reminders derive from data the app already holds, so that no one is asked to set an alarm Ladle could have set itself.
+- Reminders derive from data the app already holds, so that no one is asked to set an alarm Rootloom could have set itself.
 - Household-wide events notify the people they concern - the person who made a request, the people who can approve it - and no one else.
 
 ##### User Stories
@@ -271,7 +271,7 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 - Turnaround is tiered by what happens without a person, not by how serious a category sounds. A disputed dietary claim is suppressed the moment it is reported, so the reader is already protected and what waits is the author's restoration; an unsafe instruction triggers nothing at all, so until someone reads it nothing has happened. The second is the urgent one, and it is the only urgent one.
 - An unattended queue must fail toward caution, because a single administrator is sometimes simply away. An urgent report left past its target withdraws the recipe from the showcase by itself until it is ruled on - the recipe stays fully visible to its own household, and only strangers stop seeing it.
 - The queue is bounded by design rather than by goodwill. A person may report a given recipe once, daily reports are capped, and many reports of the same thing collapse into one item carrying a count. The scarce resource is one person's attention, and anything unbounded consumes it.
-- A resolved report goes back to the person who raised it. Reporting into silence teaches people to stop, and the reports Ladle most needs are the ones about claims nobody else is checking.
+- A resolved report goes back to the person who raised it. Reporting into silence teaches people to stop, and the reports Rootloom most needs are the ones about claims nobody else is checking.
 
 ##### User Stories
 1. *As a household cook who keeps kosher*, I want a contested claim hidden while it is checked, rather than displayed until someone gets round to it.
@@ -284,12 +284,12 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 
 ##### Requirements
 - Signing in must be routine and rare. Sessions persist across app restarts, and a returning user lands on `Today`, not on a login screen.
-- The defences match the threat that actually exists. Nobody is mounting a targeted attack to read a shopping list; what happens to apps like Ladle is a password reused from somewhere it leaked, tried in bulk. So a password known to have appeared in a breach is refused, and sign-in attempts are rate limited. Multi-factor authentication is deliberately not offered: a second factor on an app that is signed into twice a year has usually been lost by the time it is needed, and a lockout would need a recovery path that a single operator cannot staff. That is a decision to revisit if Ladle ever holds something worth stealing, not a gap to fill quietly.
+- The defences match the threat that actually exists. Nobody is mounting a targeted attack to read a shopping list; what happens to apps like Rootloom is a password reused from somewhere it leaked, tried in bulk. So a password known to have appeared in a breach is refused, and sign-in attempts are rate limited. Multi-factor authentication is deliberately not offered: a second factor on an app that is signed into twice a year has usually been lost by the time it is needed, and a lockout would need a recovery path that a single operator cannot staff. That is a decision to revisit if Rootloom ever holds something worth stealing, not a gap to fill quietly.
 - Publishing is the only action that makes anything visible outside a household, and it must be clearly reversible.
 - Account deletion removes the person's data and transfers or dissolves the households that depend on them, rather than leaving either in an undefined state.
 - Deleting an account deletes it. There is no quiet holding period during which the data is still there and the person has been told otherwise - the confirmation, which names what will happen to every household they own, is the protection against a mistake. A household being dissolved keeps its own recovery window, because that destruction reaches people who did not ask for it.
 - A person can take their data with them, and taking it is something they do rather than something they ask for. The export covers everything they can read - their own profile and health inputs, and the cookbooks, calendars, pantries and lists of every household they belong to - because the question people actually have is about their recipes. A cookbook is the thing users are most afraid of losing, and an export that returned demographics but not recipes would answer a question nobody asked. Leaving with a copy of a household's recipes is deliberate: a member could already read them, and the alternative rule would fail exactly the family-recipe case that makes the feature worth having.
-- Signing up asks for a date of birth and declines to create an account for anyone under thirteen. Younger people are not shut out of the household - they are recorded as people at the table by whoever looks after them - but Ladle does not collect anything from a child directly.
+- Signing up asks for a date of birth and declines to create an account for anyone under thirteen. Younger people are not shut out of the household - they are recorded as people at the table by whoever looks after them - but Rootloom does not collect anything from a child directly.
 
 ##### User Stories
 1. *As a user*, I want to open the app and be where I left off, without signing in again.
@@ -302,13 +302,13 @@ Features describe capability. These paths describe the seams between them - the 
 
 ### First run
 
-The shortest path from installing Ladle to getting value out of it, walked by someone who has not decided whether they want it yet.
+The shortest path from installing Rootloom to getting value out of it, walked by someone who has not decided whether they want it yet.
 
 1. Sign up, and give a display name. Nothing else is required.
 2. Record allergies and dietary models, or skip. This is asked early because it is a safety input to everything that follows, and it is skippable because a first-run questionnaire is where applications lose people.
 3. A household is created silently, with the new user as its *Owner*. No naming, no invitations, no explanation of roles.
 4. Land on `Today`, which is empty and says what to do about it.
-5. Plan one meal - from the showcase, since the cookbook is empty. The grocery list fills itself as a consequence, which is the first moment Ladle does something a paper calendar cannot.
+5. Plan one meal - from the showcase, since the cookbook is empty. The grocery list fills itself as a consequence, which is the first moment Rootloom does something a paper calendar cannot.
 
 ### Bringing in the household
 

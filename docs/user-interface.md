@@ -1,12 +1,10 @@
----
-name: user-interface.md
-description: This file describes the UI tooling, brand identity, and layout(s) for the Ladle application.
----
+--- name: user-interface.md description: This file describes the UI tooling,
+brand identity, and layout(s) for the Rootloom application. ---
 # User Interface
 
-This file owns how Ladle looks and how it is operated: the libraries it is built
-from, its visual system, its navigation, the patterns that recur across screens,
-and layout notes for the screens that carry real constraints.
+This file owns how Rootloom looks and how it is operated: the libraries it is
+built from, its visual system, its navigation, the patterns that recur across
+screens, and layout notes for the screens that carry real constraints.
 
 It does not restate behaviour. What a screen must do lives in
 [`user-experience.md`](./user-experience.md) as intent and in
@@ -15,7 +13,7 @@ latter are cited here where a visual decision exists to satisfy one.
 
 ## Technologies
 
-Ladle makes use of open-source UI elements from the following resources:
+Rootloom makes use of open-source UI elements from the following resources:
 
 - [React Native Reusables](https://reactnativereusables.com/docs)
 - [Lucide's React Native Library](https://lucide.dev/guide/packages/lucide-react-native)
@@ -61,9 +59,9 @@ be replaced without touching a component.
 
 ### Palette
 
-Ladle's primitives are a warm neutral ramp and a paprika accent, chosen because
-the product is about food and because a cool grey interface makes photographs of
-food look grey too.
+Rootloom's primitives are a warm neutral ramp and a paprika accent, chosen
+because the product is about food and because a cool grey interface makes
+photographs of food look grey too.
 
 | Primitive | Value | Primitive | Value |
 | --- | --- | --- | --- |
@@ -118,7 +116,7 @@ requirement the same size as a settings label.
 
 ### Wordmark
 
-*ladle*, lowercase, set in **Fraunces** — a warm high-contrast serif under the
+*rootloom*, lowercase, set in **Fraunces** — a warm high-contrast serif under the
 SIL Open Font License, so it can be embedded and redistributed without a licence
 question ever arising. The contrast with the system sans doing the interface work
 is deliberate: the wordmark should read as handmade and kitchen-ish where the
@@ -242,8 +240,8 @@ possible at all.
 
 ### The default theme
 
-Ladle ships one theme at launch. Its mapping is below, and it is the input the
-contrast check runs against.
+Rootloom ships one theme at launch. Its mapping is below, and it is the input
+the contrast check runs against.
 
 | Token | Light | Dark |
 | --- | --- | --- |
@@ -433,8 +431,8 @@ it is used and not in a settings page (`FR-NUT-13`).
 
 ### Claims and derivations
 
-A dietary tag Ladle derived and one its author asserted look different, because
-they are different (`FR-RCP-14`).
+A dietary tag Rootloom derived and one its author asserted look different,
+because they are different (`FR-RCP-14`).
 
 | Kind | Treatment |
 | --- | --- |
@@ -461,10 +459,10 @@ likely to be built last.
 
 ### Consent for health data
 
-Allergies and the nutrition demographics are the only data Ladle asks for that a
-regulator would call health data, and `NFR-SEC-11` requires an explicit opt-in
-before any of it is stored — presented on its own, not bundled into whatever the
-user agreed to at signup.
+Allergies and the nutrition demographics are the only data Rootloom asks for
+that a regulator would call health data, and `NFR-SEC-11` requires an explicit
+opt-in before any of it is stored — presented on its own, not bundled into
+whatever the user agreed to at signup.
 
 It appears at the point of collection rather than during onboarding. The first
 time someone opens the dietary profile or the nutrition inputs, the ask comes
@@ -477,7 +475,7 @@ for these fields is nobody but the user, including their own household. It is a
 plain statement rather than a legal one; `privacy.md` carries the long version
 and the screen links to it.
 
-**Declining is a supported state, not a dead end.** The rest of Ladle works
+**Declining is a supported state, not a dead end.** The rest of Rootloom works
 untouched, which the requirement's acceptance criterion asserts. The screen that
 was asking closes and the feature stays available to turn on later.
 

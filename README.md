@@ -1,6 +1,6 @@
-# ladle
+# rootloom
 
-Ladle is a cross-platform mobile application, providing seamless meal planning, nutrition tracking, and pantry management features. Written with React Native, deployed on Expo Application Services, and backed by Supabase Auth/Postgres, Ladle brings modern solutions to a timeless problem.
+Rootloom is a cross-platform mobile application, providing seamless meal planning, nutrition tracking, and pantry management features. Written with React Native, deployed on Expo Application Services, and backed by Supabase Auth/Postgres, Rootloom brings modern solutions to a timeless problem.
 
 ## Status
 
@@ -40,8 +40,8 @@ belongs in the one named here and the other references it.
 | [`docs/requirements.md`](docs/requirements.md) | The numbered, testable requirements that drive development. |
 | [`docs/roadmap.md`](docs/roadmap.md) | Sequencing and delivery planning. |
 | [`docs/engineering.md`](docs/engineering.md) | Repository structure, testing strategy, CI, and observability. |
-| [`docs/privacy.md`](docs/privacy.md) | What personal data Ladle holds, retention and deletion, and the store disclosures. |
-| [`docs/operating-model.md`](docs/operating-model.md) | What Ladle is for, whether it takes money, and what it costs to run. |
+| [`docs/privacy.md`](docs/privacy.md) | What personal data Rootloom holds, retention and deletion, and the store disclosures. |
+| [`docs/operating-model.md`](docs/operating-model.md) | What Rootloom is for, whether it takes money, and what it costs to run. |
 
 [`CLAUDE.md`](CLAUDE.md) records the product decisions behind all of it, each
 with its reasoning and what it costs, so that revisiting one is a deliberate act
@@ -108,7 +108,7 @@ supabase functions deploy         # deploy Edge Functions
 [PolyForm Noncommercial 1.0.0](LICENSE). Read it, run it, change it, share it —
 for any noncommercial purpose. Commercial rights are reserved.
 
-The choice follows from what this repository is for. Ladle is a portfolio and
+The choice follows from what this repository is for. Rootloom is a portfolio and
 craft project, and the documents are as much the artifact as the code will be, so
 being readable is most of the point. Reserving the commercial side costs a reader
 nothing and keeps a door open that would be expensive to reopen later.

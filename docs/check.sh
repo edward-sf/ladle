@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# check.sh - structural checks over Ladle's planning documents.
+# check.sh - structural checks over Rootloom's planning documents.
 #
 # Everything here is deterministic. The semantic question these cannot answer -
 # whether an intent bullet in user-experience.md is actually covered by the

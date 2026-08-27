@@ -1,21 +1,20 @@
----
-name: operating-model.md
-description: This file records what Ladle is for, whether it needs to pay for itself, what it costs to run, and which design decisions those answers constrain.
----
+--- name: operating-model.md description: This file records what Rootloom is
+for, whether it needs to pay for itself, what it costs to run, and which design
+decisions those answers constrain. ---
 # Operating model
 
-Every other document here describes what Ladle does. This one records why it is
-being built, what it may cost, and where those two facts constrain a decision
+Every other document here describes what Rootloom does. This one records why it
+is being built, what it may cost, and where those two facts constrain a decision
 somebody would otherwise make on technical grounds alone.
 
 It exists because the absence of it was reaching into documents already written.
-Whether Ladle takes money determines whether [`privacy.md`](./privacy.md) holds a
-payment processor and a store disclosure; whether it wants scale determines
-whether the showcase is a feature or a liability; and the cost of a photo
-determines a choice made in the recipe editor eight months before the invoice
-arrives.
+Whether Rootloom takes money determines whether [`privacy.md`](./privacy.md)
+holds a payment processor and a store disclosure; whether it wants scale
+determines whether the showcase is a feature or a liability; and the cost of a
+photo determines a choice made in the recipe editor eight months before the
+invoice arrives.
 
-## What Ladle is for
+## What Rootloom is for
 
 **A portfolio and craft project.** The point is building it well and having built
 it. Users are welcome and are not the measure of success — the quality of the
@@ -25,11 +24,11 @@ That is a lighter statement than it sounds, and it settles arguments that would
 otherwise be hard.
 
 **Growth is not a goal, so anything that limits growth is nearly free.** A
-showcase that exists, works, and holds a few hundred recipes demonstrates exactly
-the same craft as one holding a hundred thousand, and costs a fraction of it.
-Where a commercial product would resist a cap on its public surface, Ladle loses
-almost nothing by having one. This is the single most useful consequence of the
-answer, and most of the decisions below fall out of it.
+showcase that exists, works, and holds a few hundred recipes demonstrates
+exactly the same craft as one holding a hundred thousand, and costs a fraction
+of it. Where a commercial product would resist a cap on its public surface,
+Rootloom loses almost nothing by having one. This is the single most useful
+consequence of the answer, and most of the decisions below fall out of it.
 
 **Release 1 is the artifact.** It is what gets demonstrated, and it is published
 to both stores rather than shown from a build — shipping is part of what is being
@@ -77,7 +76,7 @@ licence covering the documents, the code, and the skills alike.
 **Licensing is the lever, not visibility.** These are routinely conflated, and
 conflating them produces the wrong decision in both directions — either hiding
 work that would have cost nothing to show, or publishing under terms that give
-away the thing being protected. Being public determines who can *read* Ladle.
+away the thing being protected. Being public determines who can *read* Rootloom.
 The licence determines what they may *do* with it, and those are independent
 choices. A public repository under a noncommercial licence is readable by
 everyone and commercially usable by nobody but its author, which is exactly the
@@ -86,16 +85,16 @@ combination this project wants.
 That makes the licence the mechanism the section above depends on. Monetisation
 is kept possible by writing down what lies behind the door; a permissive licence
 would have quietly given away the room behind it. MIT or Apache would let anyone
-ship Ladle commercially, including someone who did none of the work, which is
+ship Rootloom commercially, including someone who did none of the work, which is
 precisely the optionality *Money* is holding open. The opposite extreme, an
 explicit all-rights-reserved notice, reserves no more than PolyForm does and
 grants nothing to a reader who wants to run the thing to see whether the work is
 any good — it costs portfolio value and buys no protection.
 
-**Nothing about this constrains monetising later.** A noncommercial licence binds
-the people who receive the software, not the person who wrote it. As sole author
-Ladle can be relicensed going forward at any time, dual-licensed, or sold
-outright, and none of that requires the repository to have been private.
+**Nothing about this constrains monetising later.** A noncommercial licence
+binds the people who receive the software, not the person who wrote it. As sole
+author Rootloom can be relicensed going forward at any time, dual-licensed, or
+sold outright, and none of that requires the repository to have been private.
 Relicensing does not appear as a row in the table above because it costs nothing
 at the point it would be needed.
 
@@ -110,8 +109,8 @@ rather than around the application, because the application is reproducible by
 anyone with the documents and the corpus is roughly forty hours of one person's
 labelling.
 
-The consequence worth naming is that Ladle's authorization model is published in
-full: every RLS predicate in [`data.md`](./data.md), and every moderation
+The consequence worth naming is that Rootloom's authorization model is published
+in full: every RLS predicate in [`data.md`](./data.md), and every moderation
 threshold and rate limit in [`requirements.md`](./requirements.md). Both are
 deliberate. RLS security does not depend on the predicate being secret, and a
 published policy that every table must carry one is easier to hold to than a
@@ -135,7 +134,7 @@ upgrade to go.
 
 | | What sits here |
 | --- | --- |
-| **Committed**, whatever the usage | The Apple Developer Program annually, the one-off Google Play registration, a domain to serve the privacy policies from, and now the database subscription — which includes enough compute credit for exactly one project |
+| **Committed**, whatever the usage | The Apple Developer Program annually, the one-off Google Play registration, the two domains, and now the database subscription — which includes enough compute credit for exactly one project |
 | **Metered**, above included allowances | Storage, egress, branch hours — a small standing figure now that pull requests touching migrations open one — and the compute of any *second* permanently running project |
 
 **The ceiling used to be mostly headroom and is now mostly rent.** The committed
@@ -150,6 +149,24 @@ at all where the free tier took none, and projects no longer sleep when they go 
 week without traffic. Both were latent defects in documents already written —
 `NFR-DATA-13` replaces a retired requirement that had promised a backup window
 the account could not have delivered.
+
+The two domains are `rootloom.app` and `rootloom.dev`, both registered through
+Cloudflare Registrar, and only the first has a job. The general privacy policy
+and the separate consumer health data policy `NFR-SEC-12` requires each need a
+stable address of their own, and both stores ask for a policy URL and a support
+URL at submission; a store listing page is not an answer to either. Nothing else
+in the design is web-facing — the showcase is reached in the app, the
+administrator's tooling is local-only by decision, and the only deep links are
+OAuth redirects on the app's own scheme.
+
+**`rootloom.dev` is held defensively and does nothing.** That is written down
+rather than left to be rediscovered later as a committed line nobody can account
+for. It keeps the name on the other obvious extension out of someone else's
+hands while there is still nothing shipped to defend it with, and it is
+deliberately given no work: serving the planning documents there is the candidate
+that suggests itself, and it is declined, because GitHub already renders them and
+a static site is unestimated hours against a schedule carrying no buffer. What reopens the
+question is the renewal rather than a milestone.
 
 ### The cap stays on
 
@@ -214,9 +231,9 @@ argument.
 What the larger allowance did change is the *character* of the risk. On the old
 figures a modestly successful showcase serving full-size images would have found
 the wall; on these it takes an implausible amount of traffic to reach it at all
-with thumbnails in place. Egress stops being the thing most likely to stop Ladle
-working and becomes a boundary condition — which is what the Release 3 gate below
-is reconsidered against.
+with thumbnails in place. Egress stops being the thing most likely to stop
+Rootloom working and becomes a boundary condition — which is what the Release 3
+gate below is reconsidered against.
 
 That decision is made in P2, when the recipe editor first stores an image and the
 cookbook first renders a grid of them — roughly six months before the showcase
@@ -232,7 +249,7 @@ This was carried as an open question on the grounds that a model inside an Edge
 Function and a hosted inference endpoint differ by orders of magnitude per call,
 with `FR-TAG-18` committing to a backfill across every existing recipe. The
 framing was the mistake. Orders of magnitude per call only matter when the calls
-are numerous, and Ladle has decided not to have many.
+are numerous, and Rootloom has decided not to have many.
 
 Count them. Online classification happens on a recipe create or update, which is
 a household writing its own cookbook. A backfill runs on a retraining pass, which
@@ -320,14 +337,14 @@ that can be reported, and every published recipe is a permanent target for the
 one person who reads them.
 
 Fifty sits above a full cookbook rather than shaping behaviour. The demo
-household is thirty recipes and represents using Ladle well, so an ordinary
+household is thirty recipes and represents using Rootloom well, so an ordinary
 household never meets the limit while the pathological case stays bounded. It is
 one configured figure rather than a per-household allowance, because a household
 record would be a second place to establish something a single setting already
 establishes. Pagination depth was the other candidate on the ladder and is
-declined: it bounds egress only weakly and moderation not at all, and it degrades
-the browsable discovery `FR-RCP-17` requires, which is the showcase's entire
-purpose.
+declined: it bounds egress only weakly and moderation not at all, and it
+degrades the browsable discovery `FR-RCP-17` requires, which is the showcase's
+entire purpose.
 
 
 ## If the ceiling is approached
@@ -350,7 +367,7 @@ panic:
    and the content warrants it.
 4. **Monetisation**, opening the door described above with its costs already
    known.
-5. **Closing the showcase**, leaving Release 1 intact. Ladle without a public
+5. **Closing the showcase**, leaving Release 1 intact. Rootloom without a public
    surface is still the thing the household uses every day, and this is a real
    option rather than a failure — which is worth knowing before anyone treats
    step 4 as forced.
@@ -358,12 +375,12 @@ panic:
 The ladder is ordered by cost to the project, not by cost to the invoice. A cap
 is cheaper than a payment processor, and the craft is demonstrated either way.
 
-Note that the first two rungs cost nothing, and both are taken before the measure
-ever moves rather than in response to it — `NFR-PERF-06` settles the first at P2,
-and the publishing cap settles the second at P13. That is the whole argument for
-deciding them early: with the platform's limit enforced, a showcase shipped
-without a cap of Ladle's own would find that the first limit anyone meets is the
-platform's, applied to everything at once, during an outage.
+Note that the first two rungs cost nothing, and both are taken before the
+measure ever moves rather than in response to it — `NFR-PERF-06` settles the
+first at P2, and the publishing cap settles the second at P13. That is the whole
+argument for deciding them early: with the platform's limit enforced, a showcase
+shipped without a cap of Rootloom's own would find that the first limit anyone
+meets is the platform's, applied to everything at once, during an outage.
 
 ## Open questions
 

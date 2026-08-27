@@ -1,7 +1,6 @@
----
-name: data.md
-description: This file describes the backing technologies, environment partitioning, and the data model for Ladle's application data and metadata.
----
+--- name: data.md description: This file describes the backing technologies,
+environment partitioning, and the data model for Rootloom's application data and
+metadata. ---
 # Data
 
 This file describes the following:
@@ -11,7 +10,7 @@ This file describes the following:
 
 ## Technologies
 
-Ladle's entire data tier runs on **Supabase Cloud**. Rather than assembling a
+Rootloom's entire data tier runs on **Supabase Cloud**. Rather than assembling a
 database, an identity provider, a blob store, and a function runtime from
 separate vendors, we take all four from one managed platform so that a single
 JWT authorizes every one of them and a single Postgres row-level security (RLS)
@@ -177,7 +176,7 @@ surface, rather than to rework the screens.
 
 ## Environment partitioning
 
-Ladle runs three environments, and only one of them is permanently hosted.
+Rootloom runs three environments, and only one of them is permanently hosted.
 Development happens against a local Supabase stack on the developer's machine,
 **production** is a Supabase Cloud project, and the environment between them is
 a **preview branch** — a hosted database provisioned from the migration chain
@@ -186,8 +185,8 @@ for as long as a release candidate is being tested, then destroyed.
 | Environment | Postgres | Data | Consumed by | Lifetime |
 | --- | --- | --- | --- | --- |
 | Local | Docker, via `supabase start` | Synthetic seed | Expo dev client on the LAN | The working session |
-| Preview | Supabase branch off `ladle-prod` | Synthetic seed + QA data | EAS `preview` builds (internal distribution) | The release candidate |
-| Production | Hosted project `ladle-prod` | Real user data | EAS `production` builds (App Store / Play) | Permanent |
+| Preview | Supabase branch off `rootloom-prod` | Synthetic seed + QA data | EAS `preview` builds (internal distribution) | The release candidate |
+| Production | Hosted project `rootloom-prod` | Real user data | EAS `production` builds (App Store / Play) | Permanent |
 
 The boundary that matters is between preview and production. A branch is a
 distinct database with its own URL, API keys, storage buckets, and Auth user
@@ -231,7 +230,7 @@ candidate.
 
 ### Preview
 
-A Supabase branch off `ladle-prod`, inheriting its configuration — same
+A Supabase branch off `rootloom-prod`, inheriting its configuration — same
 extensions, same Auth providers, same bucket layout, same Edge Functions — and
 none of its data.
 
@@ -286,9 +285,17 @@ have all three variants installed side by side on one device.
 
 | EAS profile | Points at | Bundle ID | Distribution |
 | --- | --- | --- | --- |
-| `development` | Local stack (LAN IP) | `com.ladle.app.dev` | Dev client |
-| `preview` | The current preview branch | `com.ladle.app.preview` | Internal (TestFlight / internal track) |
-| `production` | `ladle-prod` | `com.ladle.app` | App Store / Play Store |
+| `development` | Local stack (LAN IP) | `app.rootloom.dev` | Dev client |
+| `preview` | The current preview branch | `app.rootloom.preview` | Internal (TestFlight / internal track) |
+| `production` | `rootloom-prod` | `app.rootloom` | App Store / Play Store |
+
+The identifiers reverse `rootloom.app`, a domain the project owns, rather than
+taking the `com.` form that would decode to one it does not. The last segment
+names the variant and production carries none, so `app.rootloom.dev` is the
+development build and has nothing to do with the `rootloom.dev` domain. The form
+is settled here rather than at submission because a published bundle identifier
+is permanent — both stores treat a changed one as a different app, losing the
+listing with it — and all three are created in P0.
 
 Variables consumed by the client carry the `EXPO_PUBLIC_` prefix so Expo inlines
 them into the bundle:
@@ -306,8 +313,8 @@ while staging was permanent, and identifies a different one every release
 candidate now.
 
 Branches are created without production data. The tooling offers to clone it and
-Ladle never takes the offer — `NFR-DATA-06` is the reason, and declining it at
-the point of provisioning is what keeps the invariant structural rather than
+Rootloom never takes the offer — `NFR-DATA-06` is the reason, and declining it
+at the point of provisioning is what keeps the invariant structural rather than
 remembered.
 
 ### Keys and secrets
@@ -338,7 +345,7 @@ SQL files run at every stage:
    always-on environment at this step: the migration is proven against a clean
    replay in CI, and the next hosted execution of it is the branch cut for the
    release candidate.
-4. **Release.** The same commit is promoted to `ladle-prod` behind a protected
+4. **Release.** The same commit is promoted to `rootloom-prod` behind a protected
    GitHub Environment requiring explicit approval. Approval is the gate; the
    command that runs afterward is identical to the one the branch ran.
 
@@ -452,8 +459,8 @@ description — it earns a table at that point.
 
 `DietaryModel` deserves the same note as the four above. A dietary framework is
 already a tag in the `dietary` facet, with its own rules for how it is assigned;
-modelling it a second time as a separate table would give Ladle two vocabularies
-for one idea and a reconciliation problem between them.
+modelling it a second time as a separate table would give Rootloom two
+vocabularies for one idea and a reconciliation problem between them.
 
 ### Identity and preferences
 
@@ -511,7 +518,7 @@ their owner may (`FR-NUT-05`, `NFR-SEC-07`).
 | `nutrition_goal` | enum |
 
 Every column is nullable. A row of all nulls is a user who declined the
-questions, which must leave the rest of Ladle fully usable (`FR-NUT-04`).
+questions, which must leave the rest of Rootloom fully usable (`FR-NUT-04`).
 Deleting this row deletes the health data without touching the account
 (`FR-NUT-06`).
 
@@ -668,7 +675,8 @@ them would be silently correct for adults and silently wrong for children.
 **Nothing else is stored about a person with no account.** No date of birth, no
 body measurements, no nutrition ledger (`FR-DIET-12`). That falls out of what
 the features need — headcount and allergy conflict need a name and a tag and
-nothing more — and it means Ladle holds no health demographics about any child.
+nothing more — and it means Rootloom holds no health demographics about any
+child.
 
 **RLS** — select: people in the household with an account. Insert, update,
 delete: owner or admin.

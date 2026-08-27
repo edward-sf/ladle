@@ -2,7 +2,7 @@
 
 ## Status
 
-Ladle is at the planning stage. There is no application code, no deployed
+Rootloom is at the planning stage. There is no application code, no deployed
 service, and no user data — this repository holds design documentation, and the
 first release is scheduled for April 2027.
 
@@ -24,7 +24,7 @@ Please do not open a public issue for anything you believe is exploitable.
 
 ## What to expect
 
-Ladle is built and maintained by one person. This policy would rather be
+Rootloom is built and maintained by one person. This policy would rather be
 accurate than impressive:
 
 - Acknowledgement within a week.
@@ -37,7 +37,7 @@ If a report is valid and you would like the credit, you will get it.
 
 In scope, once there is something running:
 
-- The Ladle mobile application.
+- The Rootloom mobile application.
 - The Supabase project behind it — schema, row-level security policies, Edge
   Functions, and storage rules.
 - This repository and its contents.
@@ -50,7 +50,7 @@ Out of scope:
 
 ## Please do not
 
-Access, modify, or retain data belonging to anyone but yourself. Ladle holds
+Access, modify, or retain data belonging to anyone but yourself. Rootloom holds
 health data for the households that use it — allergies, and the demographics
 behind a nutrition target — and the point of reporting a flaw is to protect those
 people rather than to demonstrate how far it reaches.

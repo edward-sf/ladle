@@ -1,6 +1,6 @@
 ---
 name: roadmap.md
-description: This file outlines the development roadmap for the Ladle application.
+description: This file outlines the development roadmap for the Rootloom application.
 ---
 # Roadmap
 
@@ -407,7 +407,7 @@ profile built from what a household actually cooks, repeats, and abandons, and
 the services and pipelines that turn it into suggestions worth reading.
 
 Two things about it are already settled by decisions taken earlier. The signal is
-revealed preference rather than stated — Ladle records who cooked what and when,
+revealed preference rather than stated — Rootloom records who cooked what and when,
 which is better evidence than anything a person would fill in on a form, and it
 accrues from the first release without anyone building for it. And whatever it
 grows into, `FR-TAG-23` holds: a recommendation states its reason, because an
@@ -443,5 +443,5 @@ collection.
   a demanding stretch at work moves every subsequent date by two weeks. That is
   not a failure of the plan; it is the plan telling the truth about what happened.
 - **The dietitian review is not scheduled**, deliberately. It triggers on a claim
-  rather than a date: before Ladle says anything about health outside the app, and
+  rather than a date: before Rootloom says anything about health outside the app, and
   before any nutrition figure stops being labelled as convention or overridable.

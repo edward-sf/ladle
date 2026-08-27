@@ -1,10 +1,10 @@
----
-name: privacy.md
-description: This file records what personal data Ladle collects, why, who can read it, how long it is kept, and what deletion does - the internal source from which the public privacy policy and the app store disclosures are written.
----
+--- name: privacy.md description: This file records what personal data Rootloom
+collects, why, who can read it, how long it is kept, and what deletion does -
+the internal source from which the public privacy policy and the app store
+disclosures are written. ---
 # Privacy
 
-Ladle collects health data. That single fact is why this document exists
+Rootloom collects health data. That single fact is why this document exists
 separately from the others: the demographic inputs to the nutrition target
 equation are a category that regulators, app stores, and users all treat
 differently from a shopping list, and the handling has to be deliberate rather
@@ -15,10 +15,10 @@ than inherited from how the rest of the data is treated.
 It is the internal record, and it has three consumers.
 
 The **public privacy policy** is written from it rather than independently, so
-that the policy cannot describe a system Ladle does not have. The **app store
+that the policy cannot describe a system Rootloom does not have. The **app store
 disclosures** — Apple's App Privacy questionnaire and Google's Data Safety form
 — ask questions this inventory is built to answer. And **design review** uses it
-to notice when a new field quietly enlarges what Ladle holds.
+to notice when a new field quietly enlarges what Rootloom holds.
 
 It is not itself the public policy and it is not legal advice. Nobody involved
 in writing it is a lawyer, and the obligation to have it reviewed by one
@@ -42,14 +42,14 @@ because the developer is in Washington rather than because of where users are.
 It is unusual in three ways that matter here. It carries no revenue or
 user-count threshold, so it applies on day one with zero users — where the
 comprehensive state privacy laws, California's included, only bite above
-thresholds Ladle will not approach for years. It carries a private right of
+thresholds Rootloom will not approach for years. It carries a private right of
 action, so the exposure is any user with a grievance rather than a regulator who
 has to be provoked into acting. And it requires a **consumer health data privacy
 policy as a separate, distinctly linked document**, with opt-in consent taken
 before the data is collected and separately from any other consent.
 
 Whether the nutrition demographics fall inside its definition of consumer health
-data is a question for review. Recorded allergies almost certainly do. Ladle
+data is a question for review. Recorded allergies almost certainly do. Rootloom
 therefore treats both as in scope rather than waiting for the answer, since the
 design cost of doing so is a consent screen and the cost of being wrong the
 other way is a private action.
@@ -61,13 +61,14 @@ covers everything a user can read rather than their health data alone, because
 the narrow version would answer a question nobody asked while omitting the
 cookbook, which is the thing people are actually afraid of losing. The right to
 know which third parties data is shared with is answered by the processor table
-below, which is short because Ladle shares with none of them for any purpose
+below, which is short because Rootloom shares with none of them for any purpose
 beyond running the service.
 
 **HIPAA does not apply.** It reaches healthcare providers, health plans, and
-clearinghouses, and Ladle is none of them. This is recorded because the instinct
-on seeing health data is to reach for HIPAA, and doing so would produce a policy
-describing obligations Ladle does not have while missing the ones it does.
+clearinghouses, and Rootloom is none of them. This is recorded because the
+instinct on seeing health data is to reach for HIPAA, and doing so would produce
+a policy describing obligations Rootloom does not have while missing the ones it
+does.
 
 **The FTC Health Breach Notification Rule does apply**, having been extended to
 health apps outside HIPAA, along with the general prohibition on deceptive
@@ -82,12 +83,12 @@ by the adult who looks after them, carrying a name, allergies, and dietary tags
 and nothing else (`FR-DIET-12`).
 
 That is what makes COPPA tractable rather than expensive. Its trigger is an
-operator collecting personal information **from** a child online, and Ladle does
-not: there is no child-facing account, no child-entered field, and no interface a
-child is expected to use. What exists is a guardian recording that someone at
-their table cannot eat peanuts.
+operator collecting personal information **from** a child online, and Rootloom
+does not: there is no child-facing account, no child-entered field, and no
+interface a child is expected to use. What exists is a guardian recording that
+someone at their table cannot eat peanuts.
 
-It also means the most protected person in the system is the one Ladle holds
+It also means the most protected person in the system is the one Rootloom holds
 least about. No date of birth, no body measurements, no nutrition ledger for a
 child — not as a compliance posture but because headcount and allergy checking
 never needed them.
@@ -100,11 +101,12 @@ was validated on adults, and nothing here has professional review behind it.
 
 Recorded now so that the decision is priced when it is made rather than
 discovered afterwards. The EU and EEA are the expensive step: GDPR treats health
-data as special category requiring explicit consent, an Article 27 representative
-established in the Union is a recurring paid obligation for a developer with no
-EU presence, and the showcase would fall within the DSA's notice-and-action
-rules. Ladle's moderation design already sits close to the last of those, which
-is a fortunate accident of having designed it carefully rather than a plan.
+data as special category requiring explicit consent, an Article 27
+representative established in the Union is a recurring paid obligation for a
+developer with no EU presence, and the showcase would fall within the DSA's
+notice-and-action rules. Rootloom's moderation design already sits close to the
+last of those, which is a fortunate accident of having designed it carefully
+rather than a plan.
 
 The English-speaking markets — the UK, Canada, Australia, New Zealand — are
 cheaper than the EU and not free, adding three regimes and their own consent and
@@ -157,11 +159,11 @@ by a regulator.
 
 Every demographic column is nullable, and a row of all nulls is a user who
 declined the questions. That is a supported state rather than an incomplete one,
-which means **a user who does not want Ladle to hold health data simply does not
-give it any**, and the rest of the app works unchanged.
+which means **a user who does not want Rootloom to hold health data simply does
+not give it any**, and the rest of the app works unchanged.
 
 Allergies sit in this category deliberately. An allergy is health information
-even though Ladle uses it for filtering rather than for advice, and the fact
+even though Rootloom uses it for filtering rather than for advice, and the fact
 that a household can see a conflict warning does not make the underlying record
 theirs to read.
 
@@ -210,8 +212,8 @@ would make one of them do something a user did not ask for.
 
 **Deleting health data alone** (`FR-NUT-06`) removes the demographic row and the
 derived targets, leaving the account and everything else intact. This is the
-escape hatch for someone who tried nutrition tracking and would rather Ladle did
-not hold the inputs. It is also the withdrawal-of-consent path that
+escape hatch for someone who tried nutrition tracking and would rather Rootloom
+did not hold the inputs. It is also the withdrawal-of-consent path that
 `NFR-SEC-11` implies — together with `FR-NUT-04`, which dismisses the feature so
 that nothing further is collected, withdrawal is expressed as two existing
 capabilities rather than a third mechanism that would need its own screen.
@@ -255,8 +257,8 @@ infrastructure can claim data is gone the instant a row is dropped, because the
 backup taken an hour earlier still holds it. Saying seven days is less impressive
 than saying "immediately" and is the only version that is true.
 
-Seven is the managed tier's retention rather than a figure Ladle chose, which is
-worth saying plainly: the window is short because that is what the platform
+Seven is the managed tier's retention rather than a figure Rootloom chose, which
+is worth saying plainly: the window is short because that is what the platform
 does, not because a shorter one was bought. It replaces an earlier claim of 30
 days that was retired for being inaccurate rather than merely generous, and the
 correction moves in the direction that favours the reader.
@@ -268,8 +270,8 @@ regulator.
 
 ## Processors
 
-Everyone who processes personal data on Ladle's behalf, which the policy has to
-name.
+Everyone who processes personal data on Rootloom's behalf, which the policy has
+to name.
 
 | Processor | Holds | Note |
 | --- | --- | --- |
@@ -289,7 +291,7 @@ worse version.
 
 ### Crash reporting
 
-Ladle collects crash and error reports from production builds
+Rootloom collects crash and error reports from production builds
 (`NFR-OPS-08`), because a solo developer shipping to devices they do not own
 otherwise learns about failures from store reviews. Store-provided crash
 reporting was not enough on its own: it captures native crashes, and in React
@@ -311,7 +313,7 @@ since asking implies the payload might contain something worth worrying about.
 ## Store disclosures
 
 Both stores ask what is collected, whether it is linked to identity, and whether
-it is used for tracking. Ladle's answers are unusually simple in one respect:
+it is used for tracking. Rootloom's answers are unusually simple in one respect:
 **nothing is collected for advertising, nothing is shared with data brokers, and
 there is no cross-app or cross-site tracking.** No third-party analytics or
 advertising SDK is planned, which is what makes the tracking answer a flat no
@@ -331,12 +333,11 @@ Recorded because an absence is a decision and should be visible as one.
 
 No location. No contacts. No advertising identifiers. No analytics of any kind.
 Crash reporting is not analytics: it carries no behavioural events, records
-nothing about what a person did, and is scoped by `NFR-OPS-09` and
-`NFR-OPS-10`.
+nothing about what a person did, and is scoped by `NFR-OPS-09` and `NFR-OPS-10`.
 No micronutrients — excluded from the product for reasons of data quality rather
-than privacy, but the effect is that Ladle holds less. No free-text health
-information: the demographic inputs are enumerated fields and a date, so there is
-nowhere for someone to type a diagnosis.
+than privacy, but the effect is that Rootloom holds less. No free-text health
+information: the demographic inputs are enumerated fields and a date, so there
+is nowhere for someone to type a diagnosis.
 
 ## Open questions
 
