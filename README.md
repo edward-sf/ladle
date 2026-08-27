@@ -19,8 +19,8 @@ promised.
 | | Scope | Earliest |
 | --- | --- | --- |
 | **Release 1** | Everything a household does for itself — cookbook, calendar, pantry, grocery, nutrition | 6 Apr 2027 |
-| **Release 2** | The tag classifier, facet search, recommendation — and iOS, with third-party sign-in and passkeys | 24 Jun 2027 |
-| **Release 3** | Publishing, copying, and moderation — *conditional on moderation capacity* | 6 Aug 2027 |
+| **Release 2** | The tag classifier, facet search, recommendation — and iOS, with third-party sign-in and passkeys | 26 Jun 2027 |
+| **Release 3** | Publishing, copying, and moderation — *conditional on moderation capacity* | 8 Aug 2027 |
 
 Those dates are derived rather than chosen: they fall out of a start date, a
 sustained 20h/week, and a planned holiday break applied to per-phase hour

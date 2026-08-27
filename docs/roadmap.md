@@ -94,12 +94,12 @@ for a decision taking time.
 | P9 · Profile, preferences, notifications, accessibility | 74 | 21 Feb 2027 | 18 Mar 2027 |
 | P10 · Release 1 hardening and Play submission | 56 | 18 Mar 2027 | **6 Apr 2027** |
 | P11 · Taxonomy and classifier | 135 | 6 Apr 2027 | 23 May 2027 |
-| P12 · iOS launch and parallel-provider auth | 68 | 23 May 2027 | 15 Jun 2027 |
-| P13 · Release 2 hardening and submission | 28 | 15 Jun 2027 | **24 Jun 2027** |
-| P14 · Showcase and moderation | 102 | 24 Jun 2027 | 29 Jul 2027 |
-| P15 · Release 3 hardening and submission | 25 | 29 Jul 2027 | **6 Aug 2027** |
+| P12 · iOS launch and parallel-provider auth | 72 | 23 May 2027 | 17 Jun 2027 |
+| P13 · Release 2 hardening and submission | 28 | 17 Jun 2027 | **26 Jun 2027** |
+| P14 · Showcase and moderation | 102 | 26 Jun 2027 | 31 Jul 2027 |
+| P15 · Release 3 hardening and submission | 25 | 31 Jul 2027 | **8 Aug 2027** |
 
-969 hours; 48.45 working weeks plus the holiday. The last 127 of those hours
+973 hours; 48.65 working weeks plus the holiday. The last 127 of those hours
 are conditional.
 
 ---
@@ -212,7 +212,8 @@ window.
 
 This phase spans the holiday break; the dates already account for it.
 
-Delivers `FR-HH-03`–`FR-HH-24`, `FR-ACCT-04`, `FR-JRN-02`, `NFR-SEC-06`.
+Delivers `FR-HH-03`–`FR-HH-17`, `FR-HH-19`–`FR-HH-24`, `FR-ACCT-04`,
+`FR-JRN-02`, `NFR-SEC-06`.
 
 ### P6 · Dietary and allergy
 **43h · 14 Jan – 29 Jan 2027**
@@ -360,7 +361,7 @@ Delivers `FR-TAG-03`–`FR-TAG-05`, `FR-TAG-09`–`FR-TAG-29`, `FR-TAG-33`,
 `NFR-PERF-04`, `NFR-OPS-03`–`NFR-OPS-05`, `NFR-OPS-14`.
 
 ### P12 · iOS launch and parallel-provider auth
-**68h · 23 May – 15 Jun 2027**
+**72h · 23 May – 17 Jun 2027**
 
 The Apple Developer Program, the first iOS build to reach a device, and the
 sign-in methods that were waiting for an Apple team to exist: a third-party
@@ -370,8 +371,10 @@ serving the two domain association files passkeys depend on, which is the first
 time anything in this project is web-facing at all.
 
 The hours are enrolment and credentials 6, the iOS build and TestFlight 10, the
-two providers 14, passkeys 24, the association files and their hosting 6, and an
-iOS-only interface and accessibility pass 8. The second provider is an App Store
+two providers 14, passkeys 24, the association files and their hosting 6, an
+iOS-only interface and accessibility pass 8, and 4 to re-measure the P95 latency
+targets on the iPhone that joins the reference hardware here — the harness exists
+from P10, so this is a second run rather than a second harness. The second provider is an App Store
 rule (`FR-ACCT-18`) before it is a preference, which is why it is a requirement
 rather than something for the submission to discover.
 
@@ -393,13 +396,14 @@ completed. That second criterion is not a formality: enrolment takes as long as
 it takes, and it is the one item in this phase that working harder does not
 shorten.
 **Done when** an iOS build has run on a device, a user can sign in by each
-offered method and remove any but their last, and both association files resolve
-over HTTPS from the relying-party domain.
+offered method and remove any but their last, both association files resolve over
+HTTPS from the relying-party domain, and every P95 latency target has been
+re-measured on the iPhone that joins the reference hardware here.
 
-Delivers `FR-ACCT-17`–`FR-ACCT-20` and `NFR-SEC-13`.
+Delivers `FR-ACCT-17`–`FR-ACCT-20`, `NFR-SEC-13`, and `NFR-SEC-14`.
 
 ### P13 · Release 2 hardening and submission
-**28h · 15 Jun – 24 Jun 2027**
+**28h · 17 Jun – 26 Jun 2027**
 
 Regression across the tagging surfaces, submission, and review. Play is an update
 and is light, because the listing, the icon and both privacy policies already
@@ -429,7 +433,7 @@ Release 1 remains the portfolio artifact whether or not any of it is built, and
 Release 2 remains the last unconditional phase.
 
 ### P14 · Showcase and moderation
-**102h · 24 Jun – 29 Jul 2027**
+**102h · 26 Jun – 31 Jul 2027**
 
 Publishing, copying with snapshots, upstream notices, attribution degradation,
 the administrator table, reports with automatic suppression, the escalation
@@ -443,13 +447,14 @@ dietary claim suppresses on filing, an unreviewed urgent report withdraws its
 recipe from the showcase by itself, and no volume of reports removes anything.
 
 Delivers `FR-RCP-06`, `FR-RCP-09`–`FR-RCP-12`, `FR-RCP-14`, `FR-RCP-15`,
-`FR-RCP-17`–`FR-RCP-19`, `FR-RCP-21`, `FR-MOD-01`–`FR-MOD-13`, `FR-TAG-08`,
+`FR-RCP-17`–`FR-RCP-19`, `FR-RCP-21`, `FR-RCP-22`, `FR-HH-18`,
+`FR-MOD-01`–`FR-MOD-15`, `FR-TAG-08`,
 `FR-TAG-31`,
-`FR-ACCT-03`, `FR-ACCT-05`, `FR-JRN-06`, `FR-MOD-14`, `NFR-OPS-02`,
+`FR-ACCT-03`, `FR-ACCT-05`, `FR-JRN-06`, `FR-JRN-07`, `NFR-OPS-02`,
 `NFR-OPS-11`.
 
 ### P15 · Release 3 hardening and submission
-**25h · 29 Jul – 6 Aug 2027**
+**25h · 31 Jul – 8 Aug 2027**
 
 Beta, moderation dry-run against seeded reports, and submission.
 

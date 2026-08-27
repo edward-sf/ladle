@@ -117,7 +117,7 @@ This file is the canonical, testable statement of what Rootloom must do. [`user-
 - **FR-RCP-11** `test` When an original is edited, each copy surfaces a non-blocking notice that the original has changed, with a view of what changed.
 - **FR-RCP-12** `test` An upstream change is applied to a copy only when that `Household` accepts it.
   - *Given* a copied `Recipe` and an edit to its original, *when* the copying `Household` takes no action, *then* the copy is byte-for-byte unchanged.
-- **FR-RCP-13** `test` A `Recipe` conflicting with any `Household` person's recorded allergy is marked as such wherever it is displayed, including in the showcase.
+- **FR-RCP-13** `test` A `Recipe` conflicting with any `Household` person's recorded allergy is marked as such wherever it is displayed.
 - **FR-RCP-14** `test` An unverifiable dietary claim on a published `Recipe` is displayed as the Author's claim, attributed by name.
 - **FR-RCP-15** `test` No verification badge is displayed against any dietary claim.
 - **FR-RCP-16** `test` A `Recipe` in progress is retained when its editor is dismissed, and is recoverable.
@@ -128,6 +128,7 @@ This file is the canonical, testable statement of what Rootloom must do. [`user-
 - **FR-RCP-20** `test` A `Recipe` without a photo displays no image area and no generated stand-in imagery.
 - **FR-RCP-21** `test` A `Household` holds no more than fifty published `Recipe`s at once.
   - *Given* a `Household` already holding fifty published `Recipe`s, *when* a member publishes another, *then* the action is refused with a reason naming the limit, and unpublishing any one of them frees a place.
+- **FR-RCP-22** `test` A `Recipe` displayed in the showcase carries the same allergy marking against the viewing `Household`'s recorded allergies as it would in that `Household`'s own `Cookbook`.
 
 ### Pantry and Grocery
 
@@ -147,7 +148,7 @@ This file is the canonical, testable statement of what Rootloom must do. [`user-
 
 ### Nutrition Tracking
 
-- **FR-NUT-01** `test` Daily targets are computed from date of birth, height, weight, sex, and activity level, against a stated goal.
+- **FR-NUT-01** `test` Daily targets are computed from the date of birth already held for the age gate, together with height, weight, sex, and activity level, against a stated goal.
 - **FR-NUT-02** `test` Targets use the Mifflin-St Jeor equation for basal rate, scaled by an activity factor and adjusted toward the goal.
 - **FR-NUT-03** `test` Every computed target is overridable, and an override survives recomputation.
   - *Given* a user-set protein target, *when* their recorded weight changes, *then* the protein target retains the user's figure.
@@ -206,7 +207,7 @@ This file is the canonical, testable statement of what Rootloom must do. [`user-
 
 ### Application Preferences
 
-- **FR-PREF-01** `test` Theme mode, theme, unit system, language, and timezone are per-`User`.
+- **FR-PREF-01** `test` Theme mode, theme, unit system, and timezone are per-`User`.
 - **FR-PREF-02** `test` Unit system affects display only; stored quantities are unchanged by it.
   - *Given* a `GroceryList` item stored as 500 g, *when* one member reads it in US units and another in metric, *then* both read the same underlying quantity and neither display mutates it.
 - **FR-PREF-03** `test` Themes are selected from a curated set and are not user-authored.
@@ -282,6 +283,8 @@ This file is the canonical, testable statement of what Rootloom must do. [`user-
 - **FR-MOD-12** `test` The number of reports a `User` may raise in a day is capped.
 - **FR-MOD-13** `test` Reports naming the same target and reason collapse into one queue item carrying a count, rather than appearing as separate items.
 - **FR-MOD-14** `test` A resolved report is deleted 12 months after its resolution.
+- **FR-MOD-15** `test` Deleting the account that raised a report dissociates the report from that account rather than deleting the report.
+  - *Given* a report raised by a `User` who then deletes their account, *when* the moderation queue is read, *then* the report is still present and identifies no account as having raised it.
 
 ### Account Security and Privacy
 
@@ -314,7 +317,7 @@ This file is the canonical, testable statement of what Rootloom must do. [`user-
 Feature requirements are each scoped to one feature, which means the joins between features are unasserted by construction. These are the paths from [`user-experience.md`](./user-experience.md) stated as end-to-end claims, and they are where a product built from correct parts still fails.
 
 - **FR-JRN-01** `test` A new `User` reaches a planned meal with a populated `GroceryList` without naming a `Household`, issuing an `Invitation`, or encountering a role.
-  - *Given* a fresh install, *when* the user signs up, supplies a display name, skips the dietary questions, and plans one `Meal` from the showcase, *then* the `GroceryList` holds that `Meal`'s ingredients and no household, role, or approval interface has appeared.
+  - *Given* a fresh install, *when* the user signs up, supplies a display name, skips the dietary questions, writes one `Recipe`, and plans it, *then* the `GroceryList` holds that `Recipe`'s ingredients and no household, role, or approval interface has appeared.
 - **FR-JRN-02** `test` An invited `User` completes signup and arrives directly in the inviting `Household`, seeing its existing plan rather than an empty first-run state.
   - *Given* a `Household` with a planned week, *when* an invitee installs the app and accepts, *then* the planned week is visible to them on arrival.
 - **FR-JRN-03** `test` Planning a week produces a complete `GroceryList` with no separate assembly step.
@@ -324,20 +327,22 @@ Feature requirements are each scoped to one feature, which means the joins betwe
 - **FR-JRN-05** `test` Cooking a `Meal` marks it cooked, decrements the `Pantry`, and credits each participant's ledger, driven from the reminder that opened it.
 - **FR-JRN-06** `test` A `Recipe` found in the showcase can be copied, filed, edited, and planned without leaving the copy coupled to its original.
   - *Given* a public `Recipe`, *when* a user copies it into two collections and edits it, *then* the original is unchanged, attribution is intact, and the copy is planned like any other `Recipe`.
+- **FR-JRN-07** `test` A `User` whose `Cookbook` is empty reaches a planned `Meal` from the showcase without authoring a `Recipe` of their own.
+  - *Given* a fresh install and a populated showcase, *when* the user signs up and plans a `Meal` from a showcase `Recipe`, *then* the `GroceryList` holds its ingredients and the user has authored no `Recipe`.
 
 ## Non-Functional Requirements
 
 These are cross-cutting: each holds across every feature above rather than belonging to any of them. Several restate invariants established in [`data.md`](./data.md), repeated here because an invariant nobody verifies is a preference.
 
-Latency targets are stated at the 95th percentile, measured on a reference device pair - a Pixel 8a and an iPhone 13 - chosen to represent the mid-range rather than the machines the app is developed on. Both the percentile and the pair are initial choices and should be revised against real device data.
+Latency targets are stated at the 95th percentile, measured on reference hardware chosen to represent the mid-range rather than the machine the app is developed on. Release 1 ships on Android alone, so its reference device is a Pixel 8a; an iPhone 13 joins it at Release 2, when there is an iOS build to measure. Development happens on a Pixel 10 Pro XL, which is exactly why the reference is not it - a current flagship clears every target below without the app having earned it, so measuring there would prove nothing and hide everything. Both the percentile and the hardware are initial choices and should be revised against real device data.
 
 ### Performance
 
-- **NFR-PERF-01** `test` The `Calendar` week view renders its first frame within 1000 ms of a cold start, at P95 on the reference devices.
+- **NFR-PERF-01** `test` The `Calendar` week view renders its first frame within 1000 ms of a cold start, at P95 on the reference hardware.
 - **NFR-PERF-02** `test` Checking off a `GroceryList` item reflects in the interface within 100 ms at P95, independent of network round-trip.
-- **NFR-PERF-03** `test` `Ingredient` search returns results within 300 ms of the final keystroke, at P95 on the reference devices.
+- **NFR-PERF-03** `test` `Ingredient` search returns results within 300 ms of the final keystroke, at P95 on the reference hardware.
 - **NFR-PERF-04** `test` Classification never sits between a cook and a saved `Recipe`; save latency is unaffected by it.
-- **NFR-PERF-05** `test` Recipe search returns results within 500 ms of the final keystroke, at P95 on the reference devices.
+- **NFR-PERF-05** `test` Recipe search returns results within 500 ms of the final keystroke, at P95 on the reference hardware.
 - **NFR-PERF-06** `test` Grid and list views load thumbnail derivatives rather than full-size images.
 
 ### Reliability and Offline
@@ -364,7 +369,8 @@ Latency targets are stated at the 95th percentile, measured on a reference devic
 - **NFR-SEC-11** `test` No health data — a demographic input or a recorded allergy — is stored before the `User` has given an explicit opt-in consent presented separately from any other consent.
   - *Given* a `User` who has not consented, *when* they open the dietary or nutrition screens, *then* consent is requested before any field accepts a value, and declining leaves the rest of Rootloom fully usable.
 - **NFR-SEC-12** `policy` Rootloom publishes a consumer health data privacy policy as a document distinct from, and separately linked to, its general privacy policy.
-- **NFR-SEC-13** `ci` The domain association files that passkeys depend on are served over HTTPS from the relying-party domain and name only bundle identifiers Rootloom ships.
+- **NFR-SEC-13** `monitor` The domain association files that passkeys depend on resolve over HTTPS from the relying-party domain.
+- **NFR-SEC-14** `ci` The domain association files name only bundle identifiers Rootloom ships.
 
 ### Accessibility
 

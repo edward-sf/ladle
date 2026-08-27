@@ -272,6 +272,7 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 - An unattended queue must fail toward caution, because a single administrator is sometimes simply away. An urgent report left past its target withdraws the recipe from the showcase by itself until it is ruled on - the recipe stays fully visible to its own household, and only strangers stop seeing it.
 - The queue is bounded by design rather than by goodwill. A person may report a given recipe once, daily reports are capped, and many reports of the same thing collapse into one item carrying a count. The scarce resource is one person's attention, and anything unbounded consumes it.
 - A resolved report goes back to the person who raised it. Reporting into silence teaches people to stop, and the reports Rootloom most needs are the ones about claims nobody else is checking.
+- A report outlives the account that raised it, with the account dropped from it. A ruling has to stand on what was reported rather than on who reported it, and a queue that emptied itself whenever somebody deleted their account would be a way to withdraw a report after the fact. What goes is the link to the person, which is the only part of it a deletion is owed.
 
 ##### User Stories
 1. *As a household cook who keeps kosher*, I want a contested claim hidden while it is checked, rather than displayed until someone gets round to it.
