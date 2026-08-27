@@ -211,6 +211,14 @@ supabase functions deploy         # deploy Edge Functions
 
 `supabase branches create` takes a `--with-data` flag that clones production. Rootloom never passes it: `NFR-DATA-06` says production data flows out and never in, and declining the clone at provisioning time is what makes that structural rather than remembered.
 
+## Building screens
+
+Agent-facing counterparts to the invariants below. Each is easy to break one screen at a time, which is exactly how screens get written.
+
+- **Use the vendored component primitives.** `components/ui/` holds React Native Reusables, copied in and adjusted to the token layer. Reach for a primitive before writing a control, extend one in place where it nearly fits, and add to `components/ui/` where nothing there does so the next screen finds it. A feature directory holding its own `Pressable` with a bespoke padding scale is the failure mode: it creates a second control to keep accessible, themed and contrast-checked, and two controls with the same job drift. The reasoning is in [`engineering.md`](docs/engineering.md).
+- **Components reference semantic tokens only, never primitives.** Recorded under product decisions above; repeated here because it is the other half of the same discipline, and because a hardcoded hex in one component is invisible until a theme is added.
+- **Icons are `lucide-react-native`** at the sizes [`user-interface.md`](docs/user-interface.md) fixes — 24pt for navigation and actions, 20pt inline, 16pt for adornments — and every interactive one carries an accessible label (`NFR-A11Y-04`). React Native Reusables is a starting point rather than a dependency; Lucide is a real one.
+
 ## Architectural invariants
 
 These are load-bearing decisions from `data.md`, each of which is a defect if violated:

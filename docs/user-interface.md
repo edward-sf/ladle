@@ -18,6 +18,10 @@ Rootloom makes use of open-source UI elements from the following resources:
 - [React Native Reusables](https://reactnativereusables.com/docs)
 - [Lucide's React Native Library](https://lucide.dev/guide/packages/lucide-react-native)
 
+These are not the same kind of thing, and the difference matters more than a
+shared list suggests: React Native Reusables is taken once and owned, while
+`lucide-react-native` is installed and carried like any other dependency.
+
 | Concern | Choice |
 | --- | --- |
 | Component primitives | React Native Reusables |

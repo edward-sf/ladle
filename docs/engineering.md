@@ -263,6 +263,16 @@ ESLint and Prettier run in CI and are not negotiated in review. Formatting
 arguments consume attention that this project, with one developer, does not have
 spare.
 
+**Screens are built from the vendored primitives.** `components/ui/` holds the
+React Native Reusables components, copied in and adjusted to the token layer.
+Reach for a primitive before writing a control; extend one in place where it
+nearly fits; add to `components/ui/` where nothing there does, so that the next
+screen finds it. A feature directory holding its own `Pressable` with a bespoke
+padding scale is the shape this rule exists to prevent — it creates a second
+control to keep accessible, themed and contrast-checked, and two controls with
+the same job drift. This is the convention most easily broken by working screen
+by screen, which is why it is written down rather than left to taste.
+
 Naming follows the register of whatever it touches. Database identifiers are
 `snake_case` because that is what [`data.md`](./data.md) specifies and what
 PostgREST returns; TypeScript is `camelCase`; components are `PascalCase`. The
