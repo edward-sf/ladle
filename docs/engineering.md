@@ -217,6 +217,7 @@ actually live.
 | Supabase CLI | 2.116.0 | a devDependency, so CI and local run the same binary |
 | TypeScript | whatever the SDK 57 template ships | recorded here once P0 instantiates it |
 | Package manager | npm | the lockfile is committed |
+| Python | 3.12 | the CI workflow; `check.sh` needs it and nothing else does |
 
 **React Native is not a choice.** It follows the Expo SDK, and the row above
 states what SDK 57 implies rather than a second decision. Upgrading it on its own
@@ -415,6 +416,13 @@ it late is answering it after the work is done.
 
 GitHub Actions. Every job below runs on a pull request; the deployment jobs run
 only on `main`.
+
+**Only `docs` exists today**, because it is the only one that can run against a
+repository holding no application code. The rest arrive in the phase that builds
+what they check, and each becomes a required status check on `main` at that
+point rather than in advance. That ordering is not fussiness: a required check
+with no workflow to report it does not fail, it waits indefinitely, and a branch
+protected by seven of them is a branch nothing can merge into.
 
 | Job | Does | Discharges |
 | --- | --- | --- |

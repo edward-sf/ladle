@@ -1,0 +1,25 @@
+name: CI
+
+# Jobs arrive with the code they check.
+#
+# engineering.md describes the whole pipeline, but this repository holds no
+# application code yet, and `docs` is the only job that can run against it.
+# The rest land in the phase that creates what they check, and each becomes a
+# required status check on `main` at that point rather than before it — a
+# required check with no workflow to report it does not fail, it waits forever.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Structural checks over the planning documents
+        run: docs/check.sh
