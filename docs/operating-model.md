@@ -69,6 +69,57 @@ Deciding which of a household's five major features degrade without payment is a
 question the current documents deliberately do not answer, and answering it late
 means answering it against a feature set that was designed without it.
 
+### The licence
+
+The repository is public under [PolyForm Noncommercial 1.0.0](../LICENSE), one
+licence covering the documents, the code, and the skills alike.
+
+**Licensing is the lever, not visibility.** These are routinely conflated, and
+conflating them produces the wrong decision in both directions — either hiding
+work that would have cost nothing to show, or publishing under terms that give
+away the thing being protected. Being public determines who can *read* Ladle.
+The licence determines what they may *do* with it, and those are independent
+choices. A public repository under a noncommercial licence is readable by
+everyone and commercially usable by nobody but its author, which is exactly the
+combination this project wants.
+
+That makes the licence the mechanism the section above depends on. Monetisation
+is kept possible by writing down what lies behind the door; a permissive licence
+would have quietly given away the room behind it. MIT or Apache would let anyone
+ship Ladle commercially, including someone who did none of the work, which is
+precisely the optionality *Money* is holding open. The opposite extreme, an
+explicit all-rights-reserved notice, reserves no more than PolyForm does and
+grants nothing to a reader who wants to run the thing to see whether the work is
+any good — it costs portfolio value and buys no protection.
+
+**Nothing about this constrains monetising later.** A noncommercial licence binds
+the people who receive the software, not the person who wrote it. As sole author
+Ladle can be relicensed going forward at any time, dual-licensed, or sold
+outright, and none of that requires the repository to have been private.
+Relicensing does not appear as a row in the table above because it costs nothing
+at the point it would be needed.
+
+**What is permanent is publication, not the licence.** Anything public stays
+public — clones, forks, the network graph, archives, and whatever has already
+been scraped. The decision recorded here is therefore *which parts are
+permanently public*, not whether to be public for the time being, and a private
+repository created later retracts nothing that preceded it. That boundary is
+drawn once, in
+[`engineering.md`](./engineering.md), and it falls around the labelled corpus
+rather than around the application, because the application is reproducible by
+anyone with the documents and the corpus is roughly forty hours of one person's
+labelling.
+
+The consequence worth naming is that Ladle's authorization model is published in
+full: every RLS predicate in [`data.md`](./data.md), and every moderation
+threshold and rate limit in [`requirements.md`](./requirements.md). Both are
+deliberate. RLS security does not depend on the predicate being secret, and a
+published policy that every table must carry one is easier to hold to than a
+private one. The moderation limits are safe to publish for a sharper reason:
+they are bounded by construction rather than by obscurity, so knowing the daily
+cap does not help anyone exceed it. A design whose safety rested on secret
+thresholds could not have been published, and would have been worse for it.
+
 ## The ceiling
 
 **Under $50 a month, absorbed personally.**

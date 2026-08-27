@@ -4,10 +4,10 @@ Ladle is a cross-platform mobile application, providing seamless meal planning, 
 
 ## Status
 
-**Planning.** This repository currently holds design documentation and nothing
-else — there is no application code, no `package.json`, and no build or test
-tooling yet. The documents below are complete and internally consistent, and the
-roadmap sequences the work that follows from them.
+**Planning.** This repository currently holds design documentation, a licence,
+and the checking script — there is no application code, no `package.json`, and
+no build or test tooling yet. The documents below are complete and internally
+consistent, and the roadmap sequences the work that follows from them.
 
 Three releases: the private cookbook, then tagging and discovery, then the public
 showcase. Release 1 is the portfolio artifact and is published to both stores.
@@ -98,6 +98,22 @@ supabase migration new <name>     # scaffold a timestamped SQL migration
 supabase gen types typescript     # regenerate client types from the live schema
 supabase functions deploy         # deploy Edge Functions
 ```
+
+## Licence
+
+[PolyForm Noncommercial 1.0.0](LICENSE). Read it, run it, change it, share it —
+for any noncommercial purpose. Commercial rights are reserved.
+
+The choice follows from what this repository is for. Ladle is a portfolio and
+craft project, and the documents are as much the artifact as the code will be, so
+being readable is most of the point. Reserving the commercial side costs a reader
+nothing and keeps a door open that would be expensive to reopen later.
+
+One boundary is planned and does not exist yet: the classifier's labelled corpus
+and training pipeline will live in a separate private repository from P11, for
+reasons set out in
+[`docs/engineering.md`](docs/engineering.md#the-corpus-repository). Everything
+that runs on a phone or in the database is here.
 
 ## Contributing
 
