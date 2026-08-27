@@ -371,6 +371,8 @@ Latency targets are stated at the 95th percentile, measured on reference hardwar
 - **NFR-SEC-12** `policy` Rootloom publishes a consumer health data privacy policy as a document distinct from, and separately linked to, its general privacy policy.
 - **NFR-SEC-13** `monitor` The domain association files that passkeys depend on resolve over HTTPS from the relying-party domain.
 - **NFR-SEC-14** `ci` The domain association files name only bundle identifiers Rootloom ships.
+- **NFR-SEC-15** `test` Every administrative write is attributable to the administrator who made it, through a `security definer` function checking membership of `app_administrators` rather than a key that bypasses row-level security.
+  - *Given* an `Ingredient` tag approved by an administrator, *when* the row is read, *then* it records which administrator approved it.
 
 ### Accessibility
 

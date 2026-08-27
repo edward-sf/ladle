@@ -452,7 +452,7 @@ protected by seven of them is a branch nothing can merge into.
 | `test` | Unit, component, and integration suites | the `test` set |
 | `secrets` | Scans bundle and repository for the `service_role` key | `NFR-SEC-02`, `NFR-SEC-03` |
 | `contrast` | Token contrast pairs, per theme, per mode | `NFR-A11Y-02` |
-| `journey` | Maestro flows against an EAS build | `FR-JRN-01`–`FR-JRN-06` |
+| `journey` | Maestro flows against an EAS build | `FR-JRN-01`–`FR-JRN-07` |
 
 **Supabase Preview** also reports on a pull request, and is not one of these
 jobs. It is the Supabase GitHub integration rather than a workflow: it opens a
