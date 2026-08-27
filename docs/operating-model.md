@@ -132,7 +132,7 @@ is `NFR-OPS-11`, and it is the same argument that put a scheduled digest behind
 | Push delivery | Notifications sent | Free at the transport layer |
 
 **Releases 1 and 2 are structurally bounded and Release 3 is not**, and that is
-precisely why the funding gate sits where it does. A household's photos are
+precisely why the gate sits where it does. A household's photos are
 viewed by that household: storage grows slowly, egress is trivial, and the whole
 thing is a rounding error. The showcase changes the denominator from *members of
 one household* to *anyone browsing*, and egress is the one number that scales
@@ -145,16 +145,27 @@ be argued with: a well-compressed 4:3 photo at display size is on the order of
 150 KB, a thumbnail on the order of 15 KB, a showcase grid shows about six images
 per screen, and a browsing session covers perhaps fifty screens.
 
-Against a 100 GB monthly egress allowance:
+Against the paid tier's included monthly egress, which is two and a half times
+what the free one allowed:
 
 | Grid loads | Image loads per month | Browsing sessions |
 | --- | --- | --- |
-| Full-size images | ~700,000 | **~2,300** |
-| Thumbnail derivatives | ~7,000,000 | **~23,000** |
+| Full-size images | ~1,700,000 | **~5,800** |
+| Thumbnail derivatives | ~17,000,000 | **~58,000** |
 
-Two thousand browsing sessions a month is not a lot. Twenty-three thousand is a
-respectable small product. **The difference is one decision about what a grid
-loads**, and it is a factor of ten on the only cost that scales without limit.
+Six thousand browsing sessions a month is a real audience. Fifty-eight thousand
+is more reach than a portfolio piece has any use for. **The difference is still
+one decision about what a grid loads**, and it is still a factor of ten on the
+only cost that scales without limit — the larger allowance moved both rows
+without touching the ratio between them, which is the part that was ever the
+argument.
+
+What the larger allowance did change is the *character* of the risk. On the old
+figures a modestly successful showcase serving full-size images would have found
+the wall; on these it takes an implausible amount of traffic to reach it at all
+with thumbnails in place. Egress stops being the thing most likely to stop Ladle
+working and becomes a boundary condition — which is what the Release 3 gate below
+is reconsidered against.
 
 That decision is made in P2, when the recipe editor first stores an image and the
 cookbook first renders a grid of them — roughly six months before the showcase
@@ -173,25 +184,42 @@ grounds that optimising is generally good.
 
 ## The Release 3 gate
 
-Release 3 is conditional on funding being allocated for it, and the gate sits
-after Release 2 rather than before it because the two cost different currencies.
+Release 3 is conditional, and the gate sits after Release 2 rather than before it
+because the two cost different currencies. Release 2 costs **time** — 120 hours,
+roughly 40 of them hand-labelling — and almost no recurring money. It is also the
+most technically interesting work in the plan, and it improves the private
+cookbook through facet search and recommendation without needing a public surface
+at all. Putting it behind a gate would have placed the best part of the portfolio
+behind a door that may never open.
 
-Release 2 costs **time** — 120 hours, roughly 40 of them hand-labelling — and
-almost no recurring money. It is also the most technically interesting work in
-the plan, and it improves the private cookbook through facet search and
-recommendation without needing a public surface at all. Putting it behind a
-funding gate would have placed the best part of the portfolio behind a door that
-may never open.
+**What the gate is conditional on has narrowed.** It was written as a funding
+decision, on the reasoning that Release 3 is where money starts. The paid
+database tier has already been committed for reasons that have nothing to do with
+the showcase — backups and a project that stays awake, both of which Release 1
+needs — and its included allowances cover the arithmetic above with room to
+spare, provided `NFR-PERF-06` holds. The infrastructure half of the gate is
+therefore paid for whether or not the showcase is built. Building it adds no
+recurring line to the bill; it consumes headroom that already exists.
 
-Release 3 is where money starts. Public photos are the only cost that scales with
-strangers browsing, and the moderation queue spends the other scarce resource,
-which is one person's attention.
+**What remains is the half money was never going to buy.** The moderation queue
+spends one person's attention, and there is one administrator. That is the scarce
+resource the whole moderation design in [`user-experience.md`](./user-experience.md)
+is shaped around — automatic suppression, time-based escalation, a queue bounded
+by construction — and every one of those measures exists because capacity is not
+an available answer. A larger allowance does not read a report.
 
-So the decision to make after Release 2 is a real one with a real default. **Not
-building Release 3 leaves a complete, published, demonstrable application** — the
-thing the household uses every day, and the thing being demonstrated. The
-showcase adds reach that a portfolio does not need and a bill that scales with
-people who are not evaluating the work.
+So the decision to make after Release 2 is still a real one with a real default,
+but it is a question about sustained attention rather than about an invoice: is
+there an administrator who will work a queue for as long as the showcase is
+open? **Not building Release 3 leaves a complete, published, demonstrable
+application** — the thing the household uses every day, and the thing being
+demonstrated. The showcase adds reach that a portfolio does not need and an
+obligation that does not end.
+
+The two conditions are not symmetrical, and it matters which one is binding. A
+funding gate can be reopened by deciding to spend more; an attention gate cannot
+be reopened by deciding to try harder, which is why the honest form of the
+decision is a commitment to keep going rather than a willingness to start.
 
 
 ## If the ceiling is approached

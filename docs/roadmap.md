@@ -44,27 +44,35 @@ recommendation. All of it improves a private cookbook, and none of it needs a
 public surface to be worth having.
 
 **Release 3 is the showcase** — publishing, copying, attribution, and moderation.
-**It is conditional on funding being allocated for it**, and it may not happen.
-Features beyond Release 2 are listed as planned rather than promised.
+**It is conditional on there being sustained moderation capacity for it**, and it
+may not happen. Features beyond Release 2 are listed as planned rather than
+promised.
 
 The gate sits between Releases 2 and 3 rather than before both, because the two
 cost different currencies. Release 2 costs time — 120 hours, roughly 40 of them
-hand-labelling — and almost no recurring money. Release 3 is where money starts:
-public photos are the one cost that scales with strangers browsing rather than
-with anything under control, and the moderation queue spends the other scarce
-resource, which is one person's attention. Putting the gate before both would
-place the most technically interesting work behind a door that may never open.
+hand-labelling — and almost no recurring money. Release 3 is where the costs
+start that do not stop: public photos scale with strangers browsing rather than
+with anything under control, and the moderation queue spends the scarcer resource
+still, which is one person's attention. Putting the gate before both would place
+the most technically interesting work behind a door that may never open.
+
+The gate was originally written as a funding decision. It is not one any more:
+the paid database tier is committed for Release 1's sake, and its allowances
+cover a thumbnailed showcase with room to spare, so building Release 3 adds no
+recurring line to the bill. What is left is the obligation to work a queue for as
+long as the showcase is open — see [`operating-model.md`](./operating-model.md),
+where the reasoning and the ladder that follows from it are recorded.
 
 This supersedes an earlier two-release split. The reasoning that produced it
 still holds — the classifier gate, the corpus licence, and the moderation queue
 are all consequences of a public corpus, and none is load-bearing for a household
 cooking its own food, which is why none of them sits on Release 1's critical
-path. What changed is that funding, rather than sequence, now separates the
-showcase from everything else.
+path. What changed is that a standing obligation, rather than sequence, now
+separates the showcase from everything else.
 
-Dates past Release 1 assume the work continues without pause. A gap at the
-funding gate moves Release 3 by the length of the gap; nothing about the
-arithmetic accounts for a decision taking time.
+Dates past Release 1 assume the work continues without pause. A gap at the gate
+moves Release 3 by the length of the gap; nothing about the arithmetic accounts
+for a decision taking time.
 
 | Phase | Hours | Starts | Ends |
 | --- | --- | --- | --- |
@@ -323,12 +331,13 @@ Delivers no new requirements.
 
 ## Release 3 — the showcase
 
-**Conditional on funding.** Everything below happens only if the running costs of
-a public showcase are allocated for — see
-[`operating-model.md`](./operating-model.md), where the escalation ladder makes
-clear that not building this is a real option rather than a failure. Release 1
-remains the portfolio artifact whether or not any of it is built, and Release 2
-remains the last unconditional phase.
+**Conditional on moderation capacity.** Everything below happens only if there is
+an administrator committed to working a report queue for as long as the showcase
+stays open — see [`operating-model.md`](./operating-model.md), where the gate's
+narrowing from money to attention is recorded, and where the escalation ladder
+makes clear that not building this is a real option rather than a failure.
+Release 1 remains the portfolio artifact whether or not any of it is built, and
+Release 2 remains the last unconditional phase.
 
 ### P13 · Showcase and moderation
 **102h · 27 May – 1 Jul 2027**
@@ -338,7 +347,7 @@ the administrator table, reports with automatic suppression, the escalation
 sweep, rate limits, and the search scope control. The moderation queue is a
 section added to the administrator tool built in P11, not a new surface.
 
-**Begins when** P12 is done **and** the funding decision has been made.
+**Begins when** P12 is done **and** the capacity decision has been made.
 **Done when** a copy is unchanged by an edit to its original until accepted, a
 deleted author's name leaves every copy while the content stays, a reported
 dietary claim suppresses on filing, an unreviewed urgent report withdraws its
