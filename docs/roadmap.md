@@ -85,14 +85,14 @@ for a decision taking time.
 | P6 · Dietary and allergy | 43 | 14 Jan 2027 | 29 Jan 2027 |
 | P7 · Nutrition | 46 | 29 Jan 2027 | 14 Feb 2027 |
 | P8 · Cookbook search | 20 | 14 Feb 2027 | 21 Feb 2027 |
-| P9 · Profile, preferences, notifications, accessibility | 60 | 21 Feb 2027 | 14 Mar 2027 |
-| P10 · Release 1 hardening and submission | 66 | 14 Mar 2027 | **6 Apr 2027** |
-| P11 · Taxonomy and classifier | 135 | 6 Apr 2027 | 23 May 2027 |
-| P12 · Release 2 hardening and submission | 20 | 23 May 2027 | **30 May 2027** |
-| P13 · Showcase and moderation | 102 | 30 May 2027 | 4 Jul 2027 |
-| P14 · Release 3 hardening and submission | 25 | 4 Jul 2027 | **12 Jul 2027** |
+| P9 · Profile, preferences, notifications, accessibility | 74 | 21 Feb 2027 | 18 Mar 2027 |
+| P10 · Release 1 hardening and submission | 66 | 18 Mar 2027 | **10 Apr 2027** |
+| P11 · Taxonomy and classifier | 135 | 10 Apr 2027 | 27 May 2027 |
+| P12 · Release 2 hardening and submission | 20 | 27 May 2027 | **3 Jun 2027** |
+| P13 · Showcase and moderation | 102 | 3 Jun 2027 | 8 Jul 2027 |
+| P14 · Release 3 hardening and submission | 25 | 8 Jul 2027 | **16 Jul 2027** |
 
-889 hours; 44.45 working weeks plus the holiday. The last 127 of those hours
+903 hours; 45.15 working weeks plus the holiday. The last 127 of those hours
 are conditional.
 
 ---
@@ -249,26 +249,30 @@ synonym, within the 500ms target.
 Delivers `FR-TAG-30`, `FR-TAG-32`, `NFR-PERF-05`.
 
 ### P9 · Profile, preferences, notifications, accessibility
-**60h · 21 Feb – 14 Mar 2027**
+**74h · 21 Feb – 18 Mar 2027**
 
-Public profile, per-user preferences, reminders and expiry warnings, and the
-accessibility pass across everything built so far. Notifications carry their own
-schema and delivery path — device tokens, per-category silences, delivery
-history, a scheduling sweep, and a push dispatcher — which is what moved this
-phase from 45 hours to 60.
+Public profile, per-user preferences, reminders and expiry warnings, the optional
+second factor, and the accessibility pass across everything built so far.
+Notifications carry their own schema and delivery path — device tokens,
+per-category silences, delivery history, a scheduling sweep, and a push
+dispatcher — which is what moved this phase from 45 hours to 60. The second
+factor added the remaining 14. It sits here rather than in P0 because enrolment,
+recovery codes and removal are settings-screen work; the sign-in path gains only
+a challenge that nobody meets until they have enrolled.
 
 **Begins when** P8 is done — the accessibility pass wants the screens finished.
 **Done when** units change display without touching stored quantities, timezone
 moves the day boundary, every notification category switches off independently,
+a user who enrolled a factor is challenged for it and a user who did not is not,
 and every `manual` accessibility requirement has been walked through.
 
 Delivers `FR-PROF-01`–`FR-PROF-03`, `FR-PREF-01`–`FR-PREF-06`, `FR-ACCT-09`–
-`FR-ACCT-11`, `FR-NOTIF-06`,
+`FR-ACCT-16`, `FR-NOTIF-06`,
 `FR-NOTIF-01`–`FR-NOTIF-05`, `NFR-SEC-10`, `NFR-A11Y-03`, `NFR-A11Y-04`,
 `NFR-A11Y-06`–`NFR-A11Y-08`.
 
 ### P10 · Release 1 hardening and submission
-**66h · 14 Mar – 6 Apr 2027**
+**66h · 18 Mar – 10 Apr 2027**
 
 Beta through TestFlight and the internal track, performance measured against the
 reference devices, store listing, **the app icon and mark** — the design phase
@@ -305,7 +309,7 @@ previous ten phases built.
 ## Release 2 — tagging and discovery
 
 ### P11 · Taxonomy and classifier
-**135h · 6 Apr – 23 May 2027**
+**135h · 10 Apr – 27 May 2027**
 
 The full tag vocabulary, corpus licence verification, corpus assembly,
 hand-labelling, training, evaluation, and the activation and backfill machinery.
@@ -335,7 +339,7 @@ Delivers `FR-TAG-03`–`FR-TAG-05`, `FR-TAG-09`–`FR-TAG-29`, `FR-TAG-33`,
 `NFR-PERF-04`, `NFR-OPS-03`–`NFR-OPS-05`, `NFR-OPS-14`.
 
 ### P12 · Release 2 hardening and submission
-**20h · 23 May – 30 May 2027**
+**20h · 27 May – 3 Jun 2027**
 
 Regression across the tagging surfaces, a store update, and review. Lighter than
 P10 because the listing, the icon, and both privacy policies already exist — this
@@ -360,7 +364,7 @@ Release 1 remains the portfolio artifact whether or not any of it is built, and
 Release 2 remains the last unconditional phase.
 
 ### P13 · Showcase and moderation
-**102h · 30 May – 4 Jul 2027**
+**102h · 3 Jun – 8 Jul 2027**
 
 Publishing, copying with snapshots, upstream notices, attribution degradation,
 the administrator table, reports with automatic suppression, the escalation
@@ -380,7 +384,7 @@ Delivers `FR-RCP-06`, `FR-RCP-09`–`FR-RCP-12`, `FR-RCP-14`, `FR-RCP-15`,
 `NFR-OPS-11`.
 
 ### P14 · Release 3 hardening and submission
-**25h · 4 Jul – 12 Jul 2027**
+**25h · 8 Jul – 16 Jul 2027**
 
 Beta, moderation dry-run against seeded reports, and submission.
 

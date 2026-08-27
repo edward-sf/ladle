@@ -297,6 +297,12 @@ This file is the canonical, testable statement of what Rootloom must do. [`user-
   - *Given* a `User` in two `Household`s, *when* they request an export, *then* it contains both cookbooks, both calendars, both pantries, and their own demographic inputs.
 - **FR-ACCT-10** `test` The export is produced and delivered within the app, without a request to the developer and without passing through a third-party service.
 - **FR-ACCT-11** `test` Account deletion removes the `User`'s rows on confirmation rather than after a recovery window.
+- **FR-ACCT-12** `test` A `User` may enrol a time-based one-time-password factor, and no account carries one until its own owner enrols it.
+- **FR-ACCT-13** `test` Enrolling a factor issues single-use recovery codes and states, before enrolment completes, that losing both the factor and the codes ends access to the account.
+  - *Given* a `User` enrolling a factor, *when* the recovery codes are issued, *then* the screen states that losing both the factor and the codes ends access to the account, and enrolment does not complete until that statement has been acknowledged.
+- **FR-ACCT-14** `test` A `User` who has enrolled a factor is challenged for it at sign-in, and a `User` who has not is signed in without one.
+- **FR-ACCT-15** `test` Removing an enrolled factor requires satisfying that factor first.
+- **FR-ACCT-16** `policy` No authentication factor is delivered by SMS.
 
 ### User Experience Paths
 

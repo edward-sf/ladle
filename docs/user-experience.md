@@ -284,7 +284,9 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 
 ##### Requirements
 - Signing in must be routine and rare. Sessions persist across app restarts, and a returning user lands on `Today`, not on a login screen.
-- The defences match the threat that actually exists. Nobody is mounting a targeted attack to read a shopping list; what happens to apps like Rootloom is a password reused from somewhere it leaked, tried in bulk. So a password known to have appeared in a breach is refused, and sign-in attempts are rate limited. Multi-factor authentication is deliberately not offered: a second factor on an app that is signed into twice a year has usually been lost by the time it is needed, and a lockout would need a recovery path that a single operator cannot staff. That is a decision to revisit if Rootloom ever holds something worth stealing, not a gap to fill quietly.
+- The defences match the threat that actually exists. Nobody is mounting a targeted attack to read a shopping list; what happens to apps like Rootloom is a password reused from somewhere it leaked, tried in bulk. So a password known to have appeared in a breach is refused, and sign-in attempts are rate limited.
+- A second factor is available and never required. The objection that once kept it out was recovery rather than effort - a lockout needs someone who can verify identity out of band, and there is one operator - and what answers it is that nobody holds a factor unless they went looking for the setting. Anyone who never opens it is exactly where they were. Anyone who does is told, before enrolment completes, that losing both the authenticator and the recovery codes ends access to the account. That is a hard sentence to put in front of someone and it is the honest one, and it is the same posture this document already takes on deleting an account: the confirmation is the protection, not a rescue afterwards.
+- No factor arrives by SMS. A phone number is transferable by anyone who can persuade a carrier, and it is one more identifier Rootloom would have to hold for no other purpose. A code from an authenticator app costs nothing more to offer and is not addressed to a number somebody else can take.
 - Publishing is the only action that makes anything visible outside a household, and it must be clearly reversible.
 - Account deletion removes the person's data and transfers or dissolves the households that depend on them, rather than leaving either in an undefined state.
 - Deleting an account deletes it. There is no quiet holding period during which the data is still there and the person has been told otherwise - the confirmation, which names what will happen to every household they own, is the protection against a mistake. A household being dissolved keeps its own recovery window, because that destruction reaches people who did not ask for it.
@@ -295,6 +297,7 @@ This document describes behavior. Entities are named (`Household`, `Meal`, `Reci
 1. *As a user*, I want to open the app and be where I left off, without signing in again.
 2. *As a user*, I want to unpublish a recipe and have it leave the showcase.
 3. *As a user*, I want to delete my account and understand, before I confirm, what happens to the household I own.
+4. *As a user who takes security seriously*, I want to add a second factor without the app making me, and to be told plainly what happens if I lose it.
 
 ## User Experience Paths
 
